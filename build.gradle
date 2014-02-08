@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+	compile "org.apache.derby:derby:10.10.1.1"
+	compile "junit:junit:4.11"
+	
+    /**
+     * Ideally this should be testCompile, but that removes it from the classpath for the source file directory, meaning
+     * that the IDE is reporting missing dependencies. Having it under compile doesn't hurt, it's just not ideal.
+     */
+    //compile "org.testng:testng:6.8.7"
+}
+
+test {
+    //useTestNG()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}

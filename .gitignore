@@ -19,6 +19,8 @@ tmp/
 local.properties
 .settings/
 .loadpath
+.classpath
+.project
 
 # External tool builders
 .externalToolBuilders/
@@ -47,3 +49,6 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+#derby files
+derbyDB/
+derby.log
