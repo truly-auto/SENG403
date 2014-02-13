@@ -23,3 +23,12 @@ CREATE TABLE Supplier
 	PRIMARY KEY (id)
 );
 
+--Create Items table 
+create table items (
+  item_number int NOT NULL,
+  barcode int ,
+  name varchar(32),
+  item_type varchar(32),
+  primary key (item_number));
+  
+  
