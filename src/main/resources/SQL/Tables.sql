@@ -2,33 +2,49 @@
 --Create Supermarket table
 CREATE TABLE Supermarket
 (
-	id int not null generated always as identity,
+	store_id int not null generated always as identity,
 	name varchar(255) NOT NULL,
 	phoneNumber varchar(255),
 	address varchar(255),
 	city varchar(255),
 	email varchar(255),
-	PRIMARY KEY (id)
+	PRIMARY KEY (store_id)
 );
 
 --Create Supplier table
 CREATE TABLE Supplier
 (
-	id int not null generated always as identity,
+	supplier_id int not null generated always as identity,
 	name varchar(255) NOT NULL,
 	phoneNumber varchar(255),
 	address varchar(255),
 	city varchar(255),
 	email varchar(255),
-	PRIMARY KEY (id)
+	PRIMARY KEY (supplier_id)
 );
 
 --Create Items table 
-create table items (
-  item_number int NOT NULL,
+CREATE TABLE items (
+  item_number int NOT NULL generated always as identity,
   barcode int ,
   name varchar(32),
   item_type varchar(32),
-  primary key (item_number));
+  PRIMARY KEY (item_number));
   
   
+--Create Users tables
+CREATE TABLE store_users (
+	username varchar (32) not null,
+	password varchar (32), 
+	store_id int, 
+	PRIMARY KEY (username),
+	FOREIGN KEY (store_id) references Supermarket(store_id)
+	);
+
+CREATE TABLE supplier_users (
+	username varchar (32) not null,
+	password varchar (32), 
+	supplier_id int, 
+	PRIMARY KEY (username),
+	FOREIGN KEY (supplier_id) references Supplier(supplier_id)
+	);
