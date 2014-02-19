@@ -97,5 +97,44 @@ public class database {
 		    }
 		
 	}
+	
+	public String [] getSpecSupplier(int supplier_id){
+		String command = "select * from supplier where supplier_id = "+ Integer.toString(supplier_id);
+		String [] supplier = new String [6];
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		         //Retrieve by column name
+		         int id  = rs.getInt("supplier_id");
+		         String name = rs.getString("name");
+		         supplier[0]=name;
+		         String tel = rs.getString("phoneNumber");
+		         supplier[1]=tel;
+		         String add = rs.getString("address");
+		         supplier[2]=add;
+		         String city = rs.getString("city");
+		         supplier[3]=city;
+		         String email = rs.getString("email");
+		         supplier[4]=email;
+		         //Display values
+		         System.out.print("ID: " + id);
+		         System.out.print(", name: " + name);
+		         System.out.print(", tel: " + tel );
+		         System.out.print(", address: " + add);
+		         System.out.print(", city: " + city);
+		         System.out.println(", email: " + email);
+		      }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		return supplier;
+	}
+
 
 }

@@ -19,6 +19,11 @@ public class SupermarketSys {
 	private JFrame frame;
 	private JTable table;
 
+
+	private JTable table_1;
+	private int store_id;
+
+
 	/**
 	 * Launch the application.
 	 */

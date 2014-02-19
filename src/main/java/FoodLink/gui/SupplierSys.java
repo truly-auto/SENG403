@@ -1,24 +1,37 @@
 package FoodLink.gui;
 
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JButton;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
+import FoodLink.database;
+import java.awt.Font;
+
 public class SupplierSys {
 
 	private JFrame frame;
 	private JTable table;
+	private int supplier_id;
+	private database connect = new database ();
 
+
+private JTable table_1;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -46,14 +59,17 @@ public class SupplierSys {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		supplier_id = 2;
+		String [] supplier = connect. getSpecSupplier(supplier_id);
+		
 		frame = new JFrame();
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
@@ -62,17 +78,25 @@ public class SupplierSys {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
+		
+		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 5;
+		gbc_lblNewLabel_1.gridy = 0;
+		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 16;
+		gbc_btnNewButton.gridx = 17;
 		gbc_btnNewButton.gridy = 0;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 		
 		JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_mainTabbedPane = new GridBagConstraints();
 		gbc_mainTabbedPane.gridheight = 2;
-		gbc_mainTabbedPane.gridwidth = 14;
-		gbc_mainTabbedPane.insets = new Insets(0, 0, 5, 5);
+		gbc_mainTabbedPane.gridwidth = 15;
+		gbc_mainTabbedPane.insets = new Insets(0, 0, 0, 5);
 		gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_mainTabbedPane.gridx = 3;
 		gbc_mainTabbedPane.gridy = 1;
