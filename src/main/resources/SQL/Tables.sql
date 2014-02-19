@@ -34,7 +34,7 @@ CREATE TABLE items (
   
 --Create Users tables
 CREATE TABLE store_users (
-	username varchar (32) not null,
+	username varchar (32) not null generated always as identity,
 	password varchar (32), 
 	store_id int, 
 	PRIMARY KEY (username),
@@ -42,7 +42,7 @@ CREATE TABLE store_users (
 	);
 
 CREATE TABLE supplier_users (
-	username varchar (32) not null,
+	username varchar (32) not null generated always as identity,
 	password varchar (32), 
 	supplier_id int, 
 	PRIMARY KEY (username),
