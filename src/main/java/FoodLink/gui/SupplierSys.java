@@ -1,4 +1,4 @@
-package FoodLink;
+package FoodLink.gui;
 
 import java.awt.EventQueue;
 
