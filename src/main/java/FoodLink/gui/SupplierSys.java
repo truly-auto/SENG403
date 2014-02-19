@@ -18,7 +18,6 @@ public class SupplierSys {
 
 	private JFrame frame;
 	private JTable table;
-	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -128,16 +127,19 @@ public class SupplierSys {
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
 		gbl_inventoryTab.columnWidths = new int[]{0, 0};
 		gbl_inventoryTab.rowHeights = new int[]{0, 0};
-		gbl_inventoryTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_inventoryTab.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_inventoryTab.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_inventoryTab.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		inventoryTab.setLayout(gbl_inventoryTab);
 		
-		table_1 = new JTable();
-		GridBagConstraints gbc_table_1 = new GridBagConstraints();
-		gbc_table_1.fill = GridBagConstraints.BOTH;
-		gbc_table_1.gridx = 0;
-		gbc_table_1.gridy = 0;
-		inventoryTab.add(table_1, gbc_table_1);
+		JButton btnNewButton_3 = new JButton("Add New Item");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.gridx = 0;
+		gbc_btnNewButton_3.gridy = 0;
+		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);
