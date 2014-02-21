@@ -97,7 +97,7 @@ public class SupermarketSys {
 		gbc_btnNewButton.gridy = 0;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 		
-		JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		final JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_mainTabbedPane = new GridBagConstraints();
 		gbc_mainTabbedPane.gridheight = 2;
 		gbc_mainTabbedPane.gridwidth = 14;
@@ -119,6 +119,35 @@ public class SupermarketSys {
 		JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//When Create Order button is clicked the following codes will execute
+				//This codes will create a new tab caled NEW ORDER
+				JPanel panel = new JPanel();
+				mainTabbedPane.addTab("NEW ORDER", null, panel, null);
+				GridBagLayout gbl_panel = new GridBagLayout();
+				gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0};
+				gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+				gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+				gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+				panel.setLayout(gbl_panel);
+				
+				JLabel lblSupplier = new JLabel("Supplier: ");
+				GridBagConstraints gbc_lblSupplier = new GridBagConstraints();
+				gbc_lblSupplier.anchor = GridBagConstraints.EAST;
+				gbc_lblSupplier.insets = new Insets(0, 0, 5, 5);
+				gbc_lblSupplier.gridx = 0;
+				gbc_lblSupplier.gridy = 0;
+				panel.add(lblSupplier, gbc_lblSupplier);
+				
+				String [] supplierNames = connect.getSupplierNames();
+				
+				comboBox = new JComboBox();
+				comboBox.setModel(new DefaultComboBoxModel(supplierNames));
+				GridBagConstraints gbc_comboBox = new GridBagConstraints();
+				gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+				gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_comboBox.gridx = 1;
+				gbc_comboBox.gridy = 0;
+				panel.add(comboBox, gbc_comboBox);
 				
 			}
 		});
@@ -190,34 +219,6 @@ public class SupermarketSys {
 		
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
-		
-		JPanel panel = new JPanel();
-		mainTabbedPane.addTab("NEW ORDER", null, panel, null);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
-		
-		JLabel lblSupplier = new JLabel("Supplier: ");
-		GridBagConstraints gbc_lblSupplier = new GridBagConstraints();
-		gbc_lblSupplier.anchor = GridBagConstraints.EAST;
-		gbc_lblSupplier.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSupplier.gridx = 0;
-		gbc_lblSupplier.gridy = 0;
-		panel.add(lblSupplier, gbc_lblSupplier);
-		
-		String [] supplierNames = connect.getSupplierNames();
-		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(supplierNames));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 0;
-		panel.add(comboBox, gbc_comboBox);
 		
 		
 	}
