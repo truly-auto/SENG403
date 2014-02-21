@@ -136,16 +136,6 @@ public class SupermarketSys {
 		gbl_inventoryTab.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		inventoryTab.setLayout(gbl_inventoryTab);
 		
-		JButton btnNewButton_3 = new JButton("Add New Item");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.gridx = 0;
-		gbc_btnNewButton_3.gridy = 0;
-		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
-		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
 		
