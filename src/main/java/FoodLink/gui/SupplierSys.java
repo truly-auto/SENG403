@@ -21,6 +21,9 @@ import javax.swing.JTable;
 
 import FoodLink.database;
 import java.awt.Font;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.JList;
 
 public class SupplierSys {
 
@@ -149,10 +152,10 @@ private JTable table_1;
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[]{0, 0};
-		gbl_inventoryTab.rowHeights = new int[]{0, 0};
-		gbl_inventoryTab.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_inventoryTab.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
+		gbl_inventoryTab.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_inventoryTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		inventoryTab.setLayout(gbl_inventoryTab);
 		
 		JButton btnNewButton_3 = new JButton("Add New Item");
@@ -161,9 +164,20 @@ private JTable table_1;
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_3.gridx = 0;
-		gbc_btnNewButton_3.gridy = 0;
+		gbc_btnNewButton_3.gridy = 1;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
+		
+		String [] inventory = {"apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf"};
+		
+		JList list = new JList(inventory);
+		GridBagConstraints gbc_list = new GridBagConstraints();
+		gbc_list.fill = GridBagConstraints.BOTH;
+		gbc_list.gridx = 2;
+		gbc_list.gridy = 1;
+		inventoryTab.add(list, gbc_list);
+		
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);
