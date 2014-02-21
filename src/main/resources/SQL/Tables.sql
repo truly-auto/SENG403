@@ -26,8 +26,6 @@ CREATE TABLE Supplier
 --Create Items table 
 CREATE TABLE items (
   item_number int NOT NULL generated always as identity,
-<<<<<<< HEAD
-  quantity int,
   barcode int,
   name varchar(32),
   item_type varchar(32),
@@ -42,8 +40,6 @@ CREATE TABLE items (
 CREATE TABLE store_users (
 	username varchar (32) not null,
 	password varchar (32) not null, 
-	username varchar (32),
-	password varchar (32), 
 	store_id int, 
 	PRIMARY KEY (username),
 	FOREIGN KEY (store_id) REFERENCES Supermarket(store_id)
@@ -52,8 +48,6 @@ CREATE TABLE store_users (
 CREATE TABLE supplier_users (
 	username varchar (32) not null,
 	password varchar (32) not null, 
-	username varchar (32),
-	password varchar (32), 
 	supplier_id int, 
 	PRIMARY KEY (username),
 	FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
@@ -78,7 +72,7 @@ INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
 VALUES ('Apple Pies','Bakery',1, 1000);
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
-VALUES ('Cinamon Blueberry Pies','Bakery',1, 1500);
+VALUES ('Cinnamon Blueberry Pies','Bakery',1, 1500);
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
 VALUES ('Lemon Cakes','Bakery',1, 1300);
