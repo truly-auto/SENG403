@@ -31,6 +31,7 @@ public class SupplierSys {
 
 
 private JTable table_1;
+private JTable itemTable;
 	
 	/**
 	 * Launch the application.
@@ -64,20 +65,14 @@ private JTable table_1;
 		
 		frame = new JFrame();
 		frame.setTitle("FoodLink");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 491, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
-		
-		JButton btnNewButton = new JButton("Log Out");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		
 		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
@@ -86,6 +81,12 @@ private JTable table_1;
 		gbc_lblNewLabel_1.gridx = 5;
 		gbc_lblNewLabel_1.gridy = 0;
 		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		JButton btnNewButton = new JButton("Log Out");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 17;
@@ -95,7 +96,7 @@ private JTable table_1;
 		JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_mainTabbedPane = new GridBagConstraints();
 		gbc_mainTabbedPane.gridheight = 2;
-		gbc_mainTabbedPane.gridwidth = 15;
+		gbc_mainTabbedPane.gridwidth = 17;
 		gbc_mainTabbedPane.insets = new Insets(0, 0, 0, 5);
 		gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_mainTabbedPane.gridx = 3;
@@ -149,10 +150,10 @@ private JTable table_1;
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[]{0, 0};
-		gbl_inventoryTab.rowHeights = new int[]{0, 0};
-		gbl_inventoryTab.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_inventoryTab.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
+		gbl_inventoryTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_inventoryTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		inventoryTab.setLayout(gbl_inventoryTab);
 		
 		JButton btnNewButton_3 = new JButton("Add New Item");
@@ -161,9 +162,20 @@ private JTable table_1;
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_3.gridx = 0;
 		gbc_btnNewButton_3.gridy = 0;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
+		
+		itemTable = new JTable();
+		GridBagConstraints gbc_itemTable = new GridBagConstraints();
+		gbc_itemTable.gridwidth = 7;
+		gbc_itemTable.insets = new Insets(0, 0, 0, 5);
+		gbc_itemTable.fill = GridBagConstraints.BOTH;
+		gbc_itemTable.gridx = 0;
+		gbc_itemTable.gridy = 1;
+		inventoryTab.add(itemTable, gbc_itemTable);
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);

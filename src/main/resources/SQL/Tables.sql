@@ -34,19 +34,19 @@ CREATE TABLE items (
   
 --Create Users tables
 CREATE TABLE store_users (
-	username varchar (32) not null generated always as identity,
-	password varchar (32), 
+	username varchar (32) not null,
+	password varchar (32) not null, 
 	store_id int, 
 	PRIMARY KEY (username),
-	FOREIGN KEY (store_id) references Supermarket(store_id)
+	FOREIGN KEY (store_id) REFERENCES Supermarket(store_id)
 	);
 
 CREATE TABLE supplier_users (
-	username varchar (32) not null generated always as identity,
-	password varchar (32), 
+	username varchar (32) not null,
+	password varchar (32) not null, 
 	supplier_id int, 
 	PRIMARY KEY (username),
-	FOREIGN KEY (supplier_id) references Supplier(supplier_id)
+	FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
 	);
 	
 INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
