@@ -26,7 +26,8 @@ CREATE TABLE Supplier
 --Create Items table 
 CREATE TABLE items (
   item_number int NOT NULL generated always as identity,
-  barcode int ,
+  quantity int,
+  barcode int,
   name varchar(32),
   item_type varchar(32),
   PRIMARY KEY (item_number));
