@@ -65,7 +65,7 @@ private JTable table_2;
 	 */
 	private void initialize() {
 		supplier_id = 2;
-		String [] supplier = connect. getSpecSupplier(supplier_id);
+		String [] supplier = connect.getSpecSupplier(supplier_id);
 		
 		frame = new JFrame();
 		frame.setTitle("FoodLink");

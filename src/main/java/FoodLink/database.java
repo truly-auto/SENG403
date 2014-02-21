@@ -135,6 +135,32 @@ public class database {
 		
 		return supplier;
 	}
+	
+	public String [] getSupplierNames()
+	{
+		String command = "select name from supplier";
+		String [] supplierNames = new String [5];
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+			         String name = rs.getString("name");
+			         supplierNames[counter]=name;
+			         counter++;
+			         //Display values
+			         System.out.print(", name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		
+		}
+		return supplierNames;
 
-
+	}
 }
