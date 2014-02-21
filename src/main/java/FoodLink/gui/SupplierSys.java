@@ -24,6 +24,7 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 public class SupplierSys {
 
@@ -34,7 +35,7 @@ public class SupplierSys {
 
 
 private JTable table_1;
-private JTable itemTable;
+private JTable table_2;
 	
 	/**
 	 * Launch the application.
@@ -68,7 +69,7 @@ private JTable itemTable;
 		
 		frame = new JFrame();
 		frame.setTitle("FoodLink");
-		frame.setBounds(100, 100, 491, 300);
+		frame.setBounds(100, 100, 608, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -77,19 +78,19 @@ private JTable itemTable;
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 5;
-		gbc_lblNewLabel_1.gridy = 0;
-		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
 		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
+		
+		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 3;
+		gbc_lblNewLabel_1.gridy = 0;
+		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 17;
@@ -110,9 +111,9 @@ private JTable itemTable;
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
 		gbl_orderTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_orderTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_orderTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_orderTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_orderTab.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_orderTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		orderTab.setLayout(gbl_orderTab);
 		
 		JButton btnNewButton_1 = new JButton("Create Order");
@@ -121,6 +122,7 @@ private JTable itemTable;
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 0;
 		gbc_btnNewButton_1.gridy = 0;
@@ -128,6 +130,7 @@ private JTable itemTable;
 		
 		JButton btnNewButton_2 = new JButton("Automated Ordering");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 1;
 		gbc_btnNewButton_2.gridy = 0;
@@ -135,27 +138,31 @@ private JTable itemTable;
 		
 		JLabel lblNewLabel = new JLabel("Order Status");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 1;
 		orderTab.add(lblNewLabel, gbc_lblNewLabel);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 5;
+		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 2;
+		orderTab.add(scrollPane, gbc_scrollPane);
+		
 		table = new JTable();
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.gridheight = 3;
-		gbc_table.gridwidth = 5;
-		gbc_table.insets = new Insets(0, 0, 5, 5);
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 0;
-		gbc_table.gridy = 2;
-		orderTab.add(table, gbc_table);
+		scrollPane.setViewportView(table);
 		
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
-		gbl_inventoryTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_inventoryTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0};
 		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
 		gbl_inventoryTab.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -175,23 +182,36 @@ private JTable itemTable;
 		gbc_btnNewButton_3.gridy = 0;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
 		
-		itemTable = new JTable();
-		GridBagConstraints gbc_itemTable = new GridBagConstraints();
-		gbc_itemTable.gridwidth = 7;
-		gbc_itemTable.fill = GridBagConstraints.BOTH;
-		gbc_itemTable.gridx = 0;
-		gbc_itemTable.gridy = 1;
-		inventoryTab.add(itemTable, gbc_itemTable);
-		String [] inventory = {"apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf"};
+		String[] columnNames = {"Item name",
+                "Quantity",
+                "Barcode"};
 		
-		JList list = new JList(inventory);
-		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.insets = new Insets(0, 0, 0, 5);
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 2;
-		gbc_list.gridy = 1;
-		inventoryTab.add(list, gbc_list);
+		Object[][] data = {
+			    {"Banana", "1020",
+			     "1234567890"},
+			     {"Apple", "1122",
+			    	 "0987654321"}
+			};
 		
+//		
+//		String [] columnNames = {
+//		Object [][] inventory = {"apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf"};
+//		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane_1.gridwidth = 3;
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 0;
+		gbc_scrollPane_1.gridy = 1;
+		inventoryTab.add(scrollPane_1, gbc_scrollPane_1);
+		
+		table_2 = new JTable(data, columnNames);
+		scrollPane_1.setViewportView(table_2);
+		
+//		JList list = new JList(inventory);
+//		GridBagConstraints gbc_list = new GridBagConstraints(", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf"}list, gbc_list);
+//		
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);
