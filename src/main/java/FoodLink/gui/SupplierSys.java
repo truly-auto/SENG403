@@ -64,7 +64,7 @@ private JTable table_2;
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		supplier_id = 2;
+		supplier_id = 1;
 		String [] supplier = connect.getSpecSupplier(supplier_id);
 		
 		frame = new JFrame();
@@ -182,21 +182,15 @@ private JTable table_2;
 		gbc_btnNewButton_3.gridy = 0;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
 		
-		String[] columnNames = {"Item name",
-                "Quantity",
-                "Barcode"};
+		String[] columnNames = {"Item name", "Type", "Quantity", "Price"};
 		
-		Object[][] data = {
-			    {"Banana", "1020",
-			     "1234567890"},
-			     {"Apple", "1122",
-			    	 "0987654321"}
-			};
+		//this one will access data from the the database but will cause the code not to work in design mode
+		//use this one when testing
+		Object[][] data = connect.getInventory(supplier_id);
 		
-//		
-//		String [] columnNames = {
-//		Object [][] inventory = {"apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf","apples", "bannanas", "asfasfsaf", "safsaf", "safasgasg", "asf"};
-//		
+		//use this one when building
+		//Object [][] data = {{"papples", "fruits", "5000", "$2000"},{"apples", "fruits", "5000", "$2000"},{"grapes", "fruits", "5000", "$2000"},{"pears", "fruits", "5000", "$2000"} };
+	
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);

@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class database {
 	private String dbURL = "jdbc:derby:derbyDB;";
@@ -98,33 +99,35 @@ public class database {
 		
 	}
 	
-	public String [] getSpecSupplier(int supplier_id){
-		String command = "select * from supplier where supplier_id = "+ Integer.toString(supplier_id);
-		String [] supplier = new String [6];
+	public Object [] [] getInventory(int id){
+		ArrayList<ArrayList<String>> inventory = new ArrayList<ArrayList<String>>();
+		String command = "select * from items where supplier_id = " +id;
+		
+		//===
 		try {
 		     statement.execute(command);
 		     ResultSet rs = statement.getResultSet();
 		     while(rs.next()){
-		         //Retrieve by column name
-		         int id  = rs.getInt("supplier_id");
-		         String name = rs.getString("name");
-		         supplier[0]=name;
-		         String tel = rs.getString("phoneNumber");
-		         supplier[1]=tel;
-		         String add = rs.getString("address");
-		         supplier[2]=add;
-		         String city = rs.getString("city");
-		         supplier[3]=city;
-		         String email = rs.getString("email");
-		         supplier[4]=email;
-		         //Display values
-		         System.out.print("ID: " + id);
-		         System.out.print(", name: " + name);
-		         System.out.print(", tel: " + tel );
-		         System.out.print(", address: " + add);
-		         System.out.print(", city: " + city);
-		         System.out.println(", email: " + email);
-		      }
+		    	 ArrayList <String> currentItem = new ArrayList <String> (); 
+		    	 //Retrieve by column name
+		        String name = rs.getString("name");
+		        System.out.println(name);
+		        currentItem.add(name);  
+		     	
+		        String type = rs.getString("item_type");
+		        System.out.println(type);
+		        currentItem.add(type);  
+		     	
+		        int quantity = rs.getInt("quantity");
+		        System.out.println(quantity);
+		        currentItem.add(Integer.toString(quantity));  
+		     	
+		        String price = rs.getString("price");
+		        System.out.println(price);
+		        currentItem.add(price);  
+		     
+		        inventory.add(currentItem);
+		     	}
 		      rs.close();
 		    }
 		catch (SQLException e) {
@@ -133,6 +136,65 @@ public class database {
 		     System.out.println(e);;
 		    }
 		
+		//===
+
+		for (int i = 0; i< inventory.size(); i++){
+			System.out.println(inventory.get(i));
+			
+		}
+		
+		Object [] [] inventoryArray =  new Object [inventory.size()] [];
+		
+		for (int i = 0; i< inventory.size(); i++){
+			ArrayList <String> row =  inventory.get(i);
+			inventoryArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return inventoryArray;
+	}
+	
+	
+	public String [] getSpecSupplier(int id){
+		String command = "select * from supplier where supplier_id = " +id;
+		String [] supplier = new String [5]; 
+		//===
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		    	 ArrayList <String> currentItem = new ArrayList <String> (); 
+		    	 //Retrieve by column name
+		        String name = rs.getString("name");
+		        System.out.println(name);
+		        supplier[0]=name;  
+		     	
+		        String number = rs.getString("phonenumber");
+		        System.out.println(number);
+		        supplier[1]=number;  
+		     	
+		        String add = rs.getString("address");
+		        System.out.println(add);
+		        supplier[2]=add;  
+		     	
+		        String city = rs.getString("city");
+		        System.out.println(city);
+		        supplier[3]=city;  
+		     	
+		        String email = rs.getString("email");
+		        System.out.println(email);
+		        supplier[4]=email;  
+		     	
+		        }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		//===
 		return supplier;
 	}
 	
@@ -163,4 +225,5 @@ public class database {
 		return supplierNames;
 
 	}
+
 }

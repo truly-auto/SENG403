@@ -26,11 +26,11 @@ CREATE TABLE Supplier
 --Create Items table 
 CREATE TABLE items (
   item_number int NOT NULL generated always as identity,
-  barcode int,
   name varchar(32),
   item_type varchar(32),
   supplier_id int,
   quantity int,
+  price varchar(32),
   PRIMARY KEY (item_number),
   FOREIGN KEY (supplier_id) references Supplier(supplier_id)
 	);
@@ -68,20 +68,20 @@ VALUES ('Aron Streit Inc.','1-212-475-7000','148-154 Rivington Street','New York
 INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
 VALUES ('Bayer','1-800-622-2937 (62BAYER)','77 Belfield Road','Toronto','www.bayer.com');
 
-INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
-VALUES ('Apple Pies','Bakery',1, 1000);
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, PRICE)
+VALUES ('Apple Pies','Bakery',1, 1000, '$4/20LBS');
 
-INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
-VALUES ('Cinnamon Blueberry Pies','Bakery',1, 1500);
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, PRICE)
+VALUES ('Cinnamon Blueberry Pies','Bakery',1, 1500, '$40/20LBS');
 
-INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
-VALUES ('Lemon Cakes','Bakery',1, 1300);
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, PRICE)
+VALUES ('Lemon Cakes','Bakery',1, 1300, '$20/20LBS');
 
-INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
-VALUES ('Blueberry Muffins (6-pack)','Bakery',1, 3140);
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, PRICE)
+VALUES ('Blueberry Muffins (6-pack)','Bakery',1, 3140, '$14/20LBS');
 
-INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
-VALUES ('Brownies','Bakery',1, 1320);
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
+VALUES ('Brownies','Bakery',1, 1320, '$34/20LBS');
 
-INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY)
-VALUES ('quadruple Chocolate Cake','Bakery',1, 1780);
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
+VALUES ('Quadruple Chocolate Cake','Bakery',1, 1780, '$14/20LBS');
