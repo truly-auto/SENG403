@@ -25,6 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 public class SupplierSys {
 
@@ -186,10 +187,10 @@ private JTable table_2;
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		Object[][] data = connect.getInventory(supplier_id);
+		//Object[][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
-		//Object [][] data = {{"papples", "fruits", "5000", "$2000"},{"apples", "fruits", "5000", "$2000"},{"grapes", "fruits", "5000", "$2000"},{"pears", "fruits", "5000", "$2000"} };
+		Object [][] data = {{"papples", "fruits", "5000", "$2000"},{"apples", "fruits", "5000", "$2000"},{"grapes", "fruits", "5000", "$2000"},{"pears", "fruits", "5000", "$2000"} };
 	
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
@@ -201,6 +202,26 @@ private JTable table_2;
 		inventoryTab.add(scrollPane_1, gbc_scrollPane_1);
 		
 		table_2 = new JTable(data, columnNames);
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"papples", "fruits", "5000", "$2000"},
+				{"apples", "fruits", "5000", "$2000"},
+				{"grapes", "fruits", "5000", "$2000"},
+				{"pears", "fruits", "5000", "$2000"},
+			},
+			new String[] {
+				"Item name", "Type", "Quantity", "Price"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table_2.setCellSelectionEnabled(true);
+		table_2.setColumnSelectionAllowed(true);
 		scrollPane_1.setViewportView(table_2);
 		
 //		JList list = new JList(inventory);
