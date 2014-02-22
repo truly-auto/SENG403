@@ -174,6 +174,17 @@ public class SupermarketSys {
 		gbc_lblNewLabel.gridy = 1;
 		orderTab.add(lblNewLabel, gbc_lblNewLabel);
 		
+		JList list = new JList();
+		GridBagConstraints gbc_list = new GridBagConstraints();
+		gbc_list.anchor = GridBagConstraints.NORTH;
+		gbc_list.gridheight = 4;
+		gbc_list.gridwidth = 5;
+		gbc_list.insets = new Insets(0, 0, 5, 5);
+		gbc_list.fill = GridBagConstraints.HORIZONTAL;
+		gbc_list.gridx = 0;
+		gbc_list.gridy = 2;
+		orderTab.add(list, gbc_list);
+		
 		
 		
 		String[] columnNames = {"Item name",
