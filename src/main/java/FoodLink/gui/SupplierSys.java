@@ -145,12 +145,20 @@ private JTable table_2;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 		
 		JButton btnAddItem = new JButton("Add Item");
+		
+		/**
+		 * 
+		 * ATTN: Eric
+		 * here is where the result for adding item is called. result string = {itemType, item, price, quantity} respectively
+		 * 
+		 */
 		btnAddItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					AddItem addDialog = new AddItem();
 					//JDialog d = new JDialog(addDialog, "", Dialog.ModalityType.APPLICATION_MODAL); 
 					addDialog.setModalityType(ModalityType.APPLICATION_MODAL);
-					result = addDialog.showDialog();
+					result = addDialog.showDialog();	// result is where the string for adding item is restored (will make it cleaner)
+														// 
 					
 					// System.out.println(result[0]); // uncomment this to see if result is passed correctly
 			}
