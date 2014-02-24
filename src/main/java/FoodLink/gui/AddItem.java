@@ -63,6 +63,9 @@ public class AddItem extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						/**
+						 * TODO: More case checking, this so far only checks to make sure user doesn't leave blanks
+						 */
 						if (itemTypeField.getText().equals("") || itemField.getText().equals("") || quantityField.getText().equals("") || priceField.getText().equals(""))
 						{
 							JOptionPane.showMessageDialog(null, "Please do not leave any fields blank.");

@@ -2,6 +2,7 @@ package FoodLink.gui;
 
 
 import java.awt.EventQueue;
+import java.lang.System.*;
 
 import javax.swing.JFrame;
 
@@ -9,18 +10,24 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 
+import java.awt.Dialog;
+import java.awt.Dialog.ModalExclusionType;
+import java.awt.Dialog.ModalityType;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
 import FoodLink.database;
+
 import java.awt.Font;
+
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JList;
@@ -138,10 +145,22 @@ private JTable table_2;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 		
 		JButton btnAddItem = new JButton("Add Item");
+		
+		/**
+		 * 
+		 * ATTN: Eric
+		 * here is where the result for adding item is called. result string = {itemType, item, price, quantity} respectively
+		 * 
+		 */
 		btnAddItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					AddItem addDialog = new AddItem();
-					result = addDialog.showDialog();
+					//JDialog d = new JDialog(addDialog, "", Dialog.ModalityType.APPLICATION_MODAL); 
+					addDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+					result = addDialog.showDialog();	// result is where the string for adding item is restored (will make it cleaner)
+														// 
+					
+					// System.out.println(result[0]); // uncomment this to see if result is passed correctly
 			}
 		});
 		GridBagConstraints gbc_btnAddItem = new GridBagConstraints();
@@ -215,8 +234,7 @@ private JTable table_2;
 		inventoryTab.add(scrollPane_1, gbc_scrollPane_1);
 		
 		table_2 = new JTable(data, columnNames);
-		table_2.setModel(new DefaultTableModel(
-			new Object[][] {
+		table_2.setModel(new DefaultTableModel(new Object[][] {
 				{"papples", "fruits", "5000", "$2000"},
 				{"apples", "fruits", "5000", "$2000"},
 				{"grapes", "fruits", "5000", "$2000"},
