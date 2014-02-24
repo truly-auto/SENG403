@@ -33,7 +33,7 @@ public class SupplierSys {
 	private JTable table;
 	private int supplier_id;
 	private database connect = new database ();
-
+	private String[] result;
 
 private JTable table_1;
 private JTable table_2;
@@ -137,6 +137,19 @@ private JTable table_2;
 		gbc_btnNewButton_2.gridy = 0;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 		
+		JButton btnAddItem = new JButton("Add Item");
+		btnAddItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					AddItem addDialog = new AddItem();
+					result = addDialog.showDialog();
+			}
+		});
+		GridBagConstraints gbc_btnAddItem = new GridBagConstraints();
+		gbc_btnAddItem.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddItem.gridx = 2;
+		gbc_btnAddItem.gridy = 0;
+		orderTab.add(btnAddItem, gbc_btnAddItem);
+		
 		JLabel lblNewLabel = new JLabel("Order Status");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
@@ -149,7 +162,7 @@ private JTable table_2;
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 5;
 		gbc_scrollPane.gridwidth = 4;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
