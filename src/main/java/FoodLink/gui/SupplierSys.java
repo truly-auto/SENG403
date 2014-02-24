@@ -25,6 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 public class SupplierSys {
 
@@ -32,7 +33,7 @@ public class SupplierSys {
 	private JTable table;
 	private int supplier_id;
 	private database connect = new database ();
-
+	private String[] result;
 
 private JTable table_1;
 private JTable table_2;
@@ -65,7 +66,11 @@ private JTable table_2;
 	 */
 	private void initialize() {
 		supplier_id = 1;
+<<<<<<< HEAD
 		String [] supplier = connect. getSpecSupplier(supplier_id);
+=======
+		String [] supplier = connect.getSpecSupplier(supplier_id);
+>>>>>>> 059fb3ad263bbf7d86d838d408e7e76c99200cd4
 		
 		frame = new JFrame();
 		frame.setTitle("FoodLink");
@@ -136,6 +141,19 @@ private JTable table_2;
 		gbc_btnNewButton_2.gridy = 0;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 		
+		JButton btnAddItem = new JButton("Add Item");
+		btnAddItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					AddItem addDialog = new AddItem();
+					result = addDialog.showDialog();
+			}
+		});
+		GridBagConstraints gbc_btnAddItem = new GridBagConstraints();
+		gbc_btnAddItem.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddItem.gridx = 2;
+		gbc_btnAddItem.gridy = 0;
+		orderTab.add(btnAddItem, gbc_btnAddItem);
+		
 		JLabel lblNewLabel = new JLabel("Order Status");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
@@ -148,7 +166,7 @@ private JTable table_2;
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 5;
 		gbc_scrollPane.gridwidth = 4;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
@@ -184,8 +202,18 @@ private JTable table_2;
 		
 		String[] columnNames = {"Item name", "Type", "Quantity", "Price"};
 		
+<<<<<<< HEAD
 		Object[][] data = connect.getInventory(supplier_id);
 		
+=======
+		//this one will access data from the the database but will cause the code not to work in design mode
+		//use this one when testing
+		//Object[][] data = connect.getInventory(supplier_id);
+		
+		//use this one when building
+		Object [][] data = {{"papples", "fruits", "5000", "$2000"},{"apples", "fruits", "5000", "$2000"},{"grapes", "fruits", "5000", "$2000"},{"pears", "fruits", "5000", "$2000"} };
+	
+>>>>>>> 059fb3ad263bbf7d86d838d408e7e76c99200cd4
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
@@ -196,6 +224,26 @@ private JTable table_2;
 		inventoryTab.add(scrollPane_1, gbc_scrollPane_1);
 		
 		table_2 = new JTable(data, columnNames);
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"papples", "fruits", "5000", "$2000"},
+				{"apples", "fruits", "5000", "$2000"},
+				{"grapes", "fruits", "5000", "$2000"},
+				{"pears", "fruits", "5000", "$2000"},
+			},
+			new String[] {
+				"Item name", "Type", "Quantity", "Price"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table_2.setCellSelectionEnabled(true);
+		table_2.setColumnSelectionAllowed(true);
 		scrollPane_1.setViewportView(table_2);
 		
 		

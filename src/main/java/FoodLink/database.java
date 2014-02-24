@@ -137,6 +137,7 @@ public class database {
 		    }
 		
 		//===
+<<<<<<< HEAD
 
 		for (int i = 0; i< inventory.size(); i++){
 			System.out.println(inventory.get(i));
@@ -197,5 +198,95 @@ public class database {
 		//===
 		return supplier;
 	}	
+=======
+
+		for (int i = 0; i< inventory.size(); i++){
+			System.out.println(inventory.get(i));
+			
+		}
+		
+		Object [] [] inventoryArray =  new Object [inventory.size()] [];
+		
+		for (int i = 0; i< inventory.size(); i++){
+			ArrayList <String> row =  inventory.get(i);
+			inventoryArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return inventoryArray;
+	}
+	
+	
+	public String [] getSpecSupplier(int id){
+		String command = "select * from supplier where supplier_id = " +id;
+		String [] supplier = new String [5]; 
+		//===
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		    	 ArrayList <String> currentItem = new ArrayList <String> (); 
+		    	 //Retrieve by column name
+		        String name = rs.getString("name");
+		        System.out.println(name);
+		        supplier[0]=name;  
+		     	
+		        String number = rs.getString("phonenumber");
+		        System.out.println(number);
+		        supplier[1]=number;  
+		     	
+		        String add = rs.getString("address");
+		        System.out.println(add);
+		        supplier[2]=add;  
+		     	
+		        String city = rs.getString("city");
+		        System.out.println(city);
+		        supplier[3]=city;  
+		     	
+		        String email = rs.getString("email");
+		        System.out.println(email);
+		        supplier[4]=email;  
+		     	
+		        }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		//===
+		return supplier;
+	}
+	
+	public String [] getSupplierNames()
+	{
+		String command = "select name from supplier";
+		String [] supplierNames = new String [5];
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+			         String name = rs.getString("name");
+			         supplierNames[counter]=name;
+			         counter++;
+			         //Display values
+			         System.out.print(", name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		
+		}
+		return supplierNames;
+
+	}
+>>>>>>> 059fb3ad263bbf7d86d838d408e7e76c99200cd4
 
 }

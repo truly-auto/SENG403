@@ -4,7 +4,9 @@ public class Order {
 	Order invoices;
 	
 	public void createOrder(int storeID){
-		Item aItem = new Item();
+		//Item aItem = new Item();
+	}
+	public void viewInvoices(){
 		
 		
 	}
@@ -14,5 +16,6 @@ public class Order {
 	}
 
 	public void printInvoices(){
+
 	}
 }
