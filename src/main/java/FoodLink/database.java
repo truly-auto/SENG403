@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class database {
 	private String dbURL = "jdbc:derby:derbyDB;";
-    private String sqlDir = "src/main/resources/SQL/";
     private Connection conn = null;
     private Statement statement;
 		   
