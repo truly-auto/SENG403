@@ -29,7 +29,7 @@ public class AddItem extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField itemCodeField;
+	private JTextField itemTypeField;
 	private JTextField itemField;
 	private JTextField quantityField;
 	private JTextField priceField;
@@ -67,7 +67,7 @@ public class AddItem extends JDialog {
 						/**
 						 * TODO: More case checking, this so far only checks to make sure user doesn't leave blanks
 						 */
-						if (itemCodeField.getText().equals("") || itemField.getText().equals("") || quantityField.getText().equals("") || priceField.getText().equals(""))
+						if (itemTypeField.getText().equals("") || itemField.getText().equals("") || quantityField.getText().equals("") || priceField.getText().equals(""))
 						{
 							JOptionPane.showMessageDialog(null, "Please do not leave any fields blank.");
 						}
@@ -75,11 +75,16 @@ public class AddItem extends JDialog {
 						{
 							Item item = new Item();
 							 
-							item.setItemKey(Integer.parseInt(itemCodeField.getText()));
-							item.setItemName(itemField.getText());
-							item.setItemQuantity(Integer.parseInt(quantityField.getText()));
-							item.setItemPrice(Double.valueOf(priceField.getText()));
 							
+							item.setItemName(itemField.getText());
+							if (Integer.parseInt(quantityField.getText()) > 0)
+								item.setItemQuantity(Integer.parseInt(quantityField.getText()));
+							else item.setItemQuantity(0);
+							item.setItemPrice(Double.valueOf(priceField.getText()));
+							// 
+							String r[] = {itemTypeField.getText(), itemField.getText(), quantityField.getText(), priceField.getText()}; // please don't delete this.. it's only temporary but 
+																																		// this specifically was requested by another group member
+							result = r;			// this specifically gets returned because THIS dialog is set to APPLICATION MODAL
 							
 							closeThisDialog();
 							
@@ -104,10 +109,10 @@ public class AddItem extends JDialog {
 			}
 		}
 		
-		itemCodeField = new JTextField();
-		itemCodeField.setBounds(159, 40, 168, 20);
-		getContentPane().add(itemCodeField);
-		itemCodeField.setColumns(10);
+		itemTypeField = new JTextField();
+		itemTypeField.setBounds(159, 40, 168, 20);
+		getContentPane().add(itemTypeField);
+		itemTypeField.setColumns(10);
 		
 		itemField = new JTextField();
 		itemField.setBounds(159, 71, 168, 20);
@@ -124,10 +129,10 @@ public class AddItem extends JDialog {
 		getContentPane().add(priceField);
 		priceField.setColumns(10);
 		
-		JLabel lblItemCode = new JLabel("Item Code");
-		lblItemCode.setHorizontalAlignment(SwingConstants.CENTER);
-		lblItemCode.setBounds(33, 43, 66, 14);
-		getContentPane().add(lblItemCode);
+		JLabel lblItemType = new JLabel("Item Type");
+		lblItemType.setHorizontalAlignment(SwingConstants.CENTER);
+		lblItemType.setBounds(33, 43, 66, 14);
+		getContentPane().add(lblItemType);
 		
 		JLabel lblItem = new JLabel("Item");
 		lblItem.setHorizontalAlignment(SwingConstants.CENTER);
@@ -165,12 +170,11 @@ public class AddItem extends JDialog {
 	
 	public String[] showDialog() {
 		this.setVisible(true);
-		return result;
+		return this.result;
 	}
 	
 	public String[] getResult()
 	{
 		return this.result;
 	}
-	
 }

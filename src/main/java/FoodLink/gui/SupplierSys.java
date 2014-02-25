@@ -89,6 +89,7 @@ private JTable table_2;
 		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//logout
 			}
 		});
 		
@@ -160,7 +161,7 @@ private JTable table_2;
 					result = addDialog.showDialog();	// result is where the string for adding item is restored (will make it cleaner)
 														// 
 					
-					// System.out.println(result[0]); // uncomment this to see if result is passed correctly
+					System.out.println(result[0]); // uncomment this to see if result is passed correctly
 			}
 		});
 		GridBagConstraints gbc_btnAddItem = new GridBagConstraints();
