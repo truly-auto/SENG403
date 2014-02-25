@@ -1,4 +1,5 @@
 package FoodLink.gui;
+import FoodLink.*;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -28,7 +29,7 @@ public class AddItem extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField itemTypeField;
+	private JTextField itemCodeField;
 	private JTextField itemField;
 	private JTextField quantityField;
 	private JTextField priceField;
@@ -66,14 +67,20 @@ public class AddItem extends JDialog {
 						/**
 						 * TODO: More case checking, this so far only checks to make sure user doesn't leave blanks
 						 */
-						if (itemTypeField.getText().equals("") || itemField.getText().equals("") || quantityField.getText().equals("") || priceField.getText().equals(""))
+						if (itemCodeField.getText().equals("") || itemField.getText().equals("") || quantityField.getText().equals("") || priceField.getText().equals(""))
 						{
 							JOptionPane.showMessageDialog(null, "Please do not leave any fields blank.");
 						}
 						else
 						{
-							String r[] = {itemTypeField.getText(), itemField.getText(), quantityField.getText(), priceField.getText()};
-							result = r;
+							Item item = new Item();
+							 
+							item.setItemKey(Integer.parseInt(itemCodeField.getText()));
+							item.setItemName(itemField.getText());
+							item.setItemQuantity(Integer.parseInt(quantityField.getText()));
+							item.setItemPrice(Double.valueOf(priceField.getText()));
+							
+							
 							closeThisDialog();
 							
 							
@@ -97,10 +104,10 @@ public class AddItem extends JDialog {
 			}
 		}
 		
-		itemTypeField = new JTextField();
-		itemTypeField.setBounds(159, 40, 168, 20);
-		getContentPane().add(itemTypeField);
-		itemTypeField.setColumns(10);
+		itemCodeField = new JTextField();
+		itemCodeField.setBounds(159, 40, 168, 20);
+		getContentPane().add(itemCodeField);
+		itemCodeField.setColumns(10);
 		
 		itemField = new JTextField();
 		itemField.setBounds(159, 71, 168, 20);
@@ -117,10 +124,10 @@ public class AddItem extends JDialog {
 		getContentPane().add(priceField);
 		priceField.setColumns(10);
 		
-		JLabel lblItemType = new JLabel("Item Type");
-		lblItemType.setHorizontalAlignment(SwingConstants.CENTER);
-		lblItemType.setBounds(33, 43, 66, 14);
-		getContentPane().add(lblItemType);
+		JLabel lblItemCode = new JLabel("Item Code");
+		lblItemCode.setHorizontalAlignment(SwingConstants.CENTER);
+		lblItemCode.setBounds(33, 43, 66, 14);
+		getContentPane().add(lblItemCode);
 		
 		JLabel lblItem = new JLabel("Item");
 		lblItem.setHorizontalAlignment(SwingConstants.CENTER);

@@ -153,6 +153,9 @@ public class database {
 		return inventoryArray;
 	}
 	
+	public void addItemToInventory(Item item, int supplierID){
+		
+	}
 	
 	public String [] getSpecSupplier(int id){
 		String command = "select * from supplier where supplier_id = " +id;

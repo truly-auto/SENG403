@@ -4,7 +4,7 @@ public class Inventory{
 	
 	
 	public void addItem(Item item){
-		
+		//test.addItemToInventory(item);
 	}
 	
 	public void removeItem(int itemID){
