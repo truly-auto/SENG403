@@ -52,7 +52,7 @@ public class AddItem extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddItem() {
-		setTitle("Add an item");
+		setTitle("Add/Edit an item");
 		setBounds(100, 100, 397, 264);
 		getContentPane().setLayout(null);
 		{
@@ -129,17 +129,17 @@ public class AddItem extends JDialog {
 		getContentPane().add(priceField);
 		priceField.setColumns(10);
 		
-		JLabel lblItemType = new JLabel("Item Type");
+		JLabel lblItemType = new JLabel("Item Name");
 		lblItemType.setHorizontalAlignment(SwingConstants.CENTER);
 		lblItemType.setBounds(33, 43, 66, 14);
 		getContentPane().add(lblItemType);
 		
-		JLabel lblItem = new JLabel("Item");
+		JLabel lblItem = new JLabel("Item Type");
 		lblItem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblItem.setBounds(33, 74, 66, 14);
 		getContentPane().add(lblItem);
 		
-		JLabel lblQuanitty = new JLabel("Quanitty");
+		JLabel lblQuanitty = new JLabel("Quantity");
 		lblQuanitty.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuanitty.setBounds(33, 105, 66, 14);
 		getContentPane().add(lblQuanitty);

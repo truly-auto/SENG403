@@ -12,6 +12,7 @@ public class databaseTest {
 
 	@Test
 	public void testGetInventory() {
+		//This is not an effective test, needs revision
 		database data = new database();
 		Object[][] inventory = data.getInventory(1);
 		

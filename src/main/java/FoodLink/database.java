@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class database {
-	private String dbURL = "jdbc:derby:derbyDB;";
+    private String dbURL = "jdbc:derby:derbyDB;";
     private Connection conn = null;
     private Statement statement;
 		   
@@ -109,6 +109,10 @@ public class database {
 		     while(rs.next()){
 		    	 ArrayList <String> currentItem = new ArrayList <String> (); 
 		    	 //Retrieve by column name
+		    	 int number = rs.getInt("item_number");
+			      System.out.println(number);
+			        currentItem.add(Integer.toString(number)); 
+		    	 
 		        String name = rs.getString("name");
 		        System.out.println(name);
 		        currentItem.add(name);  
@@ -153,9 +157,6 @@ public class database {
 		return inventoryArray;
 	}
 	
-	public void addItemToInventory(Item item, int supplierID){
-		
-	}
 	
 	public String [] getSpecSupplier(int id){
 		String command = "select * from supplier where supplier_id = " +id;
@@ -228,4 +229,37 @@ public class database {
 
 	}
 
+	public void addItem(String[] item, int id) {
+		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, price) VALUES "
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", '"+ item[3]+"')";
+		
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add Succesful");
+		
+	}
+
+	public void modifyItem(String[] item, int itemNum) {
+	
+		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", price = '"+ item[3]+ "' "
+				+ "WHERE item_number="+  itemNum;
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Mod Succesful");
+	}	
 }
+
