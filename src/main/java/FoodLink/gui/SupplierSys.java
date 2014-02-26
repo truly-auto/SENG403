@@ -4,21 +4,27 @@ package FoodLink.gui;
 import java.awt.EventQueue;
 import java.lang.System.*;
 
+import javax.crypto.spec.IvParameterSpec;
 import javax.swing.JFrame;
 
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 
+import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -50,9 +56,7 @@ public class SupplierSys {
 	private int row;
 	private String[] result;
 
-
-private JTable table_1;
-private JTable table_2;
+	private JTable jtbInventory;
 	
 	/**
 	 * Launch the application.
@@ -88,6 +92,7 @@ private JTable table_2;
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 608, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
@@ -124,7 +129,7 @@ private JTable table_2;
 		gbc_mainTabbedPane.gridx = 3;
 		gbc_mainTabbedPane.gridy = 1;
 		frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
-		
+
 		JPanel orderTab = new JPanel();
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
@@ -154,31 +159,7 @@ private JTable table_2;
 		gbc_btnNewButton_2.gridy = 0;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 		
-		JButton btnAddItem = new JButton("Add Item");
-		
-		/**
-		 * 
-		 * ATTN: Eric
-		 * here is where the result for adding item is called. result string = {itemType, item, price, quantity} respectively
-		 * 
-		 */
-		btnAddItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					AddItem addDialog = new AddItem();
-					//JDialog d = new JDialog(addDialog, "", Dialog.ModalityType.APPLICATION_MODAL); 
-					addDialog.setModalityType(ModalityType.APPLICATION_MODAL);
-					result = addDialog.showDialog();	// result is where the string for adding item is restored (will make it cleaner)
-														// 
-					
-					System.out.println(result[0]); // uncomment this to see if result is passed correctly
-			}
-		});
-		GridBagConstraints gbc_btnAddItem = new GridBagConstraints();
-		gbc_btnAddItem.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAddItem.gridx = 2;
-		gbc_btnAddItem.gridy = 0;
-		orderTab.add(btnAddItem, gbc_btnAddItem);
-		
+
 		JLabel lblNewLabel = new JLabel("Order Status");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
@@ -202,17 +183,8 @@ private JTable table_2;
 		
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
-		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
-		gbl_inventoryTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0};
-		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
-		gbl_inventoryTab.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_inventoryTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		inventoryTab.setLayout(gbl_inventoryTab);
 		
-		
+		inventoryTab.setLayout(new BorderLayout());
 		
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Price"};
 		
@@ -224,30 +196,28 @@ private JTable table_2;
 		//final Object [][] data = {{"1","papples", "fruits", "5000", "$2000"},{"2","apples", "fruits", "5000", "$2000"},{"3","grapes", "fruits", "5000", "$2000"},{"4","pears", "fruits", "5000", "$2000"} };
 		
 		
-		final JScrollPane scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.gridwidth = 3;
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.gridx = 0;
-		gbc_scrollPane_1.gridy = 1;
-		inventoryTab.add(scrollPane_1, gbc_scrollPane_1);
+		final JScrollPane jspInvTable = new JScrollPane();
 		
-		table_2 = new JTable(data, columnNames);
-		table_2.addMouseListener(new MouseAdapter() {
+		inventoryTab.add(jspInvTable, BorderLayout.CENTER);
+		
+		jtbInventory = new JTable(data, columnNames);
+		jtbInventory.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {
 				java.awt.Point point = mevt.getPoint();
-				row =table_2.rowAtPoint(point);
-				selectedRow=(String) table_2.getValueAt(row, 0);
+				row =jtbInventory.rowAtPoint(point);
+				selectedRow=(String) jtbInventory.getValueAt(row, 0);
 				System.out.println(selectedRow);
 				
 			}
 		});
-		scrollPane_1.setViewportView(table_2);
+		jspInvTable.setViewportView(jtbInventory);
 		
-		
-		JButton btnNewButton_3 = new JButton("Add New Item");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		JPanel jpAddPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
+		JPanel jpSavePane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 4));
+		JButton btnAddNewItem = new JButton("Add New Item");
+
+		btnAddNewItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String [] item=null;
 				try {
@@ -257,50 +227,44 @@ private JTable table_2;
 					
 					item =window.getResult();
 				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(frame, "Invalid inputs.");
 					e1.printStackTrace();
 				}		
 				
 				if(item!=null)	
 					{connect.addItem(item, supplier_id);
 					Object [] [] data2 = connect.getInventory(supplier_id);
-					table_2 = new JTable(data2, columnNames);
-					scrollPane_1.setViewportView(table_2);}
+					jtbInventory = new JTable(data2, columnNames);
+					jspInvTable.setViewportView(jtbInventory);}
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_3.gridx = 0;
-		gbc_btnNewButton_3.gridy = 0;
-		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
+		
 		
 		JButton btnSaveChanges = new JButton("Save Changes on Selected Row");
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedRow!=null){
 					System.out.println("About to save changes to this row " + selectedRow);
-					System.out.println("Is this the anser?? " + table_2.getValueAt(row, 1));
-					String [] item={(String) table_2.getValueAt(row, 1),(String) table_2.getValueAt(row, 2), (String) table_2.getValueAt(row, 3), (String) table_2.getValueAt(row, 4)};
+					System.out.println("Is this the anser?? " + jtbInventory.getValueAt(row, 1));
+					String [] item={(String) jtbInventory.getValueAt(row, 1),(String) jtbInventory.getValueAt(row, 2), (String) jtbInventory.getValueAt(row, 3), (String) jtbInventory.getValueAt(row, 4)};
 	
-					
-					if(item!=null)	
-						{connect.modifyItem(item, Integer.parseInt(selectedRow));
+					if(item!=null){
+						connect.modifyItem(item, Integer.parseInt(selectedRow));
 						Object [] [] data2 = connect.getInventory(supplier_id);
-						table_2 = new JTable(data2, columnNames);
-						scrollPane_1.setViewportView(table_2);}
-					
-					
-					
+						jtbInventory = new JTable(data2, columnNames);
+						jspInvTable.setViewportView(jtbInventory);
+					}
 				}
 			}
 		});
-		GridBagConstraints gbc_btnSaveChanges = new GridBagConstraints();
-		gbc_btnSaveChanges.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSaveChanges.gridx = 2;
-		gbc_btnSaveChanges.gridy = 0;
-		inventoryTab.add(btnSaveChanges, gbc_btnSaveChanges);
 	
+		jpAddPane.add(btnAddNewItem);
+		jpSavePane.add(btnSaveChanges);
+		
+		JPanel jpBtnPane = new JPanel(new GridLayout(1,0,1,1));
+		jpBtnPane.add(jpAddPane);
+		jpBtnPane.add(jpSavePane);
+		inventoryTab.add(jpBtnPane, BorderLayout.NORTH);
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);
