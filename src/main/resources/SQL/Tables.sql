@@ -55,6 +55,10 @@ CREATE TABLE supplier_users (
 	
 INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
 VALUES ('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com');
+
+INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID)
+VALUES ('John_Doe','password',1);
+
 	
 INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
 VALUES ('Aliments Reinhart Foods','1-905-264-0072','235 Yorkland Blvd, Suite 1101','Toronto','www.reinhartfoods.com');
