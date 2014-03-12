@@ -1,6 +1,7 @@
 package FoodLink.gui;
 
 import java.awt.EventQueue;
+import FoodLink.gui.*;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -105,6 +106,13 @@ public class Login extends JFrame{
 					String password =passwordField.getText();
 					if (password.equals((String) credentials[0]) ){
 						System.out.println("Login Succesful");
+						try {
+							SupplierSys window = new SupplierSys(1);
+							window.frame.setVisible(true);
+							close();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 						lblInvalidPassword.setVisible(false);
 						}
 					//if not show error message
@@ -118,6 +126,7 @@ public class Login extends JFrame{
 			
 			}
 
+	
 			
 		});
 		btnLogin.setBounds(99, 161, 89, 23);
@@ -126,5 +135,10 @@ public class Login extends JFrame{
 		
 		
 		pack();		
+	}
+
+	protected void close() {
+		this.dispose();
+		
 	}
 }
