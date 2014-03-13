@@ -77,7 +77,7 @@ private JTable table_2;
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		supplier_id = 2;
+		supplier_id = 1;
 		String [] supplier = connect.getSpecSupplier(supplier_id);
 		
 		frame = new JFrame();
