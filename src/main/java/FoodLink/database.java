@@ -263,9 +263,16 @@ public class database {
 		System.out.println("Mod Succesful");
 	}
 
-	public Object[] getUser(String username) {
-		String command = "select * from supplier_users where username = '" +username+"'";
+	public Object[] getUser(String username, boolean supplier) {
+		String command = null;
+		if(supplier){
+			command = "select * from supplier_users where username = '" +username+"'";
+			}
+		else{
+			command = "select * from store_users where username = '" +username+"'";
+		}
 		Object [] user = new Object [2]; 
+		
 		//===
 		try {
 		     statement.execute(command);
@@ -276,10 +283,15 @@ public class database {
 		        String password = rs.getString("password");
 		        System.out.println(password);
 		        user[0]=password;  
-		     	
-		        int sup_id = rs.getInt("supplier_id");
-		        System.out.println(sup_id);
-		        user[1]=sup_id;  
+		     	if(supplier){
+			        int sup_id = rs.getInt("supplier_id");
+			        System.out.println(sup_id);
+			        user[1]=sup_id;  }
+		     	else{
+		     		int str_id = rs.getInt("store_id");
+			        System.out.println(str_id);
+			        user[1]=str_id; 
+		     	}
 		     		
 		        }
 		      rs.close();

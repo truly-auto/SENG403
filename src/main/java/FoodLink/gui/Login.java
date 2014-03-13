@@ -85,12 +85,18 @@ public class Login extends JFrame{
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean supplier=true;
 			//if the user enters text, get user from database and update global user array with user information
 				if(userField.getText().length()>0){
 					String username = userField.getText();
-					credentials = connect.getUser(username);
-			//if the result is null then user does not exists		
+					credentials = connect.getUser(username, supplier);
+					//if the result is null for supplier user then check supermarket		
 					if (credentials[0]==null){
+						supplier=false;
+						credentials = connect.getUser(username, false);
+						}
+					//if the result is null for supermarket user then user does not exists			
+					 if (credentials[0]==null){
 						lblPleaseEnterA.setVisible(true);
 						}
 					else {lblPleaseEnterA.setVisible(false);}
@@ -106,13 +112,26 @@ public class Login extends JFrame{
 					String password =passwordField.getText();
 					if (password.equals((String) credentials[0]) ){
 						System.out.println("Login Succesful");
-						try {
-							SupplierSys window = new SupplierSys(1);
-							window.frame.setVisible(true);
-							close();
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						//login supplier
+						if(supplier){
+							try {
+								SupplierSys window = new SupplierSys(1);
+								window.frame.setVisible(true);
+								close();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}}
+						//login store user
+						else{
+							try {
+								SupermarketSys window = new SupermarketSys();
+								window.frame.setVisible(true);
+								close();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
 						}
+						
 						lblInvalidPassword.setVisible(false);
 						}
 					//if not show error message

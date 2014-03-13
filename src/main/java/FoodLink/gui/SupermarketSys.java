@@ -31,7 +31,7 @@ import FoodLink.database;
 
 public class SupermarketSys {
 
-	private JFrame frame;
+	public JFrame frame;
 
 
 	private JTable table_1;
