@@ -3,6 +3,12 @@ package FoodLink;
 public class Order {
 	Order invoices;
 	
+	public Order(){
+		Double referenceNumber;
+		String List[] = {" "};
+		float cost;
+	}
+	
 	public void createOrder(int storeID){
 		//Item aItem = new Item();
 	}
@@ -11,7 +17,7 @@ public class Order {
 		
 	}
 	
-	public Order getInvoices(int referenceNumber){
+	public Order getInvoices(){
 		return invoices;
 	}
 
