@@ -33,7 +33,7 @@ public class SupermarketSys {
 
 	private JFrame frame;
 
-
+	private JTable table_2;
 	private JTable table_1;
 	private int store_id;
 	private JTable table;
@@ -111,9 +111,9 @@ public class SupermarketSys {
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
 		gbl_orderTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_orderTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_orderTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_orderTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_orderTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_orderTab.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		orderTab.setLayout(gbl_orderTab);
 		
 		JButton btnNewButton_1 = new JButton("Create Order");
@@ -129,6 +129,8 @@ public class SupermarketSys {
 				gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 				gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 				panel.setLayout(gbl_panel);
+				
+				
 				
 				JLabel lblSupplier = new JLabel("Supplier: ");
 				GridBagConstraints gbc_lblSupplier = new GridBagConstraints();
@@ -148,6 +150,25 @@ public class SupermarketSys {
 				gbc_comboBox.gridx = 1;
 				gbc_comboBox.gridy = 0;
 				panel.add(comboBox, gbc_comboBox);
+				
+				
+				String[] columnNamesOrdering = {"Item name",
+		                "Quantity",
+		                "Barcode"};
+				
+				Object[][] dataOrdering = {
+					    {"Banana", "0",
+					     "1234567890"},
+					     {"Apple", "0",
+					    	 "0987654321"}
+					};
+				table_2 = new JTable(dataOrdering, columnNamesOrdering);
+				GridBagConstraints gbc_table_2 = new GridBagConstraints();
+				gbc_table_2.insets = new Insets(5, 5, 50, 50);
+				gbc_table_2.fill = GridBagConstraints.BOTH;
+				gbc_table_2.gridx = 5;
+				gbc_table_2.gridy = 3;
+				panel.add(table_2, gbc_table_2);
 				
 			}
 		});
@@ -171,7 +192,7 @@ public class SupermarketSys {
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 1;
+		gbc_lblNewLabel.gridy = 2;
 		orderTab.add(lblNewLabel, gbc_lblNewLabel);
 		
 		JList list = new JList();
@@ -182,7 +203,7 @@ public class SupermarketSys {
 		gbc_list.insets = new Insets(0, 0, 5, 5);
 		gbc_list.fill = GridBagConstraints.HORIZONTAL;
 		gbc_list.gridx = 0;
-		gbc_list.gridy = 2;
+		gbc_list.gridy = 4;
 		orderTab.add(list, gbc_list);
 		
 		
