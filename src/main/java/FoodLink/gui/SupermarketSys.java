@@ -160,14 +160,19 @@ public class SupermarketSys {
 					    {"Banana", "0",
 					     "1234567890"},
 					     {"Apple", "0",
-					    	 "0987654321"}
+					    	 "0987654321"},
+					     {"Bread", "0",
+					    	 "1592634870"}
+				
 					};
 				table_2 = new JTable(dataOrdering, columnNamesOrdering);
 				GridBagConstraints gbc_table_2 = new GridBagConstraints();
 				gbc_table_2.insets = new Insets(5, 5, 50, 50);
-				gbc_table_2.fill = GridBagConstraints.BOTH;
-				gbc_table_2.gridx = 5;
+				gbc_table_2.fill = GridBagConstraints.HORIZONTAL;
+				gbc_table_2.gridx = 1;
 				gbc_table_2.gridy = 3;
+				gbc_table_2.weightx = 15;
+				
 				panel.add(table_2, gbc_table_2);
 				
 			}
