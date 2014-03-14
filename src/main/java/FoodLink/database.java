@@ -210,7 +210,7 @@ public class database {
 		     statement.execute(command);
 		     ResultSet rs = statement.getResultSet();
 		     int counter = 0;
-		     while(rs.next())
+		     while(rs.next()&&counter<5)
 		     	{
 			         String name = rs.getString("name");
 			         supplierNames[counter]=name;
@@ -290,6 +290,50 @@ public class database {
 		     System.exit(0);
 		    }
 		System.out.println("Mod Succesful");
+	}
+
+	public Object[] getUser(String username, boolean supplier) {
+		String command = null;
+		if(supplier){
+			command = "select * from supplier_users where username = '" +username+"'";
+			}
+		else{
+			command = "select * from store_users where username = '" +username+"'";
+		}
+		Object [] user = new Object [2]; 
+		
+		//===
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		    
+		     while(rs.next()){
+		    	 //Retrieve by column name
+		        String password = rs.getString("password");
+		        System.out.println(password);
+		        user[0]=password;  
+		     	if(supplier){
+			        int sup_id = rs.getInt("supplier_id");
+			        System.out.println(sup_id);
+			        user[1]=sup_id;  }
+		     	else{
+		     		int str_id = rs.getInt("store_id");
+			        System.out.println(str_id);
+			        user[1]=str_id; 
+		     	}
+		     		
+		        }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		     return null;
+		    }
+		
+		//===
+		return user;
 	}
 	
 		

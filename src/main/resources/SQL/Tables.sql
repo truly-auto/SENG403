@@ -52,7 +52,14 @@ CREATE TABLE supplier_users (
 	PRIMARY KEY (username),
 	FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
 	);
+--adding sample data
+
 	
+--adding some sample stores
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('Jane Tops','403-989-3214','1 14 ST NW.','Calgary','www.yellowpages.com/janetops');
+
+--adding sample suppliers
 INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
 VALUES ('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com');
 	
@@ -68,6 +75,7 @@ VALUES ('Aron Streit Inc.','1-212-475-7000','148-154 Rivington Street','New York
 INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
 VALUES ('Bayer','1-800-622-2937 (62BAYER)','77 Belfield Road','Toronto','www.bayer.com');
 
+--adding some sample inventory
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, PRICE)
 VALUES ('Apple Pies','Bakery',1, 1000, '$4/20LBS');
 
@@ -86,6 +94,7 @@ VALUES ('Brownies','Bakery',1, 1320, '$34/20LBS');
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Quadruple Chocolate Cake','Bakery',1, 1780, '$14/20LBS');
 
+<<<<<<< HEAD
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Beets','Vegetable',2, 1050, '$10/20LBS');
 
@@ -109,3 +118,12 @@ VALUES ('Onion','Vegetable',2, 3000, '$7.50/20LBS');
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Spinach','Vegetable',2, 2000, '$8/20LBS');
+=======
+--adding some default users	
+INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID)
+VALUES ('John_Doe','password',1);	
+
+INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID)
+VALUES ('Jane_Doe','password',1);	
+
+>>>>>>> origin/master

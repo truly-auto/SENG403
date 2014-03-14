@@ -39,9 +39,8 @@ import java.awt.event.MouseEvent;
 
 public class SupplierSys {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTable table;
-	private int supplier_id;
 	private database connect = new database ();
 	private String selectedRow= null;
 	private int row;
@@ -57,7 +56,8 @@ private JTable table_2;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SupplierSys window = new SupplierSys();
+					//hard code parameter to swicth suppliers here (1-5)
+					SupplierSys window = new SupplierSys(1);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,15 +69,21 @@ private JTable table_2;
 	/**
 	 * Create the application.
 	 */
-	public SupplierSys() {
-		initialize();
+	public SupplierSys(int supplier_id) {
+		
+		initialize(supplier_id);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
+<<<<<<< HEAD
 	private void initialize() {
 		supplier_id = 1;
+=======
+	private void initialize(final int supplier_id) {
+		
+>>>>>>> origin/master
 		String [] supplier = connect.getSpecSupplier(supplier_id);
 		
 		frame = new JFrame();
@@ -278,6 +284,8 @@ private JTable table_2;
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
 	}
+
+
 	
 
 
