@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import javax.swing.MutableComboBoxModel;
 
 import java.awt.List;
 import java.awt.Choice;
@@ -47,11 +48,12 @@ public class SupermarketSys {
 	private JTable table1;
 	private JTable table;
 	private JComboBox comboBox;
+	DefaultListModel orderListModel;
 
 	private database connect = new database ();
 	private String[] itemsListForSupplier;
 	private JList supplierItemsList;
-	private DefaultListModel itemsListModel1;
+	DefaultListModel itemsListModel1;
 
 
 	/**
@@ -264,20 +266,11 @@ public class SupermarketSys {
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		String [] supplierNames = connect.getSupplierNames();
-		
-		JLabel lblNewLabel_2 = new JLabel("Supplier:");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_2.gridwidth = 3;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 2;
-		gbc_lblNewLabel_2.gridy = 0;
-		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
 		
 		ActionListener actionListener = new ActionListener() {
@@ -291,6 +284,7 @@ public class SupermarketSys {
 		    	  itemsListForSupplier = connect.getSupplierItemsList(comboBox.getSelectedIndex());
 		    	  
 		    	  itemsListModel1.removeAllElements();
+		    	  orderListModel.removeAllElements();
 		    	  int counter = 0; 
 		    	  while (counter < itemsListForSupplier.length)
 		    	  {
@@ -301,13 +295,27 @@ public class SupermarketSys {
 		      }
 		};
 		
+		itemsListModel1 = new DefaultListModel();
+		
+		
+		orderListModel = new DefaultListModel();
+		
+		JLabel lblNewLabel_2 = new JLabel("Select 1 Supplier:");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_2.gridwidth = 3;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 4;
+		gbc_lblNewLabel_2.gridy = 0;
+		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(supplierNames));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridwidth = 7;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.gridx = 5;
+		gbc_comboBox.gridx = 8;
 		gbc_comboBox.gridy = 0;
 		panel.add(comboBox, gbc_comboBox);
 		
@@ -317,50 +325,40 @@ public class SupermarketSys {
 		JLabel lblNewLabel_1 = new JLabel("Select items to order:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_1.gridwidth = 6;
+		gbc_lblNewLabel_1.gridwidth = 5;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 2;
+		gbc_lblNewLabel_1.gridx = 4;
 		gbc_lblNewLabel_1.gridy = 1;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		itemsListModel1 = new DefaultListModel();
-		supplierItemsList = new JList(itemsListModel1);
-		supplierItemsList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		GridBagConstraints gbc_supplierItemsList = new GridBagConstraints();
-		gbc_supplierItemsList.gridwidth = 8;
-		gbc_supplierItemsList.gridheight = 5;
-		gbc_supplierItemsList.insets = new Insets(0, 0, 5, 5);
-		gbc_supplierItemsList.fill = GridBagConstraints.BOTH;
-		gbc_supplierItemsList.gridx = 3;
-		gbc_supplierItemsList.gridy = 2;
-		panel.add(supplierItemsList, gbc_supplierItemsList);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.gridheight = 5;
+		gbc_scrollPane_1.gridwidth = 10;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 12;
+		gbc_scrollPane_1.gridy = 2;
+		panel.add(scrollPane_1, gbc_scrollPane_1);
 		
 		
-		final DefaultListModel orderListModel = new DefaultListModel();
 		final JList orderList = new JList(orderListModel);
+		scrollPane_1.setViewportView(orderList);
 		orderList.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		GridBagConstraints gbc_orderList = new GridBagConstraints();
-		gbc_orderList.gridheight = 5;
-		gbc_orderList.gridwidth = 8;
-		gbc_orderList.insets = new Insets(0, 0, 5, 5);
-		gbc_orderList.fill = GridBagConstraints.BOTH;
-		gbc_orderList.gridx = 12;
-		gbc_orderList.gridy = 2;
-		panel.add(orderList, gbc_orderList);
 		
 		JButton btnNewButton_3 = new JButton(">>");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int[] itemNumbers = supplierItemsList.getSelectedIndices();
-				//ystem.out.println("\n\nINDECES: " + itemNumbers[0] + itemsListForSupplier[0]);
-				
+				int[] itemNumbers = supplierItemsList.getSelectedIndices(); //get the indices of the selected items in the supplier items list
 				
 				int counter = 0;
 				
 				while(counter < itemNumbers.length)
 				{
 					int currNum = itemNumbers[counter];
+					//itemsListModel1.removeElement(itemsListForSupplier[currNum]);
 					orderListModel.addElement(itemsListForSupplier[currNum]);
+					System.out.println("\n\nINDECES: " + currNum + "  item: " + itemsListForSupplier[currNum]);
 					counter++;
 				}
 				
@@ -395,13 +393,34 @@ public class SupermarketSys {
 		gbc_btnNewButton_4.gridy = 5;
 		panel.add(btnNewButton_4, gbc_btnNewButton_4);
 		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+		gbc_scrollPane_2.gridheight = 5;
+		gbc_scrollPane_2.gridwidth = 7;
+		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_2.gridx = 4;
+		gbc_scrollPane_2.gridy = 2;
+		panel.add(scrollPane_2, gbc_scrollPane_2);
+		
+		supplierItemsList = new JList(itemsListModel1);
+		scrollPane_2.setViewportView(supplierItemsList);
+		supplierItemsList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		
 		JButton btnNewButton_5 = new JButton("Select All");
 		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
-		gbc_btnNewButton_5.gridwidth = 4;
+		gbc_btnNewButton_5.gridwidth = 3;
 		gbc_btnNewButton_5.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_5.gridx = 3;
+		gbc_btnNewButton_5.gridx = 4;
 		gbc_btnNewButton_5.gridy = 7;
 		panel.add(btnNewButton_5, gbc_btnNewButton_5);
+		
+		JButton btnContinue = new JButton("Continue");
+		GridBagConstraints gbc_btnContinue = new GridBagConstraints();
+		gbc_btnContinue.insets = new Insets(0, 0, 5, 5);
+		gbc_btnContinue.gridx = 21;
+		gbc_btnContinue.gridy = 9;
+		panel.add(btnContinue, gbc_btnContinue);
 
 	}
 	
