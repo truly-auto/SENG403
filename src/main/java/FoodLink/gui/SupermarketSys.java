@@ -29,8 +29,8 @@ import java.awt.Choice;
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
-import javax.swing.table.DefaultTableModel;
 
+import javax.swing.table.DefaultTableModel;
 import javax.swing.border.BevelBorder;
 
 import java.awt.Color;
@@ -263,9 +263,9 @@ public class SupermarketSys {
 		mainTabbedPane.setForegroundAt(4, Color.BLACK);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		String [] supplierNames = connect.getSupplierNames();
@@ -278,16 +278,6 @@ public class SupermarketSys {
 		gbc_lblNewLabel_2.gridx = 2;
 		gbc_lblNewLabel_2.gridy = 0;
 		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
-		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(supplierNames));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridwidth = 7;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.gridx = 6;
-		gbc_comboBox.gridy = 0;
-		panel.add(comboBox, gbc_comboBox);
 
 		
 		ActionListener actionListener = new ActionListener() {
@@ -310,6 +300,16 @@ public class SupermarketSys {
 		    	  
 		      }
 		};
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(supplierNames));
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridwidth = 7;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.gridx = 5;
+		gbc_comboBox.gridy = 0;
+		panel.add(comboBox, gbc_comboBox);
 		
 		comboBox.addActionListener(actionListener);
 		
@@ -336,8 +336,8 @@ public class SupermarketSys {
 		panel.add(supplierItemsList, gbc_supplierItemsList);
 		
 		
-		
-		JList orderList = new JList();
+		final DefaultListModel orderListModel = new DefaultListModel();
+		final JList orderList = new JList(orderListModel);
 		orderList.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		GridBagConstraints gbc_orderList = new GridBagConstraints();
 		gbc_orderList.gridheight = 5;
@@ -349,6 +349,23 @@ public class SupermarketSys {
 		panel.add(orderList, gbc_orderList);
 		
 		JButton btnNewButton_3 = new JButton(">>");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int[] itemNumbers = supplierItemsList.getSelectedIndices();
+				//ystem.out.println("\n\nINDECES: " + itemNumbers[0] + itemsListForSupplier[0]);
+				
+				
+				int counter = 0;
+				
+				while(counter < itemNumbers.length)
+				{
+					int currNum = itemNumbers[counter];
+					orderListModel.addElement(itemsListForSupplier[currNum]);
+					counter++;
+				}
+				
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_3.gridx = 11;
@@ -356,11 +373,35 @@ public class SupermarketSys {
 		panel.add(btnNewButton_3, gbc_btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("<<");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[] itemNumbers = orderList.getSelectedIndices();
+				//System.out.println("\n\nINDECES: " + itemNumbers[0] + itemsListForSupplier[0]);
+				System.out.println("\nITEMS" + orderList.getComponents());
+				
+				int counter = 0;
+				
+				while(counter < itemNumbers.length)
+				{
+					int currNum = itemNumbers[counter];
+					orderListModel.removeElement(itemsListForSupplier[currNum]);
+					counter++;
+				}
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_4.gridx = 11;
 		gbc_btnNewButton_4.gridy = 5;
 		panel.add(btnNewButton_4, gbc_btnNewButton_4);
+		
+		JButton btnNewButton_5 = new JButton("Select All");
+		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
+		gbc_btnNewButton_5.gridwidth = 4;
+		gbc_btnNewButton_5.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_5.gridx = 3;
+		gbc_btnNewButton_5.gridy = 7;
+		panel.add(btnNewButton_5, gbc_btnNewButton_5);
 
 	}
 	
