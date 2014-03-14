@@ -229,6 +229,35 @@ public class database {
 		return supplierNames;
 
 	}
+	
+	public String [] getSupplierItemsList(int id)
+	{
+		String command = "select name from items where supplier_id = " + id;
+		String [] supplierItemsList = new String [10];
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+			         String name = rs.getString("name");
+			         supplierItemsList[counter]=name;
+			         counter++;
+			         //Display values
+			         System.out.print(", name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+		
+		
+		return supplierItemsList;
+	}
 
 	public void addItem(String[] item, int id) {
 		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, price) VALUES "

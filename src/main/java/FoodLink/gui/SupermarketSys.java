@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -30,6 +31,11 @@ import javax.swing.DefaultComboBoxModel;
 import FoodLink.database;
 import javax.swing.table.DefaultTableModel;
 
+import javax.swing.border.BevelBorder;
+
+import java.awt.Color;
+import java.awt.SystemColor;
+
 public class SupermarketSys {
 
 	public JFrame frame;
@@ -41,7 +47,15 @@ public class SupermarketSys {
 	private JTable table1;
 	private JTable table;
 	private JComboBox comboBox;
+<<<<<<< HEAD
 	private database connect = new database();
+=======
+	private database connect = new database ();
+	private String[] itemsListForSupplier;
+	private JList supplierItemsList;
+	private DefaultListModel itemsListModel1;
+
+>>>>>>> Updated the database and the supermarket gui
 
 	/**
 	 * Launch the application.
@@ -72,7 +86,7 @@ public class SupermarketSys {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("FoodLink");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -84,6 +98,7 @@ public class SupermarketSys {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
+<<<<<<< HEAD
 
 		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -91,25 +106,34 @@ public class SupermarketSys {
 			}
 		});
 
+=======
+		
+>>>>>>> Updated the database and the supermarket gui
 		JLabel label = new JLabel("");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.insets = new Insets(0, 0, 5, 5);
 		gbc_label.gridx = 3;
 		gbc_label.gridy = 0;
 		frame.getContentPane().add(label, gbc_label);
+		
+		JButton btnNewButton = new JButton("Log Out");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 16;
+		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.gridx = 19;
 		gbc_btnNewButton.gridy = 0;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 
 		final JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_mainTabbedPane = new GridBagConstraints();
 		gbc_mainTabbedPane.gridheight = 2;
-		gbc_mainTabbedPane.gridwidth = 14;
-		gbc_mainTabbedPane.insets = new Insets(0, 0, 0, 5);
+		gbc_mainTabbedPane.gridwidth = 20;
 		gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
-		gbc_mainTabbedPane.gridx = 3;
+		gbc_mainTabbedPane.gridx = 0;
 		gbc_mainTabbedPane.gridy = 1;
 		frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
 
@@ -292,34 +316,113 @@ public class SupermarketSys {
 		mainTabbedPane.addTab("Account", null, accountTab, null);
 
 		
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		mainTabbedPane.addTab("NEW ORDER", null, panel, null);
+		mainTabbedPane.setBackgroundAt(4, new Color(0, 102, 0));
+		mainTabbedPane.setForegroundAt(4, Color.BLACK);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblSupplier = new JLabel("Supplier: ");
-		GridBagConstraints gbc_lblSupplier = new GridBagConstraints();
-		gbc_lblSupplier.anchor = GridBagConstraints.EAST;
-		gbc_lblSupplier.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSupplier.gridx = 0;
-		gbc_lblSupplier.gridy = 0;
-		panel.add(lblSupplier, gbc_lblSupplier);
-		
 		String [] supplierNames = connect.getSupplierNames();
+		
+		JLabel lblNewLabel_2 = new JLabel("Supplier:");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_2.gridwidth = 3;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 2;
+		gbc_lblNewLabel_2.gridy = 0;
+		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(supplierNames));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
+		gbc_comboBox.gridwidth = 7;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.gridx = 6;
 		gbc_comboBox.gridy = 0;
 		panel.add(comboBox, gbc_comboBox);
+<<<<<<< HEAD
 
+=======
+		
+		ActionListener actionListener = new ActionListener() {
+		      public void actionPerformed(ActionEvent actionEvent) 
+		      {
+		    	  System.out.println();
+		    	  System.out.println("Selected: " + comboBox.getSelectedItem());
+		    	  System.out.println(", Position: " + comboBox.getSelectedIndex());
+		    	  
+		    	  //update the JList to reflect the items of a specific supplier
+		    	  itemsListForSupplier = connect.getSupplierItemsList(comboBox.getSelectedIndex());
+		    	  
+		    	  itemsListModel1.removeAllElements();
+		    	  int counter = 0; 
+		    	  while (counter < itemsListForSupplier.length)
+		    	  {
+		    		  	itemsListModel1.addElement(itemsListForSupplier[counter]);
+		    	        counter++;
+		    	  }
+		    	  
+		      }
+		};
+		
+		comboBox.addActionListener(actionListener);
+		
+		
+		JLabel lblNewLabel_1 = new JLabel("Select items to order:");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_1.gridwidth = 6;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 2;
+		gbc_lblNewLabel_1.gridy = 1;
+		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		itemsListModel1 = new DefaultListModel();
+		supplierItemsList = new JList(itemsListModel1);
+		supplierItemsList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		GridBagConstraints gbc_supplierItemsList = new GridBagConstraints();
+		gbc_supplierItemsList.gridwidth = 8;
+		gbc_supplierItemsList.gridheight = 5;
+		gbc_supplierItemsList.insets = new Insets(0, 0, 5, 5);
+		gbc_supplierItemsList.fill = GridBagConstraints.BOTH;
+		gbc_supplierItemsList.gridx = 3;
+		gbc_supplierItemsList.gridy = 2;
+		panel.add(supplierItemsList, gbc_supplierItemsList);
+		
+		
+		
+		JList orderList = new JList();
+		orderList.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		GridBagConstraints gbc_orderList = new GridBagConstraints();
+		gbc_orderList.gridheight = 5;
+		gbc_orderList.gridwidth = 8;
+		gbc_orderList.insets = new Insets(0, 0, 5, 5);
+		gbc_orderList.fill = GridBagConstraints.BOTH;
+		gbc_orderList.gridx = 12;
+		gbc_orderList.gridy = 2;
+		panel.add(orderList, gbc_orderList);
+		
+		JButton btnNewButton_3 = new JButton(">>");
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_3.gridx = 11;
+		gbc_btnNewButton_3.gridy = 4;
+		panel.add(btnNewButton_3, gbc_btnNewButton_3);
+		
+		JButton btnNewButton_4 = new JButton("<<");
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_4.gridx = 11;
+		gbc_btnNewButton_4.gridy = 5;
+		panel.add(btnNewButton_4, gbc_btnNewButton_4);
+>>>>>>> Updated the database and the supermarket gui
 	}
 	
 	
