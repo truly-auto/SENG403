@@ -39,7 +39,7 @@ import java.awt.event.MouseEvent;
 
 public class SupplierSys {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTable table;
 	private int supplier_id;
 	private database connect = new database ();

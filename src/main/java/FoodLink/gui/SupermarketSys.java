@@ -47,15 +47,12 @@ public class SupermarketSys {
 	private JTable table1;
 	private JTable table;
 	private JComboBox comboBox;
-<<<<<<< HEAD
+
+
 	private database connect = new database();
-=======
-	private database connect = new database ();
 	private String[] itemsListForSupplier;
 	private JList supplierItemsList;
 	private DefaultListModel itemsListModel1;
-
->>>>>>> Updated the database and the supermarket gui
 
 	/**
 	 * Launch the application.
@@ -98,7 +95,7 @@ public class SupermarketSys {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
-<<<<<<< HEAD
+
 
 		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -106,9 +103,6 @@ public class SupermarketSys {
 			}
 		});
 
-=======
-		
->>>>>>> Updated the database and the supermarket gui
 		JLabel label = new JLabel("");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.insets = new Insets(0, 0, 5, 5);
@@ -116,8 +110,8 @@ public class SupermarketSys {
 		gbc_label.gridy = 0;
 		frame.getContentPane().add(label, gbc_label);
 		
-		JButton btnNewButton = new JButton("Log Out");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnNewButton1 = new JButton("Log Out");
+		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
@@ -126,7 +120,7 @@ public class SupermarketSys {
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 19;
 		gbc_btnNewButton.gridy = 0;
-		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
+		frame.getContentPane().add(btnNewButton1, gbc_btnNewButton);
 
 		final JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_mainTabbedPane = new GridBagConstraints();
@@ -347,9 +341,7 @@ public class SupermarketSys {
 		gbc_comboBox.gridx = 6;
 		gbc_comboBox.gridy = 0;
 		panel.add(comboBox, gbc_comboBox);
-<<<<<<< HEAD
 
-=======
 		
 		ActionListener actionListener = new ActionListener() {
 		      public void actionPerformed(ActionEvent actionEvent) 
@@ -422,7 +414,6 @@ public class SupermarketSys {
 		gbc_btnNewButton_4.gridx = 11;
 		gbc_btnNewButton_4.gridy = 5;
 		panel.add(btnNewButton_4, gbc_btnNewButton_4);
->>>>>>> Updated the database and the supermarket gui
 	}
 	
 	
