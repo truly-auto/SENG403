@@ -47,12 +47,24 @@ public class SupermarketSys {
 	private JTable table1;
 	private JTable table;
 	private JComboBox comboBox;
+<<<<<<< HEAD
 
 
 	private database connect = new database();
 	private String[] itemsListForSupplier;
 	private JList supplierItemsList;
 	private DefaultListModel itemsListModel1;
+=======
+<<<<<<< HEAD
+	private database connect = new database ();
+	private String[] itemsListForSupplier;
+	private JList supplierItemsList;
+	private DefaultListModel itemsListModel1;
+
+=======
+	private database connect = new database();
+>>>>>>> origin/master
+>>>>>>> FETCH_HEAD
 
 	/**
 	 * Launch the application.
@@ -95,6 +107,9 @@ public class SupermarketSys {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
+<<<<<<< HEAD
+		
+=======
 
 
 		JButton btnNewButton = new JButton("Log Out");
@@ -103,6 +118,7 @@ public class SupermarketSys {
 			}
 		});
 
+>>>>>>> origin/master
 		JLabel label = new JLabel("");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.insets = new Insets(0, 0, 5, 5);
@@ -110,8 +126,13 @@ public class SupermarketSys {
 		gbc_label.gridy = 0;
 		frame.getContentPane().add(label, gbc_label);
 		
+<<<<<<< HEAD
 		JButton btnNewButton1 = new JButton("Log Out");
 		btnNewButton1.addActionListener(new ActionListener() {
+=======
+		JButton btnNewButton = new JButton("Log Out");
+		btnNewButton.addActionListener(new ActionListener() {
+>>>>>>> FETCH_HEAD
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
@@ -178,7 +199,16 @@ public class SupermarketSys {
 		JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+				//When Create Order button is clicked the following codes will execute
+				//This codes will create a new tab caled NEW ORDER
+				
+				
+=======
+>>>>>>> FETCH_HEAD
 				// When Create Order button is clicked the following codes will
 				// execute
 				// This codes will create a new tab caled NEW ORDER
@@ -230,12 +260,16 @@ public class SupermarketSys {
 
 				panel.add(table_2, gbc_table_2);
 
+<<<<<<< HEAD
 
 				//When Create Order button is clicked the following codes will execute
 				//This codes will create a new tab caled NEW ORDER
 				
 				
 
+=======
+>>>>>>> origin/master
+>>>>>>> FETCH_HEAD
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -308,7 +342,11 @@ public class SupermarketSys {
 
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
 		
 		final JPanel panel = new JPanel();
 		mainTabbedPane.addTab("NEW ORDER", null, panel, null);
@@ -341,7 +379,10 @@ public class SupermarketSys {
 		gbc_comboBox.gridx = 6;
 		gbc_comboBox.gridy = 0;
 		panel.add(comboBox, gbc_comboBox);
+<<<<<<< HEAD
 
+=======
+>>>>>>> FETCH_HEAD
 		
 		ActionListener actionListener = new ActionListener() {
 		      public void actionPerformed(ActionEvent actionEvent) 
@@ -414,6 +455,12 @@ public class SupermarketSys {
 		gbc_btnNewButton_4.gridx = 11;
 		gbc_btnNewButton_4.gridy = 5;
 		panel.add(btnNewButton_4, gbc_btnNewButton_4);
+<<<<<<< HEAD
+=======
+=======
+
+>>>>>>> origin/master
+>>>>>>> FETCH_HEAD
 	}
 	
 	

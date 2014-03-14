@@ -76,8 +76,18 @@ private JTable table_2;
 	/**
 	 * Initialize the contents of the frame.
 	 */
+<<<<<<< HEAD
 	private void initialize() {
 		supplier_id = 1;
+=======
+<<<<<<< HEAD
+	private void initialize() {
+		supplier_id = 1;
+=======
+	private void initialize(final int supplier_id) {
+		
+>>>>>>> origin/master
+>>>>>>> FETCH_HEAD
 		String [] supplier = connect.getSpecSupplier(supplier_id);
 		
 		frame = new JFrame();
