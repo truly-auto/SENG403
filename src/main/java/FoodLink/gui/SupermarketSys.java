@@ -28,6 +28,7 @@ import java.awt.Choice;
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
+import javax.swing.table.DefaultTableModel;
 
 public class SupermarketSys {
 
@@ -37,6 +38,7 @@ public class SupermarketSys {
 	private JTable table_2;
 	private JTable table_1;
 	private int store_id;
+	private JTable table1;
 	private JTable table;
 	private JComboBox comboBox;
 	private database connect = new database();
@@ -130,15 +132,30 @@ public class SupermarketSys {
 				{ "123456", "567.33", "02/28/2014", "Shipped" },
 				{ "234567", "730.98", "02/16/2014", "Completed" } };
 
-		table_3 = new JTable(dataOrdering, columnNameInvoice);
-		GridBagConstraints gbc_table_3 = new GridBagConstraints();
-		gbc_table_3.insets = new Insets(0, -100, 50, 50);
-		gbc_table_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_table_3.gridx = 1;
-		gbc_table_3.gridy = 3;
-		gbc_table_3.weightx = 15;
+		JScrollPane scrollPane1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
+		gbc_scrollPane1.gridwidth = 2;
+		gbc_scrollPane1.gridheight = 6;
+		gbc_scrollPane1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane1.gridx = 0;
+		gbc_scrollPane1.gridy = 2;
+		orderTab.add(scrollPane1, gbc_scrollPane1);
 
-		orderTab.add(table_3, gbc_table_3);
+		table1 = new JTable(dataOrdering, columnNameInvoice);
+		table1.setModel(new DefaultTableModel(new Object[][] {
+				{ "012345", "500.99", "03/10/2014", "Submitted" },
+				{ "123456", "567.33", "02/28/2014", "Shipped" },
+				{ "234567", "730.98", "02/16/2014", "Completed" }, },
+				new String[] { "Invoice Number", "Total Cost($)",
+						"Created (MM/DD/YYYY)", "Status" }) {
+			boolean[] columnEditables = new boolean[] { false, false, false,
+					false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane1.setViewportView(table1);
 
 		JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -224,7 +241,6 @@ public class SupermarketSys {
 		gbc_list.anchor = GridBagConstraints.NORTH;
 		gbc_list.gridheight = 4;
 		gbc_list.gridwidth = 5;
-		gbc_list.insets = new Insets(0, 0, 5, 5);
 		gbc_list.fill = GridBagConstraints.HORIZONTAL;
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 5;
