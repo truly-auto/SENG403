@@ -230,7 +230,7 @@ public class SupermarketSys {
 						 itemsList = connect.getItemListForSupplier(comboBox.getSelectedIndex());	
 						 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
 								Class[] columnTypes = new Class[] {
-										String.class, String.class, String.class, Double.class, String.class, Double.class
+										String.class, String.class, String.class, String.class, String.class, String.class
 									};
 									public Class getColumnClass(int columnIndex) {
 										return columnTypes[columnIndex];
