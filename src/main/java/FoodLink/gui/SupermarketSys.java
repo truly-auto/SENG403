@@ -255,7 +255,7 @@ public class SupermarketSys {
 				
 				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
 					Class[] columnTypes = new Class[] {
-							Object.class, Object.class, Object.class, Float.class, Object.class, Float.class
+							String.class, String.class, String.class, String.class, String.class, String.class
 						};
 						public Class getColumnClass(int columnIndex) {
 							return columnTypes[columnIndex];
