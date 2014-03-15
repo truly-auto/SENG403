@@ -181,8 +181,13 @@ public class SupermarketSys {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//When Create Order button is clicked the following codes will execute
+
 				//This codes will create a new tab called NEW ORDER
 				UIManager.put("newOrder.selected",ColorUIResource.GREEN);
+
+				//This codes will create a new tab called NEW ORDER #
+				
+
 				final JPanel newOrder = new JPanel();
 				tabNumber++;
 				String tabName = "NEW ORDER " + tabNumber;
