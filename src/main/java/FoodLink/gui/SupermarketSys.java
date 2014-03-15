@@ -83,6 +83,7 @@ public class SupermarketSys {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
