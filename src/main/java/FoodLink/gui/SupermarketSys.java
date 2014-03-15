@@ -61,6 +61,7 @@ public class SupermarketSys {
 	DefaultListModel itemsListModel1;
 	private JTable table_4;
 	private JTextField textField;
+	private int tabNumber = 0; 
 
 
 	/**
@@ -189,7 +190,7 @@ public class SupermarketSys {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//When Create Order button is clicked the following codes will execute
-				//This codes will create a new tab caled NEW ORDER
+				//This codes will create a new tab called NEW ORDER
 				
 
 			}
@@ -269,9 +270,11 @@ public class SupermarketSys {
 		//CODES FOR NEW ORDER PAGE 
 		
 		final JPanel newOrder = new JPanel();
-		mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);
-		mainTabbedPane.setBackgroundAt(4, new Color(0, 102, 0));
-		mainTabbedPane.setForegroundAt(4, Color.BLACK);
+		tabNumber++;
+		String tabName = "NEW ORDER " + tabNumber;
+		mainTabbedPane.addTab(tabName, null, newOrder, null);		
+		mainTabbedPane.setBackgroundAt(4, new Color(0, 128, 0));
+		mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
 		GridBagLayout gbl_newOrder = new GridBagLayout();
 		gbl_newOrder.columnWidths = new int[]{0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0};
 		gbl_newOrder.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
