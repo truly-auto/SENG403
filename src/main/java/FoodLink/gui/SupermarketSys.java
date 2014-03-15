@@ -38,6 +38,7 @@ import javax.swing.event.TableModelEvent;
 
 import java.awt.Color;
 import java.awt.SystemColor;
+import javax.swing.JTextField;
 
 public class SupermarketSys {
 
@@ -51,14 +52,15 @@ public class SupermarketSys {
 	private JTable table;
 	private JComboBox comboBox;
 	DefaultListModel orderListModel;
-	private String[][] itemsList;
-	private String[] itemsColumnNames = {"Item #", "Name", "Item Type", "Quantity", "Price", "Total"};
+	private Object[][] itemsList;
+	private String[] itemsColumnNames = {"Item #", "Name", "Item Type", "Quantity (per punds)", "Price", "Total"};
 	DefaultTableModel itemsListModel;
 
 	private database connect = new database ();
 	private String[] itemsListForSupplier;
 	DefaultListModel itemsListModel1;
 	private JTable table_4;
+	private JTextField textField;
 
 
 	/**
@@ -272,9 +274,9 @@ public class SupermarketSys {
 		mainTabbedPane.setForegroundAt(4, Color.BLACK);
 		GridBagLayout gbl_newOrder = new GridBagLayout();
 		gbl_newOrder.columnWidths = new int[]{0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0};
-		gbl_newOrder.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_newOrder.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_newOrder.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_newOrder.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_newOrder.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_newOrder.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		newOrder.setLayout(gbl_newOrder);
 		
 		String [] supplierNames = connect.getSupplierNames();
@@ -306,7 +308,7 @@ public class SupermarketSys {
 				 itemsList = connect.getItemListForSupplier(comboBox.getSelectedIndex());	
 				 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
 						Class[] columnTypes = new Class[] {
-								String.class, String.class, String.class, String.class, String.class, String.class
+								String.class, String.class, String.class, Integer.class, String.class, Integer.class
 							};
 							public Class getColumnClass(int columnIndex) {
 								return columnTypes[columnIndex];
@@ -326,7 +328,7 @@ public class SupermarketSys {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.gridheight = 9;
+		gbc_scrollPane_1.gridheight = 8;
 		gbc_scrollPane_1.gridwidth = 18;
 		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
@@ -386,11 +388,28 @@ public class SupermarketSys {
 		            mainTabbedPane.removeTabAt(index);
 		        }
 			}});
+		
+		JLabel lblNewLabel_1 = new JLabel("GRAND TOTAL:");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 14;
+		gbc_lblNewLabel_1.gridy = 9;
+		newOrder.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 16;
+		gbc_textField.gridy = 9;
+		newOrder.add(textField, gbc_textField);
+		textField.setColumns(10);
 		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_4.gridx = 14;
-		gbc_btnNewButton_4.gridy = 10;
+		gbc_btnNewButton_4.gridy = 11;
 		newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
 		
 		JButton btnNewButton_3 = new JButton("Submit Order");
@@ -398,7 +417,7 @@ public class SupermarketSys {
 		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_3.gridx = 16;
-		gbc_btnNewButton_3.gridy = 10;
+		gbc_btnNewButton_3.gridy = 11;
 		newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
 		
 

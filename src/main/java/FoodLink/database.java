@@ -260,10 +260,10 @@ public class database {
 	}
 	
 	
-	public String [][] getItemListForSupplier(int id)
+	public Object [][] getItemListForSupplier(int id)
 	{
 		String command = "select item_number, name, item_type, price from items where supplier_id = " + id;
-		String [][] itemsList = new String [10][5];
+		Object [][] itemsList = new String [10][5];
 		
 		try {
 		     statement.execute(command);
