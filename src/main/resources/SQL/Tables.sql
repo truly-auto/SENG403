@@ -94,10 +94,6 @@ VALUES ('Brownies','Bakery',1, 1320, '$34/20LBS');
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Quadruple Chocolate Cake','Bakery',1, 1780, '$14/20LBS');
 
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Beets','Vegetable',2, 1050, '$10/20LBS');
 
@@ -121,8 +117,7 @@ VALUES ('Onion','Vegetable',2, 3000, '$7.50/20LBS');
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Spinach','Vegetable',2, 2000, '$8/20LBS');
-=======
->>>>>>> FETCH_HEAD
+
 --adding some default users	
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID)
 VALUES ('John_Doe','password',1);	
@@ -133,7 +128,7 @@ VALUES ('Josh_Doe','password',2);
 INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID)
 VALUES ('Jane_Doe','password',1);	
 
-<<<<<<< HEAD
+
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Beets','Vegetable',2, 1050, '$10/20LBS');
 
@@ -158,6 +153,4 @@ VALUES ('Onion','Vegetable',2, 3000, '$7.50/20LBS');
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,PRICE)
 VALUES ('Spinach','Vegetable',2, 2000, '$8/20LBS');
 
-=======
->>>>>>> origin/master
->>>>>>> FETCH_HEAD
+
