@@ -33,6 +33,7 @@ import FoodLink.database;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.TableModelEvent;
 
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -49,6 +50,9 @@ public class SupermarketSys {
 	private JTable table;
 	private JComboBox comboBox;
 	DefaultListModel orderListModel;
+	private String[][] itemsList;
+	private String[] itemsColumnNames = {"Item #", "Name", "Item Type", "Quantity", "Price"};
+	DefaultTableModel itemsListModel;
 
 	private database connect = new database ();
 	private String[] itemsListForSupplier;
@@ -294,6 +298,19 @@ public class SupermarketSys {
 		gbc_comboBox.gridy = 0;
 		newOrder.add(comboBox, gbc_comboBox);
 		
+		ActionListener actionListener = new ActionListener() {
+			 public void actionPerformed(ActionEvent actionEvent)
+			 {
+				 System.out.println("SUPPLIER INDEX: " + comboBox.getSelectedIndex());
+				 itemsList = connect.getItemListForSupplier(comboBox.getSelectedIndex());	
+				 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
+				 //itemsListModel.fireTableChanged(null);
+				 table_4.setModel(itemsListModel);
+			 }
+		};
+		comboBox.addActionListener(actionListener);
+		
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.gridheight = 10;
@@ -304,13 +321,25 @@ public class SupermarketSys {
 		gbc_scrollPane_1.gridy = 1;
 		newOrder.add(scrollPane_1, gbc_scrollPane_1);
 		
-		table_4 = new JTable();
+		
+		itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
+		
+		table_4 = new JTable(itemsListModel);
 		scrollPane_1.setViewportView(table_4);
 		
 
 	}
 	
+	//itemsList.addTableModelListener(new TableModelListener()
 	
+		public void tableChanged(TableModelEvent e) {
+			int row = e.getFirstRow();
+			int column = e.getColumn();
+			DefaultTableModel model = (DefaultTableModel)e.getSource();
+			String columnName = model.getColumnName(column);
+			Object data = model.getValueAt(row, column);
+		
+	} 
 
 	public JComboBox getComboBox() {
 		return comboBox;
