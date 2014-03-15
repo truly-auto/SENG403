@@ -263,7 +263,7 @@ public class database {
 	public Object [][] getItemListForSupplier(int id)
 	{
 		String command = "select item_number, name, item_type, price from items where supplier_id = " + id;
-		Object [][] itemsList = new String [10][5];
+		Object [][] itemsList = new String [25][5];
 		
 		try {
 		     statement.execute(command);
