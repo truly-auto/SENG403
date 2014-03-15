@@ -1,4 +1,4 @@
-/*this class connests to the database and runs queries search as select, insert, update etc*/
+/*this class connects to the database and runs queries search as select, insert, update etc*/
 
 
 package FoodLink;

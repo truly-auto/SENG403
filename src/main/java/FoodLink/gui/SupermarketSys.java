@@ -12,7 +12,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -23,31 +22,24 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
-import javax.swing.MutableComboBoxModel;
+import javax.swing.UIManager;
 
-import java.awt.List;
-import java.awt.Choice;
 
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
 
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.TableModelEvent;
 
 import java.awt.Color;
-import java.awt.SystemColor;
+
 import javax.swing.JTextField;
 
 public class SupermarketSys {
 
 	public JFrame frame;
 
-	private JTable table_3;
-	private JTable table_2;
-	private JTable table_1;
-	private int store_id;
 	private JTable table1;
 	private JTable table;
 	private JComboBox comboBox;
@@ -57,7 +49,6 @@ public class SupermarketSys {
 	DefaultTableModel itemsListModel;
 
 	private database connect = new database ();
-	private String[] itemsListForSupplier;
 	DefaultListModel itemsListModel1;
 	private JTable table_4;
 	private JTextField textField;
@@ -191,7 +182,7 @@ public class SupermarketSys {
 			public void actionPerformed(ActionEvent e) {
 				//When Create Order button is clicked the following codes will execute
 				//This codes will create a new tab called NEW ORDER
-				
+				UIManager.put("newOrder.selected",ColorUIResource.GREEN);
 				final JPanel newOrder = new JPanel();
 				tabNumber++;
 				String tabName = "NEW ORDER " + tabNumber;
@@ -234,7 +225,7 @@ public class SupermarketSys {
 						 itemsList = connect.getItemListForSupplier(comboBox.getSelectedIndex());	
 						 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
 								Class[] columnTypes = new Class[] {
-										String.class, String.class, String.class, Integer.class, String.class, Integer.class
+										String.class, String.class, String.class, Double.class, String.class, Double.class
 									};
 									public Class getColumnClass(int columnIndex) {
 										return columnTypes[columnIndex];
@@ -345,7 +336,6 @@ public class SupermarketSys {
 				gbc_btnNewButton_3.gridx = 16;
 				gbc_btnNewButton_3.gridy = 11;
 				newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
-				
 
 			}
 		});
