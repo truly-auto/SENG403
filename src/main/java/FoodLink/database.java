@@ -1,4 +1,4 @@
-/*this class connests to the database and runs queries search as select, insert, update etc*/
+/*this class connects to the database and runs queries search as select, insert, update etc*/
 
 
 package FoodLink;
@@ -229,7 +229,86 @@ public class database {
 		return supplierNames;
 
 	}
-
+	
+	public String [] getSupplierItemsList(int id)
+	{
+		String command = "select name from items where supplier_id = " + id;
+		String [] supplierItemsList = new String [10];
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+			         String name = rs.getString("name");
+			         supplierItemsList[counter]=name;
+			         counter++;
+			         //Display values
+			         System.out.print(", name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+		
+		
+		return supplierItemsList;
+	}
+	
+	
+	public Object [][] getItemListForSupplier(int id)
+	{
+		String command = "select item_number, name, item_type, price from items where supplier_id = " + id;
+		Object [][] itemsList = new String [10][5];
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+			        //get item number
+			       	String item_number = rs.getString("item_number");
+			       	itemsList[counter][0] = item_number;
+			       	System.out.println("Item number: " + item_number);
+			       	//get item name
+			       	String name = rs.getString("name");
+			       	itemsList[counter][1] = name;
+			       	System.out.println("Name: " + name);
+			       	//get item type
+			       	String item_type = rs.getString("item_type");
+		        	itemsList[counter][2] = item_type;
+		        	System.out.println("Item Type: " + item_type);
+			       	//get quantity
+		        	String quantity = "0";
+		        	itemsList[counter][3] = quantity;
+			       	//get price
+		        	String price = rs.getString("price");
+		        	itemsList[counter][4] = price;
+		        	System.out.println("Price: " + price);
+		        	counter++;
+		     	}
+		    	 
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+		
+		
+		return itemsList;
+	}
+	
+	
+	
+	
 	public void addItem(String[] item, int id) {
 		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, price) VALUES "
 				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", '"+ item[3]+"')";
