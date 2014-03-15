@@ -51,7 +51,7 @@ public class SupermarketSys {
 	private JComboBox comboBox;
 	DefaultListModel orderListModel;
 	private String[][] itemsList;
-	private String[] itemsColumnNames = {"Item #", "Name", "Item Type", "Quantity", "Price"};
+	private String[] itemsColumnNames = {"Item #", "Name", "Item Type", "Quantity", "Price", "Total"};
 	DefaultTableModel itemsListModel;
 
 	private database connect = new database ();
@@ -303,8 +303,20 @@ public class SupermarketSys {
 			 {
 				 System.out.println("SUPPLIER INDEX: " + comboBox.getSelectedIndex());
 				 itemsList = connect.getItemListForSupplier(comboBox.getSelectedIndex());	
-				 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
-				 //itemsListModel.fireTableChanged(null);
+				 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
+						Class[] columnTypes = new Class[] {
+								String.class, String.class, String.class, String.class, String.class, String.class
+							};
+							public Class getColumnClass(int columnIndex) {
+								return columnTypes[columnIndex];
+							}
+							boolean[] columnEditables = new boolean[] {
+								false, false, false, true, false, false
+							};
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						};
 				 table_4.setModel(itemsListModel);
 			 }
 		};
@@ -319,27 +331,44 @@ public class SupermarketSys {
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 1;
-		newOrder.add(scrollPane_1, gbc_scrollPane_1);
+		newOrder.add(scrollPane_1, gbc_scrollPane_1);	
 		
+		itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
+			Class[] columnTypes = new Class[] {
+					Object.class, Object.class, Object.class, Float.class, Object.class, Float.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, true, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};
 		
-		itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
+		table_4 = new JTable(new DefaultTableModel(){
+			Class[] columnTypes = new Class[] {
+					Object.class, Object.class, Object.class, Float.class, Object.class, Float.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, true, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
 		
-		table_4 = new JTable(itemsListModel);
+		table_4.setRowSelectionAllowed(false);
 		scrollPane_1.setViewportView(table_4);
 		
 
 	}
 	
-	//itemsList.addTableModelListener(new TableModelListener()
-	
-		public void tableChanged(TableModelEvent e) {
-			int row = e.getFirstRow();
-			int column = e.getColumn();
-			DefaultTableModel model = (DefaultTableModel)e.getSource();
-			String columnName = model.getColumnName(column);
-			Object data = model.getValueAt(row, column);
-		
-	} 
 
 	public JComboBox getComboBox() {
 		return comboBox;
