@@ -83,6 +83,7 @@ public class SupermarketSys {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -184,14 +185,10 @@ public class SupermarketSys {
 
 				//This codes will create a new tab called NEW ORDER
 				UIManager.put("newOrder.selected",ColorUIResource.GREEN);
-
-				//This codes will create a new tab called NEW ORDER #
-				
-
 				final JPanel newOrder = new JPanel();
-				tabNumber++;
-				String tabName = "NEW ORDER " + tabNumber;
-				mainTabbedPane.addTab(tabName, null, newOrder, null);		
+				//tabNumber++;
+				//String tabName = "NEW ORDER " + tabNumber;
+				mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);		
 				mainTabbedPane.setBackgroundAt(4, new Color(0, 128, 0));
 				mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
 				GridBagLayout gbl_newOrder = new GridBagLayout();
@@ -342,6 +339,8 @@ public class SupermarketSys {
 				gbc_btnNewButton_3.gridy = 11;
 				newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
 
+				
+
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -417,7 +416,7 @@ public class SupermarketSys {
 
 		
 		//CODES FOR NEW ORDER PAGE 
-		
+
 
 		
 

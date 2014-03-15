@@ -52,6 +52,15 @@ CREATE TABLE supplier_users (
 	PRIMARY KEY (username),
 	FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
 	);
+	
+--Create Supermarket table
+CREATE TABLE Order_history
+(
+	invoice_number int,
+	total_cost int,
+	created_date varchar(255),
+	status varchar(255)
+);
 --adding sample data
 
 	
