@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -270,9 +271,9 @@ public class SupermarketSys {
 		mainTabbedPane.setBackgroundAt(4, new Color(0, 102, 0));
 		mainTabbedPane.setForegroundAt(4, Color.BLACK);
 		GridBagLayout gbl_newOrder = new GridBagLayout();
-		gbl_newOrder.columnWidths = new int[]{0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0};
+		gbl_newOrder.columnWidths = new int[]{0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0};
 		gbl_newOrder.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_newOrder.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_newOrder.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_newOrder.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		newOrder.setLayout(gbl_newOrder);
 		
@@ -291,7 +292,7 @@ public class SupermarketSys {
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(supplierNames));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.anchor = GridBagConstraints.WEST;
 		gbc_comboBox.gridwidth = 7;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.gridx = 2;
@@ -325,9 +326,9 @@ public class SupermarketSys {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.gridheight = 10;
-		gbc_scrollPane_1.gridwidth = 17;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane_1.gridheight = 9;
+		gbc_scrollPane_1.gridwidth = 18;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 1;
@@ -365,6 +366,40 @@ public class SupermarketSys {
 		
 		table_4.setRowSelectionAllowed(false);
 		scrollPane_1.setViewportView(table_4);
+		
+		JButton btnNewButton_4 = new JButton("Cancel Order");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int n = JOptionPane.showConfirmDialog(
+					    frame,
+					    "Are you sure you want to cancel order?",
+					    "Cancel Order",
+					    JOptionPane.YES_NO_OPTION);
+
+				System.out.println("ANSWER: " + n);
+				
+				int index = mainTabbedPane.indexOfTab("NEW ORDER");
+				
+				if (index >= 0 && n == 0)
+				{
+		            mainTabbedPane.removeTabAt(index);
+		        }
+			}});
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_4.gridx = 14;
+		gbc_btnNewButton_4.gridy = 10;
+		newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
+		
+		JButton btnNewButton_3 = new JButton("Submit Order");
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_3.gridx = 16;
+		gbc_btnNewButton_3.gridy = 10;
+		newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
 		
 
 	}
