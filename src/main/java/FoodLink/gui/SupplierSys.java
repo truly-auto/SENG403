@@ -44,7 +44,7 @@ public class SupplierSys {
 	private database connect = new database ();
 	private String selectedRow= null;
 	private int row;
-
+	private boolean manager = true;
 
 private JTable table_1;
 private JTable table_2;
@@ -80,7 +80,7 @@ private JTable table_2;
 	private void initialize(final int supplier_id) {
 		
 		String [] supplier = connect.getSpecSupplier(supplier_id);
-		
+		System.out.println("this is .." + supplier_id);
 		frame = new JFrame();
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 608, 300);
@@ -245,6 +245,9 @@ private JTable table_2;
 		gbc_btnNewButton_3.gridx = 0;
 		gbc_btnNewButton_3.gridy = 0;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
+		if(!manager){
+			btnNewButton_3.setVisible(false);
+			}
 		
 		JButton btnSaveChanges = new JButton("Save Changes on Selected Row");
 		btnSaveChanges.addActionListener(new ActionListener() {
@@ -271,7 +274,9 @@ private JTable table_2;
 		gbc_btnSaveChanges.gridx = 2;
 		gbc_btnSaveChanges.gridy = 0;
 		inventoryTab.add(btnSaveChanges, gbc_btnSaveChanges);
-	
+		 if(!manager){
+			 btnSaveChanges.setVisible(false); 
+		 }
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);
