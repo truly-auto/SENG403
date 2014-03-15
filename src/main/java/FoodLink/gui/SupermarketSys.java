@@ -53,7 +53,7 @@ public class SupermarketSys {
 	private JComboBox comboBox;
 	DefaultListModel orderListModel;
 	private Object[][] itemsList;
-	private String[] itemsColumnNames = {"Item #", "Name", "Item Type", "Quantity (per punds)", "Price", "Total"};
+	private String[] itemsColumnNames = {"Item #", "Name", "Item Type", "Quantity", "Price", "Total"};
 	DefaultTableModel itemsListModel;
 
 	private database connect = new database ();
