@@ -263,43 +263,43 @@ public class database {
 	public Object [][] getItemListForSupplier(int id)
 	{
 		String command = "select item_number, name, item_type, unit_price, unit from items where supplier_id = " + id;
-		Object [][] itemsList = new String [25][7];
-		
+		ArrayList<ArrayList<String>> inventory = new ArrayList<ArrayList<String>>();
 		try {
 		     statement.execute(command);
 		     ResultSet rs = statement.getResultSet();
-		     int counter = 0;
 		     while(rs.next())
 		     	{
+		    	 	ArrayList <String> itemList = new ArrayList <String> ();
 			        //get item number
 			       	String item_number = rs.getString("item_number");
-			       	itemsList[counter][0] = item_number;
+			       	itemList.add(item_number);
 			       	System.out.println("Item number: " + item_number);
 			       	//get item name
 			       	String name = rs.getString("name");
-			       	itemsList[counter][1] = name;
+			    	itemList.add(name);
 			       	System.out.println("Name: " + name);
 			       	//get item type
 			       	String item_type = rs.getString("item_type");
-		        	itemsList[counter][2] = item_type;
+			    	itemList.add(item_type);
 		        	System.out.println("Item Type: " + item_type);
 			       	//get quantity
 		        	String quantity = "";
-		        	itemsList[counter][3] = quantity;
+		        	itemList.add("");
 			       	//get unit price
 		        	String unit_price = rs.getString("unit_price");
-		        	itemsList[counter][4] = unit_price;
+		        	itemList.add(unit_price);
 		        	System.out.println("Unit Price: " + unit_price);
 		           	//get price
 		        	String unit = rs.getString("unit");
-		        	itemsList[counter][5] = unit;
+		        	itemList.add(unit);
 		        	System.out.println("Unit: " + unit);
 		        	//get price
 		        	String total = "";
-		        	itemsList[counter][6] = total;
+		        	itemList.add(total);
 		        	System.out.println("Total: " + total);
-		        	counter++;
-		     	}
+			        inventory.add(itemList);
+			     }
+			 rs.close();
 		    	 
 		    	 
 			}
@@ -310,8 +310,21 @@ public class database {
 		
 		}
 		
+		for (int i = 0; i< inventory.size(); i++){
+			System.out.println(inventory.get(i));
+			
+		}
 		
-		return itemsList;
+		Object [] [] inventoryArray =  new Object [inventory.size()] [];
+		
+		for (int i = 0; i< inventory.size(); i++){
+			ArrayList <String> row =  inventory.get(i);
+			inventoryArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return inventoryArray;
+		
 	}
 	
 	public Object[][] getSupplierInventory(int id)
