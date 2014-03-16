@@ -1,6 +1,7 @@
 package FoodLink.gui;
 
 import java.awt.EventQueue;
+
 import FoodLink.gui.*;
 
 import javax.swing.JFrame;
@@ -120,8 +121,10 @@ public class Login extends JFrame {
 						// login supplier
 						if (supplier) {
 							try {
+
 								SupplierSys window = new SupplierSys(
 										(Integer) credentials[1]);
+
 								window.frame.setVisible(true);
 								close();
 							} catch (Exception e1) {
@@ -131,7 +134,8 @@ public class Login extends JFrame {
 						// login store user
 						else {
 							try {
-								SupermarketSys window = new SupermarketSys();
+								SupermarketSys window = new SupermarketSys(
+										(Integer) credentials[1]);
 								window.frame.setVisible(true);
 								close();
 							} catch (Exception e1) {
