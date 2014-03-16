@@ -263,7 +263,7 @@ public class database {
 	public Object [][] getItemListForSupplier(int id)
 	{
 		String command = "select item_number, name, item_type, unit_price, unit from items where supplier_id = " + id;
-		Object [][] itemsList = new String [25][6];
+		Object [][] itemsList = new String [25][7];
 		
 		try {
 		     statement.execute(command);
@@ -294,6 +294,10 @@ public class database {
 		        	String unit = rs.getString("unit");
 		        	itemsList[counter][5] = unit;
 		        	System.out.println("Unit: " + unit);
+		        	//get price
+		        	String total = "";
+		        	itemsList[counter][6] = total;
+		        	System.out.println("Total: " + total);
 		        	counter++;
 		     	}
 		    	 

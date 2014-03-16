@@ -23,10 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
-<<<<<<< HEAD
 
-=======
->>>>>>> foodlink3
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
@@ -48,12 +45,9 @@ public class SupermarketSys {
 	private JComboBox comboBox;
 	DefaultListModel orderListModel;
 	private Object[][] itemsList;
-<<<<<<< HEAD
-	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
-			"Quantity", "Price", "Total" };
-=======
+
 	private String[] itemsColumnNames = {"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
->>>>>>> foodlink3
+
 	DefaultTableModel itemsListModel;
 
 	private database connect = new database();
@@ -241,7 +235,7 @@ public class SupermarketSys {
 				newOrder.add(comboBox, gbc_comboBox);
 
 				ActionListener actionListener = new ActionListener() {
-<<<<<<< HEAD
+
 					public void actionPerformed(ActionEvent actionEvent) {
 						System.out.println("SUPPLIER INDEX: "
 								+ comboBox.getSelectedIndex());
@@ -250,15 +244,15 @@ public class SupermarketSys {
 						itemsListModel = new DefaultTableModel(itemsList,
 								itemsColumnNames) {
 							Class[] columnTypes = new Class[] { String.class,
-									String.class, String.class, String.class,
-									String.class, String.class };
+									String.class, String.class, BigDecimal.class,
+									String.class, String.class, BigDecimal.class };
 
 							public Class getColumnClass(int columnIndex) {
 								return columnTypes[columnIndex];
 							}
 
 							boolean[] columnEditables = new boolean[] { false,
-									false, false, true, false, false };
+									false, false, true, false, false, false };
 
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];
@@ -266,29 +260,8 @@ public class SupermarketSys {
 						};
 						table_4.setModel(itemsListModel);
 					}
-=======
-					 public void actionPerformed(ActionEvent actionEvent)
-					 {
-						 System.out.println("SUPPLIER INDEX: " + comboBox.getSelectedIndex());
-						 itemsList = connect.getItemListForSupplier(comboBox.getSelectedIndex());	
-						 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
-								Class[] columnTypes = new Class[] {
-										String.class, String.class, String.class, BigDecimal.class, String.class, String.class, BigDecimal.class
-									};
-									public Class getColumnClass(int columnIndex) {
-										return columnTypes[columnIndex];
-									}
-									boolean[] columnEditables = new boolean[] {
-										false, false, false, true, false, false, false
-									};
-									public boolean isCellEditable(int row, int column) {
-										return columnEditables[column];
-									}
-								};
-						 table_4.setModel(itemsListModel);
-					 }
->>>>>>> foodlink3
 				};
+
 				comboBox.addActionListener(actionListener);
 
 				JScrollPane scrollPane_1 = new JScrollPane();
@@ -299,52 +272,20 @@ public class SupermarketSys {
 				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 				gbc_scrollPane_1.gridx = 0;
 				gbc_scrollPane_1.gridy = 1;
-<<<<<<< HEAD
+
 				newOrder.add(scrollPane_1, gbc_scrollPane_1);
 
 				itemsListModel = new DefaultTableModel(itemsList,
-						itemsColumnNames) {
-					Class[] columnTypes = new Class[] { String.class,
-							String.class, String.class, String.class,
-							String.class, String.class };
+						itemsColumnNames);
 
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
+				table_4 = new JTable(new DefaultTableModel());
 
-					boolean[] columnEditables = new boolean[] { false, false,
-							false, true, false, false };
 
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				};
-
-				table_4 = new JTable(new DefaultTableModel() {
-					Class[] columnTypes = new Class[] { Object.class,
-							Object.class, Object.class, Float.class,
-							Object.class, Float.class };
-
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
-
-					boolean[] columnEditables = new boolean[] { false, false,
-							false, true, false, false };
-
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				});
-
-=======
 				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
 				
 				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
 				
 				table_4 = new JTable(new DefaultTableModel());
-				
->>>>>>> foodlink3
 				table_4.setRowSelectionAllowed(false);
 				scrollPane_1.setViewportView(table_4);
 
