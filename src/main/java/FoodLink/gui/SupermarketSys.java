@@ -565,7 +565,7 @@ public class SupermarketSys {
 				
 				if(item!=null)	
 					{connect.addItem(item, supermarket_id);
-					Object [] [] data2 = connect.getInventory(supplier_id);
+					Object [] [] data2 = connect.getInventory(supermarket_id);
 					table = new JTable(data2, columnNames);
 					scrollPane.setViewportView(table);}
 			}
