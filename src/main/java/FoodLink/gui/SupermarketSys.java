@@ -312,7 +312,7 @@ public class SupermarketSys {
 						int index = mainTabbedPane.indexOfTab("NEW ORDER");
 
 						if (index >= 0 && n == 0) {
-							mainTabbedPane.removeTabAt(index);
+							mainTabbedPane.remove(newOrder);
 						}
 					}
 				});
@@ -348,9 +348,20 @@ public class SupermarketSys {
 				gbc_btnNewButton_3.gridy = 11;
 				newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
 				btnNewButton_3.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						mainTabbedPane.remove(newOrder);
-					};
+					public void actionPerformed(ActionEvent arg0) {
+
+						int n = JOptionPane.showConfirmDialog(frame,
+								"Are you sure you want to submit order?",
+								"Cancel Order", JOptionPane.YES_NO_OPTION);
+
+						System.out.println("ANSWER: " + n);
+
+						int index = mainTabbedPane.indexOfTab("NEW ORDER");
+
+						if (index >= 0 && n == 0) {
+							mainTabbedPane.remove(newOrder);
+						}
+					}
 				});
 			}
 		});
