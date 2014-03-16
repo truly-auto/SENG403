@@ -23,8 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
-
-
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
@@ -33,6 +31,7 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
+import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 
@@ -45,7 +44,7 @@ public class SupermarketSys {
 	private JComboBox comboBox;
 	DefaultListModel orderListModel;
 	private Object[][] itemsList;
-	private String[] itemsColumnNames = {"Item Number", "Name", "Item Type", "Quantity", "Price", "Total"};
+	private String[] itemsColumnNames = {"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
 	DefaultTableModel itemsListModel;
 
 	private database connect = new database ();
@@ -137,10 +136,10 @@ public class SupermarketSys {
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
 		gbl_orderTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_orderTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, Double.MIN_VALUE };
-		gbl_orderTab.rowWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0, 1.0,
+		gbl_orderTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0,
 				1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		orderTab.setLayout(gbl_orderTab);
 
@@ -151,11 +150,20 @@ public class SupermarketSys {
 				{ "012345", "500.99", "03/10/2014", "Submitted" },
 				{ "123456", "567.33", "02/28/2014", "Shipped" },
 				{ "234567", "730.98", "02/16/2014", "Completed" } };
+		
+				JLabel lblNewLabel = new JLabel("Order Status");
+				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+				gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewLabel.gridx = 0;
+				gbc_lblNewLabel.gridy = 1;
+				orderTab.add(lblNewLabel, gbc_lblNewLabel);
 
 		JScrollPane scrollPane1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
+		gbc_scrollPane1.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane1.gridwidth = 2;
-		gbc_scrollPane1.gridheight = 6;
+		gbc_scrollPane1.gridheight = 7;
 		gbc_scrollPane1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane1.gridx = 0;
 		gbc_scrollPane1.gridy = 2;
@@ -226,13 +234,13 @@ public class SupermarketSys {
 						 itemsList = connect.getItemListForSupplier(comboBox.getSelectedIndex());	
 						 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
 								Class[] columnTypes = new Class[] {
-										String.class, String.class, String.class, String.class, String.class, String.class
+										String.class, String.class, String.class, BigDecimal.class, String.class, String.class, BigDecimal.class
 									};
 									public Class getColumnClass(int columnIndex) {
 										return columnTypes[columnIndex];
 									}
 									boolean[] columnEditables = new boolean[] {
-										false, false, false, true, false, false
+										false, false, false, true, false, false, false
 									};
 									public boolean isCellEditable(int row, int column) {
 										return columnEditables[column];
@@ -254,35 +262,9 @@ public class SupermarketSys {
 				gbc_scrollPane_1.gridy = 1;
 				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
 				
-				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
-					Class[] columnTypes = new Class[] {
-							String.class, String.class, String.class, String.class, String.class, String.class
-						};
-						public Class getColumnClass(int columnIndex) {
-							return columnTypes[columnIndex];
-						}
-						boolean[] columnEditables = new boolean[] {
-							false, false, false, true, false, false
-						};
-						public boolean isCellEditable(int row, int column) {
-							return columnEditables[column];
-						}
-					};
+				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
 				
-				table_4 = new JTable(new DefaultTableModel(){
-					Class[] columnTypes = new Class[] {
-							Object.class, Object.class, Object.class, Float.class, Object.class, Float.class
-						};
-						public Class getColumnClass(int columnIndex) {
-							return columnTypes[columnIndex];
-						}
-						boolean[] columnEditables = new boolean[] {
-							false, false, false, true, false, false
-						};
-						public boolean isCellEditable(int row, int column) {
-							return columnEditables[column];
-						}
-					});
+				table_4 = new JTable(new DefaultTableModel());
 				
 				table_4.setRowSelectionAllowed(false);
 				scrollPane_1.setViewportView(table_4);
@@ -357,22 +339,15 @@ public class SupermarketSys {
 		gbc_btnNewButton_2.gridy = 0;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 
-		JLabel lblNewLabel = new JLabel("Order Status");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 2;
-		orderTab.add(lblNewLabel, gbc_lblNewLabel);
-
 		JList list = new JList();
 		GridBagConstraints gbc_list = new GridBagConstraints();
+		gbc_list.insets = new Insets(0, 0, 5, 5);
 		gbc_list.anchor = GridBagConstraints.NORTH;
 		gbc_list.gridheight = 4;
 		gbc_list.gridwidth = 5;
 		gbc_list.fill = GridBagConstraints.HORIZONTAL;
 		gbc_list.gridx = 0;
-		gbc_list.gridy = 5;
+		gbc_list.gridy = 6;
 		orderTab.add(list, gbc_list);
 
 		String[] columnNames = { "Item name", "Quantity", "Barcode" };
