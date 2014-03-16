@@ -428,15 +428,7 @@ public class SupermarketSys {
 		gbl_supermarketTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		supermarketTab.setLayout(gbl_supermarketTab);
 		
-		final String[] supplierTableColumnNames = {"Item Number", "Item name", "Type", "Quantity", "Price"};//"Unit Price ($)", "Units"};
-		
-		//this one will access data from the the database but will cause the code not to work in design mode
-		//use this one when testing
-		//final Object[][] supplierItemsData = connect.getInventory(supplier_id);
-		
-		//use this one when building
-		//final Object [][] supplierItemsData = {{"1","papples", "fruits", "5000", "2000", "lb"}, {"2","apples", "fruits", "5000", "2000", "lb"}, {"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
-		
+		final String[] supplierTableColumnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Units"};
 		String [] supplierNames = connect.getSupplierNames();
 		
 		supplierSelector = new JComboBox();
@@ -454,7 +446,7 @@ public class SupermarketSys {
 				 System.out.println("SUPPLIER INDEX: " + (supplierSelector.getSelectedIndex() + 1));
 				 //itemsList = connect.getItemListForSupplier(supplierSelector.getSelectedIndex());
 				 itemsList = connect.getSupplierInventory(supplierSelector.getSelectedIndex()+1);
-				 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
+				 itemsListModel = new DefaultTableModel(itemsList, supplierTableColumnNames){
 						Class[] columnTypes = new Class[] {
 								String.class, String.class, String.class, String.class, String.class, String.class
 							};
@@ -462,7 +454,7 @@ public class SupermarketSys {
 								return columnTypes[columnIndex];
 							}
 							boolean[] columnEditables = new boolean[] {
-								false, false, false, false, false, false, false
+								false, false, false, false, false, false
 							};
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];

@@ -342,9 +342,14 @@ public class database {
 		        	String quantity = rs.getString("quantity");
 		        	tempItems.add(quantity);
 			       	//get price
-		        	String price = rs.getString("price");
-		        	tempItems.add(price);
-		        	System.out.println("Price: " + price);
+		        	String unit_price = rs.getString("unit_price");
+		        	tempItems.add(unit_price);
+		        	System.out.println("Unit Price: " + unit_price);
+		           	//get price
+		        	String unit = rs.getString("unit");
+		        	tempItems.add(unit);
+		        	System.out.println("Unit: " + unit);
+		        	
 		        	itemsList.add(tempItems.toArray());
 		     	}
 		    	 
@@ -366,7 +371,6 @@ public class database {
 			}
 		
 		}
-		
 		
 		return returnArray;
 	}
