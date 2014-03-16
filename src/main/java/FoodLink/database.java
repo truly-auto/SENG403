@@ -126,7 +126,7 @@ public class database {
 		        System.out.println(quantity);
 		        currentItem.add(Integer.toString(quantity));  
 		     	
-		        String price = rs.getString("price");
+		        String price = rs.getString("unit_price");
 		        System.out.println(price);
 		        currentItem.add(price);  
 		     
@@ -262,8 +262,8 @@ public class database {
 	
 	public Object [][] getItemListForSupplier(int id)
 	{
-		String command = "select item_number, name, item_type, price from items where supplier_id = " + id;
-		Object [][] itemsList = new String [25][5];
+		String command = "select item_number, name, item_type, unit_price, unit from items where supplier_id = " + id;
+		Object [][] itemsList = new String [25][7];
 		
 		try {
 		     statement.execute(command);
@@ -284,12 +284,20 @@ public class database {
 		        	itemsList[counter][2] = item_type;
 		        	System.out.println("Item Type: " + item_type);
 			       	//get quantity
-		        	String quantity = "0";
+		        	String quantity = "";
 		        	itemsList[counter][3] = quantity;
-			       	//get price
-		        	String price = rs.getString("price");
-		        	itemsList[counter][4] = price;
-		        	System.out.println("Price: " + price);
+			       	//get unit price
+		        	String unit_price = rs.getString("unit_price");
+		        	itemsList[counter][4] = unit_price;
+		        	System.out.println("Unit Price: " + unit_price);
+		           	//get price
+		        	String unit = rs.getString("unit");
+		        	itemsList[counter][5] = unit;
+		        	System.out.println("Unit: " + unit);
+		        	//get price
+		        	String total = "";
+		        	itemsList[counter][6] = total;
+		        	System.out.println("Total: " + total);
 		        	counter++;
 		     	}
 		    	 
@@ -385,7 +393,7 @@ public class database {
 
 	public void modifyItem(String[] item, int itemNum) {
 	
-		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", price = '"+ item[3]+ "' "
+		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = '"+ item[3]+ "' + unit = '" +item[4]+"' "
 				+ "WHERE item_number="+  itemNum;
 		try {
 		     statement.execute(command);
