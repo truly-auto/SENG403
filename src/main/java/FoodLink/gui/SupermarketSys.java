@@ -23,7 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
-
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
@@ -35,6 +34,8 @@ import java.awt.Color;
 
 import javax.swing.JTextField;
 
+import java.awt.GridLayout;
+
 public class SupermarketSys {
 
 	public JFrame frame;
@@ -42,6 +43,7 @@ public class SupermarketSys {
 	private JTable table1;
 	private JTable table;
 	private JComboBox comboBox;
+	private JComboBox supplierSelector;
 	DefaultListModel orderListModel;
 	private Object[][] itemsList;
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
@@ -53,6 +55,7 @@ public class SupermarketSys {
 	private JTable table_4;
 	private JTextField textField;
 	private int tabNumber = 0;
+	private JTable inventoryTable;
 
 	/**
 	 * Launch the application.
@@ -430,11 +433,75 @@ public class SupermarketSys {
 		table = new JTable(data, columnNames);
 		scrollPane.setViewportView(table);
 
-		JPanel supermarketTab = new JPanel();
-		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
-
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
+		
+		JPanel supermarketTab = new JPanel();
+		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
+		GridBagLayout gbl_supermarketTab = new GridBagLayout();
+		gbl_supermarketTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_supermarketTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_supermarketTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_supermarketTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		supermarketTab.setLayout(gbl_supermarketTab);
+		
+		final String[] supplierTableColumnNames = {"Item Number", "Item name", "Type", "Quantity", "Price"};//"Unit Price ($)", "Units"};
+		
+		//this one will access data from the the database but will cause the code not to work in design mode
+		//use this one when testing
+		//final Object[][] supplierItemsData = connect.getInventory(supplier_id);
+		
+		//use this one when building
+		//final Object [][] supplierItemsData = {{"1","papples", "fruits", "5000", "2000", "lb"}, {"2","apples", "fruits", "5000", "2000", "lb"}, {"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		
+		String [] supplierNames = connect.getSupplierNames();
+		
+		supplierSelector = new JComboBox();
+		supplierSelector.setModel(new DefaultComboBoxModel(supplierNames));
+		GridBagConstraints gbc_supplierSelector = new GridBagConstraints();
+		gbc_supplierSelector.insets = new Insets(0, 0, 5, 5);
+		gbc_supplierSelector.fill = GridBagConstraints.HORIZONTAL;
+		gbc_supplierSelector.gridx = 0;
+		gbc_supplierSelector.gridy = 0;
+		supermarketTab.add(supplierSelector, gbc_supplierSelector);
+		
+		ActionListener actionListener = new ActionListener() {
+			 public void actionPerformed(ActionEvent actionEvent)
+			 {
+				 System.out.println("SUPPLIER INDEX: " + (supplierSelector.getSelectedIndex() + 1));
+				 //itemsList = connect.getItemListForSupplier(supplierSelector.getSelectedIndex());
+				 itemsList = connect.getSupplierInventory(supplierSelector.getSelectedIndex()+1);
+				 itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames){
+						Class[] columnTypes = new Class[] {
+								String.class, String.class, String.class, String.class, String.class, String.class
+							};
+							public Class getColumnClass(int columnIndex) {
+								return columnTypes[columnIndex];
+							}
+							boolean[] columnEditables = new boolean[] {
+								false, false, false, false, false, false, false
+							};
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						};
+				 inventoryTable.setModel(itemsListModel);
+			 }
+		};
+		supplierSelector.addActionListener(actionListener);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.gridheight = 5;
+		gbc_scrollPane_1.gridwidth = 7;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 0;
+		gbc_scrollPane_1.gridy = 2;
+		supermarketTab.add(scrollPane_1, gbc_scrollPane_1);
+			
+		inventoryTable = new JTable();
+		scrollPane_1.setViewportView(inventoryTable);
 
 		// CODES FOR NEW ORDER PAGE
 

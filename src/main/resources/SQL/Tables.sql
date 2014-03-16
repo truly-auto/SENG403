@@ -34,7 +34,19 @@ CREATE TABLE items (
   PRIMARY KEY (item_number),
   FOREIGN KEY (supplier_id) references Supplier(supplier_id)
 	);
-  
+
+--Create Items table 
+CREATE TABLE supermarket_inventory (
+  inventory_number int NOT NULL generated always as identity,
+  name varchar(32),
+  inventory_type varchar(32),
+  supermarket_id int,
+  quantity int,
+  unit_price double,
+  units varchar(255),
+  PRIMARY KEY (inventory_number),
+  FOREIGN KEY (supermarket_id) references Supermarket(store_id)
+);
   
 --Create Users tables
 CREATE TABLE store_users (

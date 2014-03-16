@@ -306,6 +306,63 @@ public class database {
 		return itemsList;
 	}
 	
+	public Object[][] getSupplierInventory(int id)
+	{
+		String command = "select * from items where supplier_id = " + id;
+		ArrayList<Object []> itemsList = new ArrayList<Object []>() ;
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+		    	 	ArrayList<String> tempItems = new ArrayList<String>();
+			        //get item number
+			       	String item_number = rs.getString("item_number");
+			       	tempItems.add(item_number);
+			       	System.out.println("Item number: " + item_number);
+			       	//get item name
+			       	String name = rs.getString("name");
+			       	tempItems.add(name);
+			       	System.out.println("Name: " + name);
+			       	//get item type
+			       	String item_type = rs.getString("item_type");
+			       	tempItems.add(item_type);
+		        	System.out.println("Item Type: " + item_type);
+			       	//get quantity
+		        	String quantity = rs.getString("quantity");
+		        	tempItems.add(quantity);
+			       	//get price
+		        	String price = rs.getString("price");
+		        	tempItems.add(price);
+		        	System.out.println("Price: " + price);
+		        	itemsList.add(tempItems.toArray());
+		     	}
+		    	 
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+		
+		Object[][] returnArray = new Object[0][0];
+		if (itemsList.size() > 0) {
+			returnArray = new Object[itemsList.size()] [itemsList.get(0).length];
+			
+			for (int i = 0; i < itemsList.size(); i++) {
+				returnArray[i] = itemsList.get(i);
+			}
+		
+		}
+		
+		
+		return returnArray;
+	}
+	
 	
 	
 	
