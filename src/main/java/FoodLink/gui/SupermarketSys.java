@@ -184,9 +184,10 @@ public class SupermarketSys {
 
 		scrollPane1.setViewportView(table1);
 
-		JButton btnNewButton_1 = new JButton("Create Order");
+		final JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnNewButton_1.setEnabled(false);
 				// When Create Order button is clicked the following codes will
 				// execute
 
@@ -307,7 +308,9 @@ public class SupermarketSys {
 
 						if (index >= 0 && n == 0) {
 							mainTabbedPane.remove(newOrder);
+							btnNewButton_1.setEnabled(true);
 						}
+						
 					}
 				});
 
@@ -354,6 +357,7 @@ public class SupermarketSys {
 
 						if (index >= 0 && n == 0) {
 							mainTabbedPane.remove(newOrder);
+							btnNewButton_1.setEnabled(true);
 						}
 					}
 				});
