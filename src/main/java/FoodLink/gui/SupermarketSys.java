@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -65,7 +66,9 @@ public class SupermarketSys {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SupermarketSys window = new SupermarketSys(2);
+					// hard code parameter to swicth suppliers here (1-5) same
+					// as SupplierSys
+					SupermarketSys window = new SupermarketSys(1);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,7 +87,7 @@ public class SupermarketSys {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(int supermarket_id) {
+	private void initialize(final int supermarket_id) {
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
@@ -391,7 +394,7 @@ public class SupermarketSys {
 		gbc_list.gridy = 6;
 		orderTab.add(list, gbc_list);
 
-		String[] columnNames = { "Item name", "Quantity", "Barcode" };
+		final String[] columnNames = { "Item name", "Quantity", "Barcode" };
 
 		Object[][] data = { { "Banana", "1020", "1234567890" },
 				{ "Apple", "1122", "0987654321" } };
@@ -400,21 +403,16 @@ public class SupermarketSys {
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
 		gbl_inventoryTab.columnWidths = new int[] { 0, 0 };
-		gbl_inventoryTab.rowHeights = new int[] { 0, 0, 0 };
-		gbl_inventoryTab.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_inventoryTab.rowHeights = new int[] { 0, 0, 30, 0 };
+		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0,
+				Double.MIN_VALUE };
 		gbl_inventoryTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		inventoryTab.setLayout(gbl_inventoryTab);
 
-		JButton btnAutomatedOrdering = new JButton("Automated Ordering");
-		GridBagConstraints gbc_btnAutomatedOrdering = new GridBagConstraints();
-		gbc_btnAutomatedOrdering.anchor = GridBagConstraints.WEST;
-		gbc_btnAutomatedOrdering.insets = new Insets(0, 0, 5, 0);
-		gbc_btnAutomatedOrdering.gridx = 0;
-		gbc_btnAutomatedOrdering.gridy = 0;
-		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
-
-		JScrollPane scrollPane = new JScrollPane();
+		final JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
@@ -423,8 +421,132 @@ public class SupermarketSys {
 		table = new JTable(data, columnNames);
 		scrollPane.setViewportView(table);
 
+		JButton btnAutomatedOrdering = new JButton("Automated Ordering");
+		GridBagConstraints gbc_btnAutomatedOrdering = new GridBagConstraints();
+		gbc_btnAutomatedOrdering.anchor = GridBagConstraints.WEST;
+		gbc_btnAutomatedOrdering.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAutomatedOrdering.gridx = 0;
+		gbc_btnAutomatedOrdering.gridy = 0;
+		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
+
+		JButton newInventoryItem = new JButton("New Item");
+		newInventoryItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String[] item = null;
+				try {
+					AddItem window = new AddItem();
+					window.setModalityType(ModalityType.APPLICATION_MODAL);
+					window.setVisible(true);
+
+					item = window.getResult();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+				if (item != null) {
+					connect.addItem(item, supermarket_id);
+					Object[][] data2 = connect.getInventory(supermarket_id);
+					table = new JTable(data2, columnNames);
+					scrollPane.setViewportView(table);
+				}
+			}
+		});
+		GridBagConstraints gbc_newInventoryItem = new GridBagConstraints();
+		gbc_newInventoryItem.insets = new Insets(0, 0, 5, 5);
+		gbc_newInventoryItem.gridx = 1;
+		gbc_newInventoryItem.gridy = 0;
+		inventoryTab.add(newInventoryItem, gbc_newInventoryItem);
+
+		JButton saveChanges = new JButton("Save Current Row");
+		GridBagConstraints gbc_saveChanges = new GridBagConstraints();
+		gbc_saveChanges.insets = new Insets(0, 0, 5, 5);
+		gbc_saveChanges.gridx = 2;
+		gbc_saveChanges.gridy = 0;
+		inventoryTab.add(saveChanges, gbc_saveChanges);
+
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
+
+		JPanel supermarketTab = new JPanel();
+		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
+		GridBagLayout gbl_supermarketTab = new GridBagLayout();
+		gbl_supermarketTab.columnWidths = new int[] { 0, 30, 30, 30, 30, 30,
+				30, 0 };
+		gbl_supermarketTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_supermarketTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_supermarketTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0,
+				0.0, 1.0, Double.MIN_VALUE };
+		supermarketTab.setLayout(gbl_supermarketTab);
+
+		final String[] supplierTableColumnNames = { "Item Number", "Item name",
+				"Type", "Quantity", "Price" };// "Unit Price ($)", "Units"};
+
+		// this one will access data from the the database but will cause the
+		// code not to work in design mode
+		// use this one when testing
+		// final Object[][] supplierItemsData =
+		// connect.getInventory(supplier_id);
+
+		// use this one when building
+		// final Object [][] supplierItemsData = {{"1","papples", "fruits",
+		// "5000", "2000", "lb"}, {"2","apples", "fruits", "5000", "2000",
+		// "lb"}, {"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears",
+		// "fruits", "5000", "2000", "lb"} };
+
+		String[] supplierNames = connect.getSupplierNames();
+
+		supplierSelector = new JComboBox();
+		supplierSelector.setModel(new DefaultComboBoxModel(supplierNames));
+		GridBagConstraints gbc_supplierSelector = new GridBagConstraints();
+		gbc_supplierSelector.insets = new Insets(0, 0, 5, 5);
+		gbc_supplierSelector.fill = GridBagConstraints.HORIZONTAL;
+		gbc_supplierSelector.gridx = 0;
+		gbc_supplierSelector.gridy = 0;
+		supermarketTab.add(supplierSelector, gbc_supplierSelector);
+
+		ActionListener actionListener = new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				System.out.println("SUPPLIER INDEX: "
+						+ (supplierSelector.getSelectedIndex() + 1));
+				// itemsList =
+				// connect.getItemListForSupplier(supplierSelector.getSelectedIndex());
+				itemsList = connect.getSupplierInventory(supplierSelector
+						.getSelectedIndex() + 1);
+				itemsListModel = new DefaultTableModel(itemsList,
+						supplierTableColumnNames) {
+					Class[] columnTypes = new Class[] { String.class,
+							String.class, String.class, String.class,
+							String.class, String.class };
+
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+
+					boolean[] columnEditables = new boolean[] { false, false,
+							false, false, false, false };
+
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				};
+				inventoryTable.setModel(itemsListModel);
+			}
+		};
+		supplierSelector.addActionListener(actionListener);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.gridheight = 5;
+		gbc_scrollPane_1.gridwidth = 7;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 0;
+		gbc_scrollPane_1.gridy = 2;
+		supermarketTab.add(scrollPane_1, gbc_scrollPane_1);
+
+		inventoryTable = new JTable();
+		scrollPane_1.setViewportView(inventoryTable);
 
 		// CODES FOR NEW ORDER PAGE
 
