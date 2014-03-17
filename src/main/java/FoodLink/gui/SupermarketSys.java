@@ -399,7 +399,7 @@ public class SupermarketSys {
 		gbc_list.gridy = 6;
 		orderTab.add(list, gbc_list);
 
-		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)"};
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
@@ -480,7 +480,7 @@ public class SupermarketSys {
 				if (selectedRow!=null){
 					System.out.println("About to save changes to this row " + selectedRow);
 					System.out.println("Is this the anser?? " + table.getValueAt(row, 1));
-					String [] item={(String) table.getValueAt(row, 1),(String) table.getValueAt(row, 2), (String) table.getValueAt(row, 3), (String) table.getValueAt(row, 4), ""};
+					String [] item={(String) table.getValueAt(row, 1),(String) table.getValueAt(row, 2), (String) table.getValueAt(row, 3), (String) table.getValueAt(row, 4), (String) table.getValueAt(row, 5)};
 	
 					
 					if(item!=null) {
