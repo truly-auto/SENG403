@@ -191,8 +191,9 @@ private JTable table_2;
 		inventoryTab.setLayout(gbl_inventoryTab);
 		
 		
-		
-		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price", "Units"};
+	
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Units"};
+
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
