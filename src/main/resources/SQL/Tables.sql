@@ -30,11 +30,7 @@ CREATE TABLE items (
   item_type varchar(32),
   supplier_id int,
   quantity int,
-<<<<<<< HEAD
   unit_price double,
-=======
-  unit_price decimal,
->>>>>>> 2b64e4a607c056f285113f6e173ff66315d5c800
   unit varchar(32),
   PRIMARY KEY (item_number),
   FOREIGN KEY (supplier_id) references Supplier(supplier_id)
@@ -47,13 +43,9 @@ CREATE TABLE supermarket_inventory (
   inventory_type varchar(32),
   supermarket_id int,
   quantity int,
-<<<<<<< HEAD
   unit_price double,
   units varchar(255),
-=======
-  unit_price decimal,
   unit varchar(32),
->>>>>>> 2b64e4a607c056f285113f6e173ff66315d5c800
   PRIMARY KEY (inventory_number),
   FOREIGN KEY (supermarket_id) references Supermarket(store_id)
 );
@@ -63,6 +55,7 @@ CREATE TABLE store_users (
 	username varchar (32) not null,
 	password varchar (32) not null, 
 	store_id int, 
+	manager varchar (32),
 	PRIMARY KEY (username),
 	FOREIGN KEY (store_id) REFERENCES Supermarket(store_id)
 	);
@@ -71,6 +64,7 @@ CREATE TABLE supplier_users (
 	username varchar (32) not null,
 	password varchar (32) not null, 
 	supplier_id int, 
+	manager varchar (32),
 	PRIMARY KEY (username),
 	FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
 	);
@@ -126,14 +120,14 @@ INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Quadruple Chocolate Cake','Bakery',1, 1780, 14, '20LBS');
 
 --adding some default users	
-INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID)
-VALUES ('John_Doe','password',1);	
+INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
+VALUES ('John_Doe','password',1, 'true');	
 
-INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID)
-VALUES ('Josh_Doe','password',2);
+INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
+VALUES ('Josh_Doe','password',2, 'false');
 
-INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID)
-VALUES ('Jane_Doe','password',1);	
+INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID, MANAGER)
+VALUES ('Jane_Doe','password',1, 'true');	
 
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,UNIT_PRICE, UNIT)

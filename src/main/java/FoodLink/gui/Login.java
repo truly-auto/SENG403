@@ -123,7 +123,7 @@ public class Login extends JFrame {
 							try {
 
 								SupplierSys window = new SupplierSys(
-										(Integer) credentials[1]);
+										(Integer) credentials[1], Boolean.valueOf((String)credentials[2]));
 
 								window.frame.setVisible(true);
 								close();

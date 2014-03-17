@@ -44,7 +44,7 @@ public class SupplierSys {
 	private database connect = new database ();
 	private String selectedRow= null;
 	private int row;
-	private boolean manager = true;
+	
 
 private JTable table_1;
 private JTable table_2;
@@ -57,7 +57,7 @@ private JTable table_2;
 			public void run() {
 				try {
 					//hard code parameter to swicth suppliers here (1-5)
-					SupplierSys window = new SupplierSys(1);
+					SupplierSys window = new SupplierSys(1, true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,15 +69,15 @@ private JTable table_2;
 	/**
 	 * Create the application.
 	 */
-	public SupplierSys(int supplier_id) {
+	public SupplierSys(int supplier_id, boolean manager) {
 		
-		initialize(supplier_id);
+		initialize(supplier_id, manager);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final int supplier_id) {
+	private void initialize(final int supplier_id, boolean manager) {
 		
 		String [] supplier = connect.getSpecSupplier(supplier_id);
 		System.out.println("this is .." + supplier_id);

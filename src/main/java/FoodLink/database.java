@@ -500,7 +500,7 @@ public class database {
 		else{
 			command = "select * from store_users where username = '" +username+"'";
 		}
-		Object [] user = new Object [2]; 
+		Object [] user = new Object [3]; 
 		
 		//===
 		try {
@@ -512,7 +512,10 @@ public class database {
 		        String password = rs.getString("password");
 		        System.out.println(password);
 		        user[0]=password;  
-		     	if(supplier){
+		     	
+		        String manager = rs.getString("manager");
+		        user[2]=manager;
+		        if(supplier){
 			        int sup_id = rs.getInt("supplier_id");
 			        System.out.println(sup_id);
 			        user[1]=sup_id;  }
