@@ -66,15 +66,15 @@ CREATE TABLE supplier_users (
 	FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
 	);
 	
---Create Supermarket table
-CREATE TABLE Order_history
-(
-	invoice_number int,
-	total_cost int,
-	created_date varchar(255),
-	status varchar(255)
-);
---adding sample data
+--Create Order table
+CREATE TABLE order_history(
+	invoice_number int NOT NULL generated always as identity,
+	total_cost decimal,
+	date_time_created timestamp,
+	status varchar(32),
+	PRIMARY KEY (invoice_number)
+	);
+
 
 	
 --adding some sample stores
@@ -151,4 +151,5 @@ VALUES ('Onion','Vegetable',2, 3000, 7.50, '20LBS');
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Spinach','Vegetable',2, 2000, 8, '20LBS');
 
-
+INSERT INTO ORDER_HISTORY (TOTAL_COST, DATE_TIME_CREATED, STATUS)
+VALUES (500.50, CURRENT_TIMESTAMP, 'Submitted');
