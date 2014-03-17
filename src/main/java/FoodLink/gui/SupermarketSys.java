@@ -198,6 +198,7 @@ public class SupermarketSys {
 		final JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnNewButton_1.setEnabled(false);
 				// When Create Order button is clicked the following codes will
 				// execute
 
@@ -321,6 +322,7 @@ public class SupermarketSys {
 							mainTabbedPane.remove(newOrder);
 							btnNewButton_1.setEnabled(true);
 						}
+						
 					}
 				});
 
