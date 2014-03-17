@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
 public class database {
 	private String dbURL = "jdbc:derby:derbyDB;";
     private String sqlDir = "src/main/resources/SQL/";
@@ -126,9 +127,13 @@ public class database {
 		        System.out.println(quantity);
 		        currentItem.add(Integer.toString(quantity));  
 		     	
-		        String price = rs.getString("price");
+		        String price = rs.getString("unit_price");
 		        System.out.println(price);
 		        currentItem.add(price);  
+		        
+		        String units = rs.getString("unit");
+		        System.out.println(units);
+		        currentItem.add(units);  
 		     
 		        inventory.add(currentItem);
 		     	}
@@ -262,36 +267,44 @@ public class database {
 	
 	public Object [][] getItemListForSupplier(int id)
 	{
-		String command = "select item_number, name, item_type, price from items where supplier_id = " + id;
-		Object [][] itemsList = new String [25][5];
-		
+		String command = "select item_number, name, item_type, unit_price, unit from items where supplier_id = " + id;
+		ArrayList<ArrayList<String>> inventory = new ArrayList<ArrayList<String>>();
 		try {
 		     statement.execute(command);
 		     ResultSet rs = statement.getResultSet();
-		     int counter = 0;
 		     while(rs.next())
 		     	{
+		    	 	ArrayList <String> itemList = new ArrayList <String> ();
 			        //get item number
 			       	String item_number = rs.getString("item_number");
-			       	itemsList[counter][0] = item_number;
+			       	itemList.add(item_number);
 			       	System.out.println("Item number: " + item_number);
 			       	//get item name
 			       	String name = rs.getString("name");
-			       	itemsList[counter][1] = name;
+			    	itemList.add(name);
 			       	System.out.println("Name: " + name);
 			       	//get item type
 			       	String item_type = rs.getString("item_type");
-		        	itemsList[counter][2] = item_type;
+			    	itemList.add(item_type);
 		        	System.out.println("Item Type: " + item_type);
 			       	//get quantity
-		        	String quantity = "0";
-		        	itemsList[counter][3] = quantity;
-			       	//get price
-		        	String price = rs.getString("price");
-		        	itemsList[counter][4] = price;
-		        	System.out.println("Price: " + price);
-		        	counter++;
-		     	}
+		        	String quantity = "";
+		        	itemList.add("");
+			       	//get unit price
+		        	String unit_price = rs.getString("unit_price");
+		        	itemList.add(unit_price);
+		        	System.out.println("Unit Price: " + unit_price);
+		           	//get price
+		        	String unit = rs.getString("unit");
+		        	itemList.add(unit);
+		        	System.out.println("Unit: " + unit);
+		        	//get price
+		        	String total = "";
+		        	itemList.add(total);
+		        	System.out.println("Total: " + total);
+			        inventory.add(itemList);
+			     }
+			 rs.close();
 		    	 
 		    	 
 			}
@@ -302,16 +315,153 @@ public class database {
 		
 		}
 		
+		for (int i = 0; i< inventory.size(); i++){
+			System.out.println(inventory.get(i));
+			
+		}
 		
-		return itemsList;
+		Object [] [] inventoryArray =  new Object [inventory.size()] [];
+		
+		for (int i = 0; i< inventory.size(); i++){
+			ArrayList <String> row =  inventory.get(i);
+			inventoryArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return inventoryArray;
+		
+	}
+	
+
+	public Object[][] getSupplierInventory(int id)
+	{
+		String command = "select * from items where supplier_id = " + id;
+		ArrayList<Object []> itemsList = new ArrayList<Object []>() ;
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+		    	 	ArrayList<String> tempItems = new ArrayList<String>();
+			        //get item number
+			       	String item_number = rs.getString("item_number");
+			       	tempItems.add(item_number);
+			       	System.out.println("Item number: " + item_number);
+			       	//get item name
+			       	String name = rs.getString("name");
+			       	tempItems.add(name);
+			       	System.out.println("Name: " + name);
+			       	//get item type
+			       	String item_type = rs.getString("item_type");
+			       	tempItems.add(item_type);
+		        	System.out.println("Item Type: " + item_type);
+			       	//get quantity
+		        	String quantity = rs.getString("quantity");
+		        	tempItems.add(quantity);
+			       	//get price
+		        	String unit_price = rs.getString("unit_price");
+		        	tempItems.add(unit_price);
+		        	System.out.println("Unit Price: " + unit_price);
+		           	//get price
+		        	String unit = rs.getString("unit");
+		        	tempItems.add(unit);
+		        	System.out.println("Unit: " + unit);
+		        	
+		        	itemsList.add(tempItems.toArray());
+		     	}
+		}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< itemsList.size(); i++){
+			System.out.println(itemsList.get(i));
+			
+		}
+
+		Object[][] returnArray = new Object[0][0];
+		if (itemsList.size() > 0) {
+			returnArray = new Object[itemsList.size()] [itemsList.get(0).length];
+			
+			for (int i = 0; i < itemsList.size(); i++) {
+				returnArray[i] = itemsList.get(i);
+			}
+		
+		}
+		
+		return returnArray;
+	}
+		     
+
+	public Object[][] getOrderList()
+	{
+		String command = "select invoice_number, total_cost, date_time_created, status from order_history";
+		ArrayList<ArrayList<String>> orders = new ArrayList<ArrayList<String>>();
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next())
+		     	{
+		    	 	ArrayList <String> currOrder = new ArrayList <String> ();
+			        //get item number
+			       	String invoice_number = rs.getString("invoice_number");
+			       	currOrder.add(invoice_number);
+			       	System.out.println("Invoice number: " + invoice_number);
+			       	//get item name
+			       	String total_cost = rs.getString("total_cost");
+			       	currOrder.add(total_cost);
+			       	System.out.println("Total cost: " + total_cost);
+			       	//get item type
+			       	String date_time_created = rs.getString("date_time_created");
+			       	currOrder.add(date_time_created);
+		        	System.out.println("Date/Time Created: " + date_time_created);
+			       	//get quantity
+			       	String status = rs.getString("status");
+			       	currOrder.add(status);
+		        	System.out.println("Status: " + status);
+			       
+			        orders.add(currOrder);
+			     }
+			 rs.close();
+
+		    	 
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< orders.size(); i++){
+			System.out.println(orders.get(i));
+			
+		}
+		
+		Object [] [] orderList =  new Object [orders.size()] [];
+		
+		for (int i = 0; i< orders.size(); i++){
+			ArrayList <String> row =  orders.get(i);
+			orderList[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return orderList;
+
 	}
 	
 	
 	
 	
 	public void addItem(String[] item, int id) {
-		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, price) VALUES "
-				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", '"+ item[3]+"')";
+		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, unit_price , unit) VALUES "
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+Double.parseDouble(item[3])+" ,' "+ item[4]+"')";
 		
 		try {
 		     statement.execute(command);
@@ -326,9 +476,10 @@ public class database {
 		
 	}
 
+
 	public void modifyItem(String[] item, int itemNum) {
 	
-		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", price = '"+ item[3]+ "' "
+		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = '"+ item[3]+ "' + unit = '" +item[4]+"' "
 				+ "WHERE item_number="+  itemNum;
 		try {
 		     statement.execute(command);

@@ -185,7 +185,7 @@ private JTable table_2;
 		
 		
 		
-		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Price"};
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Price", "Units"};
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
