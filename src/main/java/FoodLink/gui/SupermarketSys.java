@@ -31,6 +31,7 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
+import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 
@@ -236,25 +237,7 @@ public class SupermarketSys {
 										.getItemListForSupplier(comboBox
 												.getSelectedIndex());
 								itemsListModel = new DefaultTableModel(
-										itemsList, itemsColumnNames) {
-									Class[] columnTypes = new Class[] {
-											String.class, String.class,
-											String.class, String.class,
-											String.class, String.class };
-
-									public Class getColumnClass(int columnIndex) {
-										return columnTypes[columnIndex];
-									}
-
-									boolean[] columnEditables = new boolean[] {
-											false, false, false, true, false,
-											false };
-
-									public boolean isCellEditable(int row,
-											int column) {
-										return columnEditables[column];
-									}
-								};
+										itemsList, itemsColumnNames);
 								table_4.setModel(itemsListModel);
 							}
 						};
@@ -278,13 +261,6 @@ public class SupermarketSys {
 
 							public Class getColumnClass(int columnIndex) {
 								return columnTypes[columnIndex];
-							}
-
-							boolean[] columnEditables = new boolean[] { false,
-									false, false, true, false, false };
-
-							public boolean isCellEditable(int row, int column) {
-								return columnEditables[column];
 							}
 						};
 
