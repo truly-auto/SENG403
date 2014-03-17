@@ -115,7 +115,7 @@ public class Login extends JFrame{
 						//login supplier
 						if(supplier){
 							try {
-								SupplierSys window = new SupplierSys((int)credentials[1]);
+								SupplierSys window = new SupplierSys((Integer)credentials[1]);
 								window.frame.setVisible(true);
 								close();
 							} catch (Exception e1) {

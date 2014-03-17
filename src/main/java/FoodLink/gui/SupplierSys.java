@@ -212,6 +212,7 @@ private JTable table_2;
 				selectedRow=(String) table_2.getValueAt(row, 0);
 				System.out.println(selectedRow);
 				
+				
 			}
 		});
 		scrollPane_1.setViewportView(table_2);
