@@ -43,8 +43,8 @@ CREATE TABLE supermarket_inventory (
   inventory_type varchar(32),
   supermarket_id int,
   quantity int,
-  unit_price double,
-  units varchar(255),
+  unit_price decimal,
+  unit varchar(32),
   PRIMARY KEY (inventory_number),
   FOREIGN KEY (supermarket_id) references Supermarket(store_id)
 );
