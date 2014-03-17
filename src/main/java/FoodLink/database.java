@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
 public class database {
 	private String dbURL = "jdbc:derby:derbyDB;";
     private String sqlDir = "src/main/resources/SQL/";
@@ -129,6 +130,10 @@ public class database {
 		        String price = rs.getString("unit_price");
 		        System.out.println(price);
 		        currentItem.add(price);  
+		        
+		        String units = rs.getString("unit");
+		        System.out.println(units);
+		        currentItem.add(units);  
 		     
 		        inventory.add(currentItem);
 		     	}
@@ -455,8 +460,8 @@ public class database {
 	
 	
 	public void addItem(String[] item, int id) {
-		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, price) VALUES "
-				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", '"+ item[3]+"')";
+		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, unit_price , unit) VALUES "
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+Double.parseDouble(item[3])+" ,' "+ item[4]+"')";
 		
 		try {
 		     statement.execute(command);
@@ -470,6 +475,7 @@ public class database {
 		System.out.println("Add Succesful");
 		
 	}
+
 
 	public void modifyItem(String[] item, int itemNum) {
 	

@@ -187,7 +187,6 @@ public class SupermarketSys {
 		final JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_1.setEnabled(false);
 				// When Create Order button is clicked the following codes will
 				// execute
 
@@ -195,6 +194,7 @@ public class SupermarketSys {
 				final JPanel newOrder = new JPanel();
 				// tabNumber++;
 				// String tabName = "NEW ORDER " + tabNumber;
+				btnNewButton_1.setEnabled(false);
 				mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);
 				mainTabbedPane.setBackgroundAt(4, new Color(0, 0, 0));
 				mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
@@ -310,7 +310,6 @@ public class SupermarketSys {
 							mainTabbedPane.remove(newOrder);
 							btnNewButton_1.setEnabled(true);
 						}
-						
 					}
 				});
 
