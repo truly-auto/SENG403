@@ -60,7 +60,7 @@ public class SupermarketSys {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SupermarketSys window = new SupermarketSys();
+					SupermarketSys window = new SupermarketSys(2);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -72,14 +72,14 @@ public class SupermarketSys {
 	/**
 	 * Create the application.
 	 */
-	public SupermarketSys() {
-		initialize();
+	public SupermarketSys(int supermarket_id) {
+		initialize(supermarket_id);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(int supermarket_id) {
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");

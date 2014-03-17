@@ -135,7 +135,7 @@ public class Login extends JFrame {
 						else {
 							try {
 								SupermarketSys window = new SupermarketSys(
-										(Integer) credentials[1]);
+										(Integer) credentials[2]);
 								window.frame.setVisible(true);
 								close();
 							} catch (Exception e1) {
