@@ -327,7 +327,7 @@ public class database {
 		
 	}
 	
-<<<<<<< HEAD
+
 	public Object[][] getSupplierInventory(int id)
 	{
 		String command = "select * from items where supplier_id = " + id;
@@ -366,7 +366,33 @@ public class database {
 		        	
 		        	itemsList.add(tempItems.toArray());
 		     	}
-=======
+		}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< itemsList.size(); i++){
+			System.out.println(itemsList.get(i));
+			
+		}
+
+		Object[][] returnArray = new Object[0][0];
+		if (itemsList.size() > 0) {
+			returnArray = new Object[itemsList.size()] [itemsList.get(0).length];
+			
+			for (int i = 0; i < itemsList.size(); i++) {
+				returnArray[i] = itemsList.get(i);
+			}
+		
+		}
+		
+		return returnArray;
+	}
+		     
+
 	public Object[][] getOrderList()
 	{
 		String command = "select invoice_number, total_cost, date_time_created, status from order_history";
@@ -397,7 +423,7 @@ public class database {
 			        orders.add(currOrder);
 			     }
 			 rs.close();
->>>>>>> foodlink3
+
 		    	 
 		    	 
 			}
@@ -407,20 +433,7 @@ public class database {
 		     System.out.println(e);;
 		
 		}
-		
-<<<<<<< HEAD
-		Object[][] returnArray = new Object[0][0];
-		if (itemsList.size() > 0) {
-			returnArray = new Object[itemsList.size()] [itemsList.get(0).length];
-			
-			for (int i = 0; i < itemsList.size(); i++) {
-				returnArray[i] = itemsList.get(i);
-			}
-		
-		}
-		
-		return returnArray;
-=======
+
 		for (int i = 0; i< orders.size(); i++){
 			System.out.println(orders.get(i));
 			
@@ -435,7 +448,7 @@ public class database {
 			
 		}
 		return orderList;
->>>>>>> foodlink3
+
 	}
 	
 	
