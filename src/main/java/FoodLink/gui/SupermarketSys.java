@@ -145,7 +145,7 @@ public class SupermarketSys {
 		orderTab.setLayout(gbl_orderTab);
 
 		String[] columnNameInvoice = { "Invoice Number", "Total Cost($)",
-				"Created (MM/DD/YYYY)", "Status" };
+				"Date/Time Created", "Status" };
 
 		Object[][] dataOrdering = {
 				{ "012345", "500.99", "03/10/2014", "Submitted" },
@@ -170,20 +170,11 @@ public class SupermarketSys {
 		gbc_scrollPane1.gridy = 2;
 		orderTab.add(scrollPane1, gbc_scrollPane1);
 
-		table1 = new JTable(dataOrdering, columnNameInvoice);
-		table1.setModel(new DefaultTableModel(new Object[][] {
-				{ "012345", "500.99", "03/10/2014", "Submitted" },
-				{ "123456", "567.33", "02/28/2014", "Shipped" },
-				{ "234567", "730.98", "02/16/2014", "Completed" }, },
-				new String[] { "Invoice Number", "Total Cost($)",
-						"Created (MM/DD/YYYY)", "Status" }) {
-			boolean[] columnEditables = new boolean[] { false, false, false,
-					false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		Object[][] orderList = connect.getOrderList();
+		
+		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnNameInvoice);
+		table1 = new JTable(orderModel);
+		
 		scrollPane1.setViewportView(table1);
 
 		JButton btnNewButton_1 = new JButton("Create Order");
