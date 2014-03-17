@@ -210,16 +210,15 @@ public class database {
 	public String [] getSupplierNames()
 	{
 		String command = "select name from supplier";
-		String [] supplierNames = new String [5];
+		ArrayList<String> supplierNames = new ArrayList<String>();
 		try {
 		     statement.execute(command);
 		     ResultSet rs = statement.getResultSet();
-		     int counter = 0;
-		     while(rs.next()&&counter<5)
+		     
+		     while(rs.next())
 		     	{
 			         String name = rs.getString("name");
-			         supplierNames[counter]=name;
-			         counter++;
+			         supplierNames.add(name);
 			         //Display values
 			         System.out.print(", name: " + name);
 			     }
@@ -231,7 +230,7 @@ public class database {
 		
 		
 		}
-		return supplierNames;
+		return supplierNames.toArray(new String [supplierNames.size()]);
 
 	}
 	
@@ -537,6 +536,99 @@ public class database {
 		return user;
 	}
 	
+	public void addSupermarketItem(String[] item, int id) {
+		
+		String command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit) VALUES "
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", " + item[4] +  "')";
+		
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add Succesful");
 		
 	}
+	
+	public void modifySupermarketItem(String[] item, int itemNum) {
+		
+		String command = "UPDATE supermarket_inventory SET name = '" + item[0]+"', inventory_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = "+ Double.parseDouble(item[3])+ " , unit = '" +item[4]+"' "
+				+ "WHERE inventory_number="+  itemNum;
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+			e.fillInStackTrace();
+			System.out.println("Error executing: " + command);
+			System.out.println(e);
+			System.exit(0);
+		}
+		System.out.println("Mod Succesful");
+	}
+
+	public Object[][] getSupermarketInventory(int id) {
+
+		String command = "select * from supermarket_inventory where supermarket_id = " + id;
+		ArrayList<Object []> itemsList = new ArrayList<Object []>() ;
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     
+		     while(rs.next())
+		     	{
+		    	 	ArrayList<String> tempItems = new ArrayList<String>();
+			        //get item number
+			       	String item_number = rs.getString("inventory_number");
+			       	tempItems.add(item_number);
+			       	System.out.println("Item number: " + item_number);
+			       	//get item name
+			       	String name = rs.getString("name");
+			       	tempItems.add(name);
+			       	System.out.println("Name: " + name);
+			       	//get item type
+			       	String item_type = rs.getString("inventory_type");
+			       	tempItems.add(item_type);
+		        	System.out.println("Item Type: " + item_type);
+			       	//get quantity
+		        	String quantity = rs.getString("quantity");
+		        	tempItems.add(quantity);
+			       	//get price
+		        	String unit_price = rs.getString("unit_price");
+		        	tempItems.add(unit_price);
+		        	System.out.println("Unit Price: " + unit_price);
+		           	//get price
+		        	String unit = rs.getString("unit");
+		        	tempItems.add(unit);
+		        	System.out.println("Unit: " + unit);
+		        	
+		        	itemsList.add(tempItems.toArray());
+		     	}
+		    	 
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+		
+		Object[][] returnArray = new Object[0][0];
+		if (itemsList.size() > 0) {
+			returnArray = new Object[itemsList.size()] [itemsList.get(0).length];
+			
+			for (int i = 0; i < itemsList.size(); i++) {
+				returnArray[i] = itemsList.get(i);
+			}
+		
+		}
+		
+		return returnArray;
+	}	
+}
 
