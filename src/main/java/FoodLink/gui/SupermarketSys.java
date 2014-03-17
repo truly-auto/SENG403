@@ -172,7 +172,14 @@ public class SupermarketSys {
 
 		Object[][] orderList = connect.getOrderList();
 		
-		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnNameInvoice);
+		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnNameInvoice){
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};;
 		table1 = new JTable(orderModel);
 		
 		scrollPane1.setViewportView(table1);
@@ -184,12 +191,11 @@ public class SupermarketSys {
 				// execute
 
 				// This codes will create a new tab called NEW ORDER
-				UIManager.put("newOrder.selected", ColorUIResource.GREEN);
 				final JPanel newOrder = new JPanel();
 				// tabNumber++;
 				// String tabName = "NEW ORDER " + tabNumber;
 				mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);
-				mainTabbedPane.setBackgroundAt(4, new Color(0, 128, 0));
+				mainTabbedPane.setBackgroundAt(4, new Color(0, 0, 0));
 				mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
 				GridBagLayout gbl_newOrder = new GridBagLayout();
 				gbl_newOrder.columnWidths = new int[] { 0, 90, 0, 0, 0, 0, 0,
@@ -275,6 +281,13 @@ public class SupermarketSys {
 				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
 				
 				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
+//				{
+//					boolean[] columnEditables = new boolean[] { false,
+//							false, false, false};
+//
+//					public boolean isCellEditable(int row, int column) {
+//						return columnEditables[column];
+//				}};
 				
 				table_4 = new JTable(new DefaultTableModel());
 				table_4.setRowSelectionAllowed(false);
