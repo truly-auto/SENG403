@@ -542,7 +542,7 @@ public class database {
 	public void addSupermarketItem(String[] item, int id) {
 		
 		String command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit) VALUES "
-				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", " + item[4] +  "')";
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", '" + item[4] +  "')";
 		
 		try {
 		     statement.execute(command);
