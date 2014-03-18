@@ -106,7 +106,7 @@ public class SupermarketSys {
 			}
 		});
 		
-		String[] supermarketName = connect.getSupermarketName(1);
+		String[] supermarketName = connect.getSupermarketName(4);
 		
 		System.out.println("SUPERMARKET NAME: " + supermarketName);
 		
