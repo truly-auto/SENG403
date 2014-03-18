@@ -317,8 +317,8 @@ private JTable table_2;
 		final Object[][] order2 = new Object[][]{
 				{data[0][0], data[0][1], 20, data[0][4], 20 * Integer.parseInt((String) data[0][4])},
 				{data[1][0], data[1][1], 12, data[1][4], 12 * Integer.parseInt((String) data[1][4])},
-				{data[3][0], data[3][1], 4, data[3][4], 4 * Integer.parseInt((String) data[0][4])},
-				{data[4][0], data[4][1], 8, data[4][4], 8 * Integer.parseInt((String) data[0][4])},
+				{data[3][0], data[3][1], 4, data[3][4], 4 * Integer.parseInt((String) data[3][4])},
+				{data[4][0], data[4][1], 8, data[4][4], 8 * Integer.parseInt((String) data[4][4])},
 		};
 		
 		listOrders.add(order1);
@@ -342,7 +342,7 @@ private JTable table_2;
 			}
 		});
 		
-		JButton jbPrint = new JButton("Save and Open");
+		JButton jbPrint = new JButton("Save invoice and Open");
 		jbPrint.addActionListener(new ActionListener() {
 			
 			@Override
