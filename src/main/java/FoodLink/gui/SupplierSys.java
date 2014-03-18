@@ -63,7 +63,7 @@ private JTable table_2;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//hard code parameter to swicth suppliers here (1-5)
+					//hard code parameter to switch suppliers here (1-5)
 					SupplierSys window = new SupplierSys(1);
 					window.frame.setVisible(true);
 				} catch (Exception e) {

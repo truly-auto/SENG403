@@ -234,6 +234,33 @@ public class database {
 
 	}
 	
+	public String [] getSupermarketName(int id)
+	{
+		String command = "select name from supermarket where store_id = " + id;
+		ArrayList<String> storeNames = new ArrayList<String>();
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     
+		     while(rs.next())
+		     	{
+			         String name = rs.getString("name");
+			         storeNames.add(name);
+			         //Display values
+			         System.out.print(" Supermarket name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		
+		}
+		return storeNames.toArray(new String [storeNames.size()]);
+
+	}
+	
 	public String [] getSupplierItemsList(int id)
 	{
 		String command = "select name from items where supplier_id = " + id;
