@@ -381,13 +381,14 @@ public class SupermarketSys {
 							mainTabbedPane.remove(newOrder);
 							btnNewButton_1.setEnabled(true);
 						} else {
-							invoiceListModel = new DefaultTableModel(
-									invoiceList, invoiceColumnNames);
-
+							String[] invoice = 4;
 							try {
-								AddInvoice newInvoice = new AddInvoice(
+								AddInvoice window = new AddInvoice(
 										supermarket_id);
+								window.setModalityType(ModalityType.APPLICATION_MODAL);
+								window.setVisible(true);
 
+								invoice = window.getResult();
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}

@@ -1,15 +1,22 @@
 package FoodLink.gui;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JLabel;
+import javax.swing.JButton;
 
 public class AddInvoice {
 
 	private JFrame frame;
+
+	private String result[];
+	private Integer invoiceNum = 1;
 
 	/**
 	 * Launch the application.
@@ -44,6 +51,25 @@ public class AddInvoice {
 
 		JTextPane textPane = new JTextPane();
 		frame.getContentPane().add(textPane, BorderLayout.CENTER);
+
+		JButton btnNewButton = new JButton("New button");
+		frame.getContentPane().add(btnNewButton, BorderLayout.SOUTH);
+
+		Integer newNum = getInvoiceNumber();
+		setInvoiceNumber(newNum++);
+		String r[] = { newNum.toString() };
+		result = r;
 	}
 
+	private String[] getResult() {
+		return result;
+	}
+
+	private Integer getInvoiceNumber() {
+		return invoiceNum;
+	}
+
+	private void setInvoiceNumber(Integer newNum) {
+		invoiceNum = newNum;
+	}
 }
