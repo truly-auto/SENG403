@@ -15,6 +15,7 @@ public class LookAndFeel {
 	
 	public LookAndFeel(JFrame f)
 	{
+		/*
 		try {
 		    // Set the Look and Feel of the application to the operating
 		    // system's look and feel.
@@ -29,7 +30,7 @@ public class LookAndFeel {
 		catch (UnsupportedLookAndFeelException e) {
 		}
 		
-		
+		*/
 		BufferedImage img = null;
 		try 
 		{

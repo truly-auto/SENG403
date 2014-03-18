@@ -64,14 +64,14 @@ public class Login extends JFrame {
 		//~~~~~~~~~~~~~DIVISION~~~~~~~~~~~~~~~~~~~~//
 		// adding login button when clicked retrieves the text from the user and
 		// password fields
-		JButton btnLogin = new JButton("Login");
+		GradientButton btnLogin = new GradientButton("Login");
 		btnLogin.setBackground(grey);	
 		btnLogin.setBounds(400, 295, 89, 23);
 		this.getContentPane().add(btnLogin);
 		
 		
 		// adding forgot button
-		JButton btnForgot = new JButton("Forgot");
+		GradientButton btnForgot = new GradientButton("Forgot");
 		btnForgot.setBackground(grey);
 		btnForgot.setBounds(400, 330, 89, 23);
 		this.getContentPane().add(btnForgot);
@@ -122,7 +122,7 @@ public class Login extends JFrame {
 		/*
 		// adding login button when clicked retrieves the text from the user and
 		// password fields
-		JButton btnLogin = new JButton("Login");
+		GradientButton btnLogin = new GradientButton("Login");
 		btnLogin.setBackground(grey);	
 		btnLogin.setBounds(400, 270, 89, 23);
 		this.getContentPane().add(btnLogin);
@@ -130,7 +130,7 @@ public class Login extends JFrame {
 		//buttonsPanel.add(btnLogin);
 		
 		// adding forgot button
-		JButton btnForgot = new JButton("Forgot");
+		GradientButton btnForgot = new GradientButton("Forgot");
 		btnForgot.setBackground(grey);
 		btnForgot.setBounds(400, 315, 89, 23);
 		this.getContentPane().add(btnForgot);
@@ -275,5 +275,32 @@ public class Login extends JFrame {
 	protected void close() {
 		this.dispose();
 
+	}
+	
+	private static final class GradientButton extends JButton{
+        private GradientButton(){
+            this.setText("");
+            setContentAreaFilled(false);
+        }
+        private GradientButton(String str){
+            this.setText(str);;
+            setContentAreaFilled(false);
+            
+        }
+
+        @Override
+        protected void paintComponent(Graphics g){
+            Graphics2D G2D = (Graphics2D)g.create();
+            Color grey = new Color(153, 153, 153);
+            G2D.setPaint(new GradientPaint(
+                    new Point(0, 0), 
+                    Color.white, 
+                    new Point(0, getHeight()), 
+                    grey));
+            G2D.fillRect(0, 0, getWidth(), getHeight());
+            G2D.dispose();
+
+            super.paintComponent(g);
+        }
 	}
 }
