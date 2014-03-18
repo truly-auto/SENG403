@@ -66,7 +66,7 @@ public class SupermarketSys {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SupermarketSys window = new SupermarketSys();
+					SupermarketSys window = new SupermarketSys(2);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,14 +78,14 @@ public class SupermarketSys {
 	/**
 	 * Create the application.
 	 */
-	public SupermarketSys() {
-		initialize();
+	public SupermarketSys(int supermarket_id) {
+		initialize(supermarket_id);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(final int supermarket_id) {
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
@@ -374,7 +374,7 @@ public class SupermarketSys {
 							e1.printStackTrace();
 						}
 
-						if (item != null) {
+						if (invoice != null) {
 							connect.addItem(invoice, supermarket_id);
 							Object[][] data2 = connect
 									.getInventory(supermarket_id);
