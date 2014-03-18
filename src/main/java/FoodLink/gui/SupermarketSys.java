@@ -31,6 +31,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -361,46 +363,33 @@ public class SupermarketSys {
 					@Override
 					public void tableChanged(TableModelEvent e) {
 						int numberOfRow = itemsTableModel.getRowCount();
-					
+						String[] totalSet = new String[numberOfRow-1];
 						
 						
-						System.out.println("Total Row Numbers: " + numberOfRow);
 						
+						//System.out.println("Total Row Numbers: " + numberOfRow);
 						
-						for (int i = 0; i < numberOfRow; i++) {
-							
-							System.out.println("Value in row " + i + " column 2: " + itemsTableModel.getValueAt(i, 2));
-							
-							if(itemsTableModel.getValueAt(i, 3) != "")
-							{
-						        String unit_price = (itemsTableModel.getValueAt(i, 4).toString());
-			                    BigDecimal bdUnit_price = new BigDecimal(unit_price);
-			                    
-			                    String quantity = (itemsTableModel.getValueAt(i, 3).toString());
-			                    BigDecimal bdQuantity = new BigDecimal(quantity);
-			                    
-			                    BigDecimal bdTotal = bdQuantity.multiply(bdUnit_price);
-			                    
-			                    System.out.println("ITEM TOTAL: " + bdTotal.toString());
-			                    
-			                    itemsList[i][6] = bdTotal.toString();
-			                    
-//			                    itemsTableModel.setValueAt(bdTotal, i, 6);
-//			                    itemsTable.setModel(itemsTableModel);
-			                    
-			                    itemsTableModel.fireTableCellUpdated(i, 6);
-			                    itemsTable.setModel(itemsTableModel);
-			                    
-			                    
-			                    //itemsTableModel.setValueAt(dbTotal.toString(), i, 6);
-			                    
-			                    BigDecimal finalTotal = new BigDecimal(startingNum);
-			                   
-			                    finalTotal.add(bdTotal);
-							}
-		            
-		              }//end of for loop
+						int editRowIndex = itemsTable.getEditingRow();
+						System.out.println("Row editing index: " + editRowIndex);
 						
+						if(editRowIndex != -1)
+						{
+							//get unit price
+					        String unit_price = (itemsTableModel.getValueAt(editRowIndex, 4).toString());
+		                    BigDecimal bdUnit_price = new BigDecimal(unit_price);
+		                    
+		                    //get quantity value
+		                    String quantity = (itemsTableModel.getValueAt(editRowIndex, 3).toString());
+		                    BigDecimal bdQuantity = new BigDecimal(quantity);
+		                    
+		                    BigDecimal bdTotal = bdQuantity.multiply(bdUnit_price);
+		                    
+		                    System.out.println("ITEM TOTAL: " + bdTotal.toString());
+		                    		                    
+		                    //itemsTable.setValueAt(bdTotal, editRowIndex, 6);
+//		                    System.out.println("ADDED SUCCESSFULLY");
+						}
+				
 						//grandTotal.setText(finalTotal.toString());
 						
 						
