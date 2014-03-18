@@ -190,8 +190,7 @@ private JTable table_2;
 		gbl_inventoryTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		inventoryTab.setLayout(gbl_inventoryTab);
 		
-		
-	
+
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Units"};
 
 		
