@@ -30,11 +30,7 @@ CREATE TABLE items (
   item_type varchar(32),
   supplier_id int,
   quantity int,
-<<<<<<< HEAD
   unit_price double,
-=======
-  unit_price decimal,
->>>>>>> 1b3a419466e44362467a838642e14fea35a06c64
   unit varchar(32),
   PRIMARY KEY (item_number),
   FOREIGN KEY (supplier_id) references Supplier(supplier_id)
@@ -47,14 +43,8 @@ CREATE TABLE supermarket_inventory (
   inventory_type varchar(32),
   supermarket_id int,
   quantity int,
-<<<<<<< HEAD
   unit_price double,
-  units varchar(255),
-=======
-  unit_price decimal,
->>>>>>> 1b3a419466e44362467a838642e14fea35a06c64
   unit varchar(32),
-  supplier_item_number int,
   PRIMARY KEY (inventory_number),
   FOREIGN KEY (supermarket_id) references Supermarket(store_id)
 );
@@ -102,6 +92,28 @@ CREATE TABLE automatic_orders(
 INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
 VALUES ('Jane Tops','403-989-3214','1 14 ST NW.','Calgary','www.yellowpages.com/janetops');
 
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('Saferway','403-934-0324','114  3 ST SW.','Calgary','thesaferway@riskyworld.com');
+
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('Corner Convinience','587-439-7523','3 24 AVE NW.','Calgary','cronerstore@theblock.ca');
+
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('The Big Store','403-954-2333','13 12 AVE NE.','Calgary','bigstore@emailus.ca');
+
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('WorstBuy','403-435-2543','13 14 AVE NE.','Calgary','worstbuye@bestbuy.ca');
+
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('Save-On-Foods','403-384-9780','225 Panatella Hill N.W ','Calgary','http://www.saveonfoods.com');
+
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('No Frills','587-296-3508','882 85th St. SW, AB T3H 0J5','Calgary','http://www.nofrills.com');
+
+INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
+VALUES ('T&T Supermarket', '403-569-6888', '#800 - 999 36th Street N.E.','Calgary','http://www.tnt-supermarket.com');
+
+
 --adding sample suppliers
 INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL)
 VALUES ('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com');
@@ -142,12 +154,30 @@ INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('John_Doe','password',1, 'true');	
 
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
+VALUES ('June_Doe','password',1, 'false');
+
+
+INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
+VALUES ('Josh_Senior','password',2, 'true');
+
+INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('Josh_Doe','password',2, 'false');
+
+--adding some store users
 
 INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID, MANAGER)
 VALUES ('Jane_Doe','password',1, 'true');	
 
+INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID, MANAGER)
+VALUES ('Jane_Daughter','password',1, 'false');	
 
+INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID, MANAGER)
+VALUES ('Princess_Doe','password',2, 'true');	
+
+INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID, MANAGER)
+VALUES ('Prince_Doe','password',2, 'false');	
+
+--add some more items
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,UNIT_PRICE, UNIT)
 VALUES ('Beets','Vegetable',2, 1050, 10, '20LBS');
 
@@ -174,3 +204,10 @@ VALUES ('Spinach','Vegetable',2, 2000, 8, '20LBS');
 
 INSERT INTO ORDER_HISTORY (TOTAL_COST, DATE_TIME_CREATED, STATUS)
 VALUES (500.50, CURRENT_TIMESTAMP, 'Submitted');
+
+INSERT INTO ORDER_HISTORY (TOTAL_COST, DATE_TIME_CREATED, STATUS)
+VALUES (15600.99, CURRENT_TIMESTAMP, 'Shipped');
+
+INSERT INTO ORDER_HISTORY (TOTAL_COST, DATE_TIME_CREATED, STATUS)
+VALUES (10600.49, CURRENT_TIMESTAMP, 'Completed');
+

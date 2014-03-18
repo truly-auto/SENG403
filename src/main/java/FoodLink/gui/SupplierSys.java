@@ -148,7 +148,7 @@ private JTable table_2;
 		gbl_orderTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		orderTab.setLayout(gbl_orderTab);
 		
-		JButton btnNewButton_1 = new JButton("Create Order");
+		JButton btnNewButton_1 = new JButton("Refresh Orders");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -160,15 +160,8 @@ private JTable table_2;
 		gbc_btnNewButton_1.gridy = 0;
 		orderTab.add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Automated Ordering");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 1;
-		gbc_btnNewButton_2.gridy = 0;
-		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 		
-		JLabel lblNewLabel = new JLabel("Order Status");
+		JLabel lblNewLabel = new JLabel("Current Orders");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
@@ -316,10 +309,10 @@ private JTable table_2;
 		};
 		
 		final Object[][] order2 = new Object[][]{
-				{data[0][0], data[0][1], 20, data[0][4], 20 * Integer.parseInt((String) data[0][4])},
-				{data[1][0], data[1][1], 12, data[1][4], 12 * Integer.parseInt((String) data[1][4])},
-				{data[3][0], data[3][1], 4, data[3][4], 4 * Integer.parseInt((String) data[3][4])},
-				{data[4][0], data[4][1], 8, data[4][4], 8 * Integer.parseInt((String) data[4][4])},
+				{data[0][0], data[0][1], 20, data[0][4], 20 * Double.parseDouble((String) data[0][4])},
+				{data[1][0], data[1][1], 12, data[1][4], 12 * Double.parseDouble((String) data[1][4])},
+				{data[3][0], data[3][1], 4, data[3][4], 4 * Double.parseDouble((String) data[3][4])},
+				{data[4][0], data[4][1], 8, data[4][4], 8 * Double.parseDouble((String) data[4][4])},
 		};
 		
 		listOrders.add(order1);
