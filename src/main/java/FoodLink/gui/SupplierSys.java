@@ -192,7 +192,7 @@ private JTable table_2;
 		
 		
 		
-		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Price", "Units"};
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price", "Units"};
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
@@ -311,9 +311,9 @@ private JTable table_2;
 				{ "234567", "Whatever", 6, 500.99 } };
 		Object[][] objs;
 		
-		String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)"};
+		String[] title = new String[] {"Item ID", "Item", "Quantity", "Price ($)"};
 		final JTable jtInvoice = new JTable();
-		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"s1","s2","s3"});
+		final JComboBox jcbSupermarkets = new JComboBox(new String[] {"s1","s2","s3"});
 		jcbSupermarkets.addActionListener(new ActionListener() {
 			
 			@Override
