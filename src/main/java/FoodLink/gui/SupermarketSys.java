@@ -47,7 +47,10 @@ public class SupermarketSys {
 	private JComboBox comboBox;
 	DefaultListModel orderListModel;
 	private Object[][] itemsList;
+	private Object[][] invoiceList;
 
+	private String[] invoiceColumnNames = { "Invoice number", "Total",
+			"Date created", "Status" };
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
 			"Quantity", "Unit Price ($)", "Unit", "Total" };
 
@@ -55,6 +58,7 @@ public class SupermarketSys {
 
 	private database connect = new database();
 	DefaultListModel itemsListModel1;
+	DefaultTableModel invoiceListModel;
 	private JTable table_4;
 	private JTextField textField;
 	private int tabNumber = 0;
@@ -301,11 +305,6 @@ public class SupermarketSys {
 						itemsColumnNames);
 
 				table_4 = new JTable(new DefaultTableModel());
-
-				newOrder.add(scrollPane_1, gbc_scrollPane_1);
-
-				itemsListModel = new DefaultTableModel(itemsList,
-						itemsColumnNames);
 				// {
 				// boolean[] columnEditables = new boolean[] { false,
 				// false, false, false};
@@ -314,7 +313,6 @@ public class SupermarketSys {
 				// return columnEditables[column];
 				// }};
 
-				table_4 = new JTable(new DefaultTableModel());
 				table_4.setRowSelectionAllowed(false);
 				scrollPane_1.setViewportView(table_4);
 
@@ -363,23 +361,15 @@ public class SupermarketSys {
 				JButton btnNewButton_3 = new JButton("Submit Order");
 				btnNewButton_3.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String[] invoice = null;
+						invoiceListModel = new DefaultTableModel(invoiceList,
+								invoiceColumnNames);
 						try {
 							AddItem window = new AddItem();
 							window.setModalityType(ModalityType.APPLICATION_MODAL);
 							window.setVisible(true);
 
-							invoice = window.getResult();
 						} catch (Exception e1) {
 							e1.printStackTrace();
-						}
-
-						if (invoice != null) {
-							connect.addItem(invoice, supermarket_id);
-							Object[][] data2 = connect
-									.getInventory(supermarket_id);
-							table_2 = new JTable(data2, columnNames);
-							scrollPane_1.setViewportView(table_2);
 						}
 					}
 				});
