@@ -34,6 +34,8 @@ public class Login extends JFrame {
 		this.setMinimumSize(new Dimension(640, 420));
 		this.setLocation(100, 100);
 		this.setResizable(false);
+		LookAndFeel lookAndFeel = new LookAndFeel(this);
+		
 		Color green = new Color(182, 215, 168);
 		Color grey = new Color(153, 153, 153);
 		this.setForeground(green);
