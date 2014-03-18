@@ -10,8 +10,12 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.Dialog.ModalityType;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -117,7 +121,7 @@ public class SupermarketSys {
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Color grey = new Color(153, 153, 153);
+		
 		Color green = new Color(182, 215, 168);
 		frame.getContentPane().setBackground(green);
 		BufferedImage Logo = null;
@@ -147,7 +151,7 @@ public class SupermarketSys {
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
-		JButton btnNewButton = new JButton("Log Out");
+		GradientButton btnNewButton = new GradientButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
@@ -167,8 +171,8 @@ public class SupermarketSys {
 		gbc_label.gridy = 0;
 		frame.getContentPane().add(label, gbc_label);
 
-		JButton btnNewButton1 = new JButton("Log Out");
-		btnNewButton1.setBackground(grey);
+		GradientButton btnNewButton1 = new GradientButton("Log Out");
+		
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -251,7 +255,7 @@ public class SupermarketSys {
 		
 		
 		
-		final JButton btnNewButton_1 = new JButton("Create Order");
+		final GradientButton btnNewButton_1 = new GradientButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// When Create Order button is clicked the following codes will
@@ -394,7 +398,7 @@ public class SupermarketSys {
 				table_4.setRowSelectionAllowed(false);
 				scrollPane_1.setViewportView(table_4);
 
-				JButton btnNewButton_4 = new JButton("Cancel Order");
+				GradientButton btnNewButton_4 = new GradientButton("Cancel Order");
 				btnNewButton_4.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
@@ -439,7 +443,7 @@ public class SupermarketSys {
 				gbc_btnNewButton_4.gridy = 11;
 				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
 
-				JButton btnNewButton_3 = new JButton("Submit Order");
+				GradientButton btnNewButton_3 = new GradientButton("Submit Order");
 				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
 				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
@@ -472,7 +476,7 @@ public class SupermarketSys {
 		gbc_btnNewButton_1.gridy = 0;
 		orderTab.add(btnNewButton_1, gbc_btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("Automated Ordering");
+		GradientButton btnNewButton_2 = new GradientButton("Automated Ordering");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
@@ -537,7 +541,7 @@ public class SupermarketSys {
 		
 		scrollPane.setViewportView(table);
 		
-		JButton btnAutomatedOrdering = new JButton("Automated Ordering");
+		GradientButton btnAutomatedOrdering = new GradientButton("Automated Ordering");
 		btnAutomatedOrdering.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedRow!=null){
@@ -570,7 +574,7 @@ public class SupermarketSys {
 		gbc_btnAutomatedOrdering.gridy = 0;
 		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
 		
-		JButton newInventoryItem = new JButton("New Custom Item");
+		GradientButton newInventoryItem = new GradientButton("New Custom Item");
 		newInventoryItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String [] item=null;
@@ -597,7 +601,7 @@ public class SupermarketSys {
 		gbc_newInventoryItem.gridy = 0;
 		inventoryTab.add(newInventoryItem, gbc_newInventoryItem);
 		
-		JButton saveChanges = new JButton("Save Current Row");
+		GradientButton saveChanges = new GradientButton("Save Current Row");
 		saveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedRow!=null){
@@ -671,7 +675,7 @@ public class SupermarketSys {
 		};
 		supplierSelector.addActionListener(actionListener);
 		
-		JButton addToInventory = new JButton("Add Item to Inventory");
+		GradientButton addToInventory = new GradientButton("Add Item to Inventory");
 		addToInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedRow!=null){
@@ -720,5 +724,32 @@ public class SupermarketSys {
 
 	public JComboBox getComboBox() {
 		return comboBox;
+	}
+	
+	private static final class GradientButton extends JButton{
+        private GradientButton(){
+            this.setText("");
+            setContentAreaFilled(false);
+        }
+        private GradientButton(String str){
+            this.setText(str);;
+            setContentAreaFilled(false);
+            
+        }
+
+        @Override
+        protected void paintComponent(Graphics g){
+            Graphics2D G2D = (Graphics2D)g.create();
+            Color grey = new Color(153, 153, 153);
+            G2D.setPaint(new GradientPaint(
+                    new Point(0, 0), 
+                    Color.white, 
+                    new Point(0, getHeight()), 
+                    grey));
+            G2D.fillRect(0, 0, getWidth(), getHeight());
+            G2D.dispose();
+
+            super.paintComponent(g);
+        }
 	}
 }

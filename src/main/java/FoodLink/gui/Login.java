@@ -108,7 +108,7 @@ public class Login extends JFrame {
 		this.getContentPane().add(lblPassword);		
 		
 		// adding a password field
-		passwordField = new JTextField();
+		passwordField = new JPasswordField();
 		passwordField.setBounds(220, 338, 122, 23);
 		this.getContentPane().add(passwordField);
 		passwordField.setColumns(10);
