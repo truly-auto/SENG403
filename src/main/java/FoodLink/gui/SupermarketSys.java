@@ -28,7 +28,11 @@ import javax.swing.JComboBox;
 import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
 
+<<<<<<< HEAD
 import FoodLink.Driver;
+=======
+import FoodLink.Inventory;
+>>>>>>> a042764fb115b105b6bc11c4dd57514f6c38800c
 import FoodLink.database;
 
 import javax.swing.plaf.ColorUIResource;
@@ -420,7 +424,7 @@ public class SupermarketSys {
 		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
 		//use this one when building
-		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 
 		JPanel inventoryTab = new JPanel();
@@ -454,6 +458,31 @@ public class SupermarketSys {
 		scrollPane.setViewportView(table);
 		
 		JButton btnAutomatedOrdering = new JButton("Automated Ordering");
+		btnAutomatedOrdering.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (selectedRow!=null){
+					System.out.println("About to auto-order item on this row " + selectedRow);
+					System.out.println("Is this the anser?? " + table.getValueAt(row, 1));
+	
+					String [] item=null;
+					try {
+						AutomatedOrdering window = new AutomatedOrdering((String) table.getValueAt(row, 1), (String) table.getValueAt(row, 5));
+						window.setModalityType(ModalityType.APPLICATION_MODAL);
+						window.setVisible(true);
+						
+						item =window.getResult();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
+					if(item!=null) {
+						connect.addAutomaticOrder(item, Integer.parseInt(selectedRow));
+					}
+					
+					scrollPane.setViewportView(table);
+				}
+			}
+		});
 		GridBagConstraints gbc_btnAutomatedOrdering = new GridBagConstraints();
 		gbc_btnAutomatedOrdering.anchor = GridBagConstraints.WEST;
 		gbc_btnAutomatedOrdering.insets = new Insets(0, 0, 5, 5);
@@ -461,7 +490,7 @@ public class SupermarketSys {
 		gbc_btnAutomatedOrdering.gridy = 0;
 		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
 		
-		JButton newInventoryItem = new JButton("New Item");
+		JButton newInventoryItem = new JButton("New Custom Item");
 		newInventoryItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String [] item=null;
@@ -476,7 +505,7 @@ public class SupermarketSys {
 				}		
 				
 				if(item!=null)	
-					{connect.addSupermarketItem(item, supermarket_id);
+					{connect.addSupermarketItem(item, supermarket_id, true);
 					Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
 					table = new JTable(data2, columnNames);
 					scrollPane.setViewportView(table);}
@@ -498,7 +527,9 @@ public class SupermarketSys {
 	
 					
 					if(item!=null) {
-						connect.modifySupermarketItem(item, Integer.parseInt(selectedRow));
+						Inventory inventory = new Inventory();
+						inventory.editItem(item, Integer.parseInt(selectedRow));
+						//connect.modifySupermarketItem(item, Integer.parseInt(selectedRow));
 					}
 					Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
 					table = new JTable(data2, columnNames);
@@ -518,9 +549,9 @@ public class SupermarketSys {
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
 		GridBagLayout gbl_supermarketTab = new GridBagLayout();
-		gbl_supermarketTab.columnWidths = new int[] {0, 30, 30, 30, 30, 30, 30, 0};
+		gbl_supermarketTab.columnWidths = new int[] {0, 30, 30, 0};
 		gbl_supermarketTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_supermarketTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_supermarketTab.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_supermarketTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		supermarketTab.setLayout(gbl_supermarketTab);
 		
@@ -560,17 +591,47 @@ public class SupermarketSys {
 		};
 		supplierSelector.addActionListener(actionListener);
 		
+		JButton addToInventory = new JButton("Add Item to Inventory");
+		addToInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (selectedRow!=null){
+					System.out.println("About to auto-order item on this row " + selectedRow);
+					System.out.println("Is this the anser?? " + inventoryTable.getValueAt(row, 1));
+					String [] item={(String) inventoryTable.getValueAt(row, 1),(String) inventoryTable.getValueAt(row, 2), "0", 
+							(String) inventoryTable.getValueAt(row, 4), (String) inventoryTable.getValueAt(row, 5), (String) inventoryTable.getValueAt(row, 0)};
+	
+					
+					if(item!=null) {
+						connect.addSupermarketItem(item, supermarket_id, false);
+					}
+				}
+			}
+		});
+		GridBagConstraints gbc_addToInventory = new GridBagConstraints();
+		gbc_addToInventory.insets = new Insets(0, 0, 5, 0);
+		gbc_addToInventory.gridx = 2;
+		gbc_addToInventory.gridy = 0;
+		supermarketTab.add(addToInventory, gbc_addToInventory);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.gridheight = 5;
-		gbc_scrollPane_1.gridwidth = 7;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane_1.gridwidth = 3;
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 2;
 		supermarketTab.add(scrollPane_1, gbc_scrollPane_1);
 			
 		inventoryTable = new JTable();
+		inventoryTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mevt) {
+				java.awt.Point point = mevt.getPoint();
+				row =inventoryTable.rowAtPoint(point);
+				selectedRow=(String) inventoryTable.getValueAt(row, 0);
+				System.out.println(selectedRow);
+			}
+		});
 		scrollPane_1.setViewportView(inventoryTable);
 
 		// CODES FOR NEW ORDER PAGE
