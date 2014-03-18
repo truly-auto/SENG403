@@ -29,11 +29,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
+
 import javax.swing.DefaultComboBoxModel;
-
-import FoodLink.Driver;
-import FoodLink.Inventory;
-
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
@@ -45,6 +42,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import java.awt.Color;
 import java.io.File;
@@ -54,6 +53,7 @@ import java.math.BigDecimal;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
+import java.awt.Font;
 
 public class SupermarketSys {
 
@@ -245,12 +245,8 @@ public class SupermarketSys {
 			};;
 		table1 = new JTable(orderModel);
 
-		
-		
 		scrollPane1.setViewportView(table1);
-		
-		
-		
+
 		final JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -518,9 +514,6 @@ public class SupermarketSys {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		inventoryTab.add(scrollPane, gbc_scrollPane);
-		
-		
-		
 		
 		table = new JTable(data, columnNames);
 		table.addMouseListener(new MouseAdapter() {
