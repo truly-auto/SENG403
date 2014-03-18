@@ -30,18 +30,14 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
-
-<<<<<<< HEAD
 import FoodLink.Driver;
 
 import FoodLink.Inventory;
 
-=======
-
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
->>>>>>> a0f80cafaecc060ed90ae51ded4676e7e6418226
+
 import FoodLink.database;
 
 import javax.swing.plaf.ColorUIResource;
