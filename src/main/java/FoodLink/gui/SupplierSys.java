@@ -368,7 +368,7 @@ private JTable table_2;
 		
 		final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
-		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"supermarket1","supermarket2"});
+		final JComboBox jcbSupermarkets = new JComboBox(new String[] {"supermarket1","supermarket2"});
 		jcbSupermarkets.addActionListener(new ActionListener() {
 			
 			@Override
@@ -448,10 +448,7 @@ private JTable table_2;
             setContentAreaFilled(false);
             
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> 0f1abe4438963d27eeca461b9828d5c24302f00b
         @Override
         protected void paintComponent(Graphics g){
             Graphics2D G2D = (Graphics2D)g.create();
