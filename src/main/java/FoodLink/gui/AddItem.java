@@ -2,7 +2,13 @@ package FoodLink.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -21,7 +27,10 @@ import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 
 public class AddItem extends JDialog {
 	/**
@@ -42,6 +51,18 @@ public class AddItem extends JDialog {
 	public AddItem() {
 		setTitle("Add an item");
 		setBounds(100, 100, 397, 264);
+		
+		BufferedImage img = null;
+		try 
+		{
+		    img = ImageIO.read(new File("src/main/resources/images/foodlinkIcon.png")); // put icon image here
+		} 
+		catch (IOException e) 
+		{
+		    e.printStackTrace();
+		}
+		this.setIconImage(img);
+		
 		getContentPane().setLayout(null);
 		{
 			JPanel buttonPane = new JPanel();
@@ -49,7 +70,7 @@ public class AddItem extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 			{
-				JButton okButton = new JButton("OK");
+				GradientButton okButton = new GradientButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						boolean valid=true;
@@ -89,7 +110,7 @@ public class AddItem extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				GradientButton cancelButton = new GradientButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						closeThisDialog();
@@ -177,5 +198,32 @@ public class AddItem extends JDialog {
 	public String[] getResult()
 	{
 		return this.result;
+	}
+	
+	private static final class GradientButton extends JButton{
+        private GradientButton(){
+            this.setText("");
+            setContentAreaFilled(false);
+        }
+        private GradientButton(String str){
+            this.setText(str);;
+            setContentAreaFilled(false);
+            
+        }
+
+        @Override
+        protected void paintComponent(Graphics g){
+            Graphics2D G2D = (Graphics2D)g.create();
+            Color grey = new Color(153, 153, 153);
+            G2D.setPaint(new GradientPaint(
+                    new Point(0, 0), 
+                    Color.white, 
+                    new Point(0, getHeight()), 
+                    grey));
+            G2D.fillRect(0, 0, getWidth(), getHeight());
+            G2D.dispose();
+
+            super.paintComponent(g);
+        }
 	}
 }
