@@ -147,13 +147,15 @@ private JTable table_2;
 		});
 		
 		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 40));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 3;
 		gbc_lblNewLabel_1.gridy = 0;
 		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 17;
 		gbc_btnNewButton.gridy = 0;
@@ -162,13 +164,20 @@ private JTable table_2;
 		JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_mainTabbedPane = new GridBagConstraints();
 		gbc_mainTabbedPane.gridheight = 2;
+		gbc_mainTabbedPane.gridwidth = 20;
+		gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
+		gbc_mainTabbedPane.gridx = 0;
+		gbc_mainTabbedPane.gridy = 1;
+		frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
+		/*
+		gbc_mainTabbedPane.gridheight = 2;
 		gbc_mainTabbedPane.gridwidth = 17;
 		gbc_mainTabbedPane.insets = new Insets(0, 0, 0, 5);
 		gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_mainTabbedPane.gridx = 3;
 		gbc_mainTabbedPane.gridy = 1;
 		frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
-		
+		*/
 		JPanel orderTab = new JPanel();
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
