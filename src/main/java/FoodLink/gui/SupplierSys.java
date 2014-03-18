@@ -9,12 +9,14 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 
+import java.awt.BorderLayout;
 import java.awt.Dialog.ModalityType;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
@@ -33,9 +35,14 @@ import javax.swing.JScrollPane;
 import java.awt.Choice;
 
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class SupplierSys {
 
@@ -284,6 +291,91 @@ private JTable table_2;
 		
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
+		
+		JPanel jpInvoices = new JPanel(new BorderLayout());
+		mainTabbedPane.addTab("Invoices",null, jpInvoices, null);
+		
+		
+		/*Invoice tab*/
+		final Object[][] objs1 = new Object[][] {
+				{ "012345", "Apple", 2, 500.99 },
+				{ "123456", "Banana", 3, 500.99 },
+				{ "234567", "Whatever", 6, 500.99 } };
+		final Object[][] objs2 = new Object[][] {
+				{ "012345", "Apple", 2, 500.99 },
+				{ "123456", "Banana", 3, 500.99 },
+				{ "234567", "Whatever", 6, 500.99 } };
+		final Object[][] objs3 = new Object[][] {
+				{ "012345", "Apple", 2, 500.99 },
+				{ "123456", "Banana", 3, 500.99 },
+				{ "234567", "Whatever", 6, 500.99 } };
+		Object[][] objs;
+		
+		String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)"};
+		final JTable jtInvoice = new JTable();
+		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"s1","s2","s3"});
+		jcbSupermarkets.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int index = jcbSupermarkets.getSelectedIndex();
+				if(index >= 0){
+
+				}
+			}
+		});
+		
+		jtInvoice.setModel(new DefaultTableModel(objs1,title) {
+			boolean[] columnEditables = new boolean[] { false, false, false,
+					false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		
+		JButton jbPrint = new JButton("Print");
+		jbPrint.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					File file = new File("invoice.xls");
+					TableModel model = jtInvoice.getModel();
+					FileWriter out = new FileWriter(file);
+					
+					for(int i = 0; i < model.getColumnCount(); i++){
+						out.write(model.getColumnName(i)+"\t");
+					}
+					out.write("\n");
+					for(int i=0; i < model.getRowCount();i++){
+						for(int j=0;j < model.getColumnCount();j++){
+		
+							out.write(model.getValueAt(i,j).toString() + "\t");
+							
+						}
+							out.write("\n");
+					}
+					out.close();
+					
+					Runtime r = Runtime.getRuntime();
+					r.exec("cmd.exe /c start " + file);
+					
+					
+					//Print off table directly
+					//jtInvoice.print(JTable.PrintMode.NORMAL);
+					
+				} catch (/*PrinterException |*/ IOException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		JScrollPane jspInvoice = new JScrollPane(jtInvoice);
+		jpInvoices.add(jcbSupermarkets, BorderLayout.NORTH);
+		jpInvoices.add(jspInvoice, BorderLayout.CENTER);
+		jpInvoices.add(jbPrint,BorderLayout.SOUTH);
 	}
 
 

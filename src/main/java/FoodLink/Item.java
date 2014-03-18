@@ -6,6 +6,23 @@ public class Item {
 	private double itemPrice;
 	private String itemName;
 
+	public Item(){
+		
+	}
+	
+	public Item(int itemKey){
+		setItemKey(itemKey);
+	}
+	
+	public Item(String itemName){
+		setItemName(itemName);
+	}
+	
+	public Item(String itemName, double itemPrice){
+		setItemName(itemName);
+		setItemPrice(itemPrice);
+	}
+	
 	public int getItemKey() {
 		return itemKey;
 	}
