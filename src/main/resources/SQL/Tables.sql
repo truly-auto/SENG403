@@ -30,11 +30,7 @@ CREATE TABLE items (
   item_type varchar(32),
   supplier_id int,
   quantity int,
-<<<<<<< HEAD
-  unit_price double,
-=======
   unit_price decimal,
->>>>>>> 1b3a419466e44362467a838642e14fea35a06c64
   unit varchar(32),
   PRIMARY KEY (item_number),
   FOREIGN KEY (supplier_id) references Supplier(supplier_id)
@@ -47,12 +43,7 @@ CREATE TABLE supermarket_inventory (
   inventory_type varchar(32),
   supermarket_id int,
   quantity int,
-<<<<<<< HEAD
-  unit_price double,
-  units varchar(255),
-=======
   unit_price decimal,
->>>>>>> 1b3a419466e44362467a838642e14fea35a06c64
   unit varchar(32),
   supplier_item_number int,
   PRIMARY KEY (inventory_number),
