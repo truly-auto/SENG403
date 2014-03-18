@@ -108,7 +108,7 @@ public class Login extends JFrame {
 		this.getContentPane().add(lblPassword);		
 		
 		// adding a password field
-		passwordField = new JTextField();
+		passwordField = new JPasswordField();
 		passwordField.setBounds(220, 338, 122, 23);
 		this.getContentPane().add(passwordField);
 		passwordField.setColumns(10);
@@ -250,7 +250,7 @@ public class Login extends JFrame {
 						else {
 							try {
 								//SupermarketSys window = new SupermarketSys();
-								SupermarketSys window = new SupermarketSys((Integer) credentials[1]);
+								SupermarketSys window = new SupermarketSys((Integer) credentials[1], Boolean.valueOf((String) credentials[2]));
 								
 								window.frame.setVisible(true);
 								close();

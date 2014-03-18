@@ -303,9 +303,7 @@ private JTable table_2;
 		gbc_btnNewButton_3.gridx = 0;
 		gbc_btnNewButton_3.gridy = 0;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
-		if(!manager){
-			btnNewButton_3.setVisible(false);
-			}
+		
 		
 		GradientButton btnSaveChanges = new GradientButton("Save Changes on Selected Row");
 		btnSaveChanges.addActionListener(new ActionListener() {
@@ -332,8 +330,13 @@ private JTable table_2;
 		gbc_btnSaveChanges.gridx = 2;
 		gbc_btnSaveChanges.gridy = 0;
 		inventoryTab.add(btnSaveChanges, gbc_btnSaveChanges);
-		 if(!manager){
-			 btnSaveChanges.setVisible(false); 
+		 
+		//enforcing roles
+		if(!manager){
+			//cant add items
+			btnNewButton_3.setVisible(false);		
+			//cant edit items
+			btnSaveChanges.setVisible(false); 
 		 }
 		
 		JPanel supermarketTab = new JPanel();
@@ -434,6 +437,10 @@ private JTable table_2;
 		jpInvoices.add(new JPanel(new FlowLayout()).add(jbPrint),BorderLayout.SOUTH);
 	}
 
+<<<<<<< HEAD
+	
+
+=======
 	private static final class GradientButton extends JButton{
         private GradientButton(){
             this.setText("");
@@ -444,6 +451,7 @@ private JTable table_2;
             setContentAreaFilled(false);
             
         }
+>>>>>>> 89b28ca7a6ff67dc0e87729fa50bc5c4c8b1381f
 
         @Override
         protected void paintComponent(Graphics g){
