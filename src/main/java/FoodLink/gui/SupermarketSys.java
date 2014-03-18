@@ -26,9 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
-
 import javax.swing.DefaultComboBoxModel;
 
+import FoodLink.Driver;
 import FoodLink.database;
 
 import javax.swing.plaf.ColorUIResource;
@@ -113,7 +113,14 @@ public class SupermarketSys {
 		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			}
+				frame.dispose();
+				try {
+					Login window = new Login();
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}		
+				 }
 		});
 
 		JLabel label = new JLabel("");
@@ -126,7 +133,14 @@ public class SupermarketSys {
 		JButton btnNewButton1 = new JButton("Log Out");
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			}
+
+				frame.dispose();
+				try {
+					Login window = new Login();
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}		}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;

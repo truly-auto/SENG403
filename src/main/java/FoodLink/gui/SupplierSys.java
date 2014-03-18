@@ -102,7 +102,13 @@ private JTable table_2;
 		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			}
+				frame.dispose();
+				try {
+					Login window = new Login();
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}		}
 		});
 		
 		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
@@ -300,8 +306,8 @@ private JTable table_2;
 		
 		
 		final Object[][] order1 = new Object[][]{
-				{data[0][0], data[0][1], 2, data[0][4], 2 * Integer.parseInt((String) data[0][4])},
-				{data[1][0], data[1][1], 2, data[1][4], 2 * Integer.parseInt((String) data[1][4])}
+				{data[0][0], data[0][1], 2, data[0][4], 2 * Double.parseDouble((String) data[0][4])},
+				{data[1][0], data[1][1], 2, data[1][4], 2 * Double.parseDouble((String) data[1][4])}
 		};
 		
 		
