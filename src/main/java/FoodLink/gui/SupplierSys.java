@@ -3,6 +3,7 @@ package FoodLink.gui;
 
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import java.awt.GridBagLayout;
@@ -11,12 +12,18 @@ import javax.swing.JButton;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog.ModalityType;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
@@ -41,6 +48,7 @@ import javax.swing.table.TableModel;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -93,10 +101,32 @@ private JTable table_2;
 		supplier = connect.getSpecSupplier(supplier_id);
 		System.out.println("this is .." + supplier_id);
 		frame = new JFrame();
+		LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
 		//frame.setBounds(100, 100, 608, 300);
 		frame.setBounds(100, 100, 640, 420);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Color green = new Color(182, 215, 168);
+		frame.getContentPane().setBackground(green);
+		BufferedImage Logo = null;
+		JPanel banner = new JPanel();
+		try 
+		{
+		    Logo = ImageIO.read(new File("src/main/resources/images/Logo17.JPG")); // put icon image here
+		    JLabel LogoPanel = new JLabel(new ImageIcon( Logo ));
+			banner.add(LogoPanel);
+		} 
+		catch (IOException e) 
+		{
+		    e.printStackTrace();
+		}
+		banner.setBackground(green);
+		frame.getContentPane().add(banner);
+		frame.setBackground(green);
+		
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
@@ -104,7 +134,7 @@ private JTable table_2;
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		JButton btnNewButton = new JButton("Log Out");
+		GradientButton btnNewButton = new GradientButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
@@ -117,13 +147,15 @@ private JTable table_2;
 		});
 		
 		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 40));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 3;
 		gbc_lblNewLabel_1.gridy = 0;
 		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 17;
 		gbc_btnNewButton.gridy = 0;
@@ -132,13 +164,20 @@ private JTable table_2;
 		JTabbedPane mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_mainTabbedPane = new GridBagConstraints();
 		gbc_mainTabbedPane.gridheight = 2;
+		gbc_mainTabbedPane.gridwidth = 20;
+		gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
+		gbc_mainTabbedPane.gridx = 0;
+		gbc_mainTabbedPane.gridy = 1;
+		frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
+		/*
+		gbc_mainTabbedPane.gridheight = 2;
 		gbc_mainTabbedPane.gridwidth = 17;
 		gbc_mainTabbedPane.insets = new Insets(0, 0, 0, 5);
 		gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_mainTabbedPane.gridx = 3;
 		gbc_mainTabbedPane.gridy = 1;
 		frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
-		
+		*/
 		JPanel orderTab = new JPanel();
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
@@ -148,7 +187,7 @@ private JTable table_2;
 		gbl_orderTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		orderTab.setLayout(gbl_orderTab);
 		
-		JButton btnNewButton_1 = new JButton("Refresh Orders");
+		GradientButton btnNewButton_1 = new GradientButton("Refresh Orders");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -229,7 +268,7 @@ private JTable table_2;
 		scrollPane_1.setViewportView(table_2);
 		
 		
-		JButton btnNewButton_3 = new JButton("Add New Item");
+		GradientButton btnNewButton_3 = new GradientButton("Add New Item");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String [] item=null;
@@ -259,7 +298,7 @@ private JTable table_2;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
 		
 		
-		JButton btnSaveChanges = new JButton("Save Changes on Selected Row");
+		GradientButton btnSaveChanges = new GradientButton("Save Changes on Selected Row");
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedRow!=null){
@@ -339,7 +378,7 @@ private JTable table_2;
 			}
 		});
 		
-		JButton jbPrint = new JButton("Save invoice and Open");
+		GradientButton jbPrint = new GradientButton("Save invoice and Open");
 		jbPrint.addActionListener(new ActionListener() {
 			
 			@Override
@@ -389,10 +428,36 @@ private JTable table_2;
 		jpInvoices.add(new JPanel(new FlowLayout()).add(jbPrint),BorderLayout.SOUTH);
 	}
 
+<<<<<<< HEAD
 	
 
+=======
+	private static final class GradientButton extends JButton{
+        private GradientButton(){
+            this.setText("");
+            setContentAreaFilled(false);
+        }
+        private GradientButton(String str){
+            this.setText(str);;
+            setContentAreaFilled(false);
+            
+        }
+>>>>>>> 89b28ca7a6ff67dc0e87729fa50bc5c4c8b1381f
 
-	
+        @Override
+        protected void paintComponent(Graphics g){
+            Graphics2D G2D = (Graphics2D)g.create();
+            Color grey = new Color(153, 153, 153);
+            G2D.setPaint(new GradientPaint(
+                    new Point(0, 0), 
+                    Color.white, 
+                    new Point(0, getHeight()), 
+                    grey));
+            G2D.fillRect(0, 0, getWidth(), getHeight());
+            G2D.dispose();
 
+            super.paintComponent(g);
+        }
+	}
 
 }
