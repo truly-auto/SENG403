@@ -45,6 +45,7 @@ CREATE TABLE supermarket_inventory (
   quantity int,
   unit_price decimal,
   unit varchar(32),
+  supplier_item_number int,
   PRIMARY KEY (inventory_number),
   FOREIGN KEY (supermarket_id) references Supermarket(store_id)
 );
@@ -73,6 +74,15 @@ CREATE TABLE order_history(
 	date_time_created timestamp,
 	status varchar(32),
 	PRIMARY KEY (invoice_number)
+	);
+
+CREATE TABLE automatic_orders(
+	id int not null generated always as identity,
+	threshold int,
+	quantity int,
+	supermarket_item int,
+	primary key (id),
+	foreign key (supermarket_item) references supermarket_inventory(inventory_number)
 	);
 
 
