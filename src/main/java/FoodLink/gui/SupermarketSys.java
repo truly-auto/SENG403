@@ -23,11 +23,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
-
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,6 +36,7 @@ import java.awt.Color;
 import java.math.BigDecimal;
 
 import javax.swing.JTextField;
+
 import java.awt.Font;
 
 public class SupermarketSys {
@@ -49,12 +51,12 @@ public class SupermarketSys {
 
 	private String[] itemsColumnNames = {"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
 
-	DefaultTableModel itemsListModel;
+	DefaultTableModel itemsTableModel;
 
 	private database connect = new database();
 	DefaultListModel itemsListModel1;
-	private JTable table_4;
-	private JTextField textField;
+	private JTable itemsTable;
+	private JTextField grandTotal;
 	private int tabNumber = 0;
 
 	/**
@@ -207,176 +209,12 @@ public class SupermarketSys {
 				// When Create Order button is clicked the following codes will
 				// execute
 
-				// This codes will create a new tab called NEW ORDER
-				final JPanel newOrder = new JPanel();
-				// tabNumber++;
-				// String tabName = "NEW ORDER " + tabNumber;
-				btnNewButton_1.setEnabled(false);
-				mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);
-				mainTabbedPane.setBackgroundAt(4, new Color(0, 0, 0));
-				mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
-				GridBagLayout gbl_newOrder = new GridBagLayout();
-				gbl_newOrder.columnWidths = new int[] { 0, 90, 0, 0, 0, 0, 0,
-						0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0 };
-				gbl_newOrder.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0,
-						0, 0, 0, 0, 0 };
-				gbl_newOrder.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0,
-						0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-						1.0, 1.0, 1.0, Double.MIN_VALUE };
-				gbl_newOrder.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0,
-						0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
-						Double.MIN_VALUE };
-				newOrder.setLayout(gbl_newOrder);
-
-				String[] supplierNames = connect.getSupplierNames();
-
-				JLabel lblNewLabel_2 = new JLabel("Select Supplier:");
-				GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-				gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
-				gbc_lblNewLabel_2.gridwidth = 2;
-				gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-				gbc_lblNewLabel_2.gridx = 0;
-				gbc_lblNewLabel_2.gridy = 0;
-				newOrder.add(lblNewLabel_2, gbc_lblNewLabel_2);
-
-				comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(supplierNames));
-				GridBagConstraints gbc_comboBox = new GridBagConstraints();
-				gbc_comboBox.anchor = GridBagConstraints.WEST;
-				gbc_comboBox.gridwidth = 7;
-				gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-				gbc_comboBox.gridx = 2;
-				gbc_comboBox.gridy = 0;
-				newOrder.add(comboBox, gbc_comboBox);
-
-				ActionListener actionListener = new ActionListener() {
-
-					public void actionPerformed(ActionEvent actionEvent) {
-						System.out.println("SUPPLIER INDEX: "
-								+ comboBox.getSelectedIndex());
-						itemsList = connect.getItemListForSupplier(comboBox
-								.getSelectedIndex());
-						itemsListModel = new DefaultTableModel(itemsList,
-								itemsColumnNames) {
-							Class[] columnTypes = new Class[] { String.class,
-									String.class, String.class, BigDecimal.class,
-									String.class, String.class, BigDecimal.class };
-
-							public Class getColumnClass(int columnIndex) {
-								return columnTypes[columnIndex];
-							}
-
-							boolean[] columnEditables = new boolean[] { false,
-									false, false, true, false, false, false };
-
-							public boolean isCellEditable(int row, int column) {
-								return columnEditables[column];
-							}
-						};
-						table_4.setModel(itemsListModel);
-					}
-				};
-
-				comboBox.addActionListener(actionListener);
-
-				JScrollPane scrollPane_1 = new JScrollPane();
-				GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-				gbc_scrollPane_1.gridheight = 8;
-				gbc_scrollPane_1.gridwidth = 18;
-				gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-				gbc_scrollPane_1.gridx = 0;
-				gbc_scrollPane_1.gridy = 1;
-
-				newOrder.add(scrollPane_1, gbc_scrollPane_1);
-
-				itemsListModel = new DefaultTableModel(itemsList,
-						itemsColumnNames);
-
-				table_4 = new JTable(new DefaultTableModel());
-
-
-				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
-
-				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
-//				{
-//					boolean[] columnEditables = new boolean[] { false,
-//							false, false, false};
-//
-//					public boolean isCellEditable(int row, int column) {
-//						return columnEditables[column];
-//				}};
-
-				table_4 = new JTable(new DefaultTableModel());
-				table_4.setRowSelectionAllowed(false);
-				scrollPane_1.setViewportView(table_4);
-
-				JButton btnNewButton_4 = new JButton("Cancel Order");
-				btnNewButton_4.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-
-						int n = JOptionPane.showConfirmDialog(frame,
-								"Are you sure you want to cancel order?",
-								"Cancel Order", JOptionPane.YES_NO_OPTION);
-
-						System.out.println("ANSWER: " + n);
-
-						int index = mainTabbedPane.indexOfTab("NEW ORDER");
-
-						if (index >= 0 && n == 0) {
-							mainTabbedPane.remove(newOrder);
-							btnNewButton_1.setEnabled(true);
-						}
-					}
-				});
-
-				JLabel lblNewLabel_1 = new JLabel("GRAND TOTAL:");
-				GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-				gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-				gbc_lblNewLabel_1.gridx = 14;
-				gbc_lblNewLabel_1.gridy = 9;
-				newOrder.add(lblNewLabel_1, gbc_lblNewLabel_1);
-
-				textField = new JTextField();
-				textField.setEditable(false);
-				GridBagConstraints gbc_textField = new GridBagConstraints();
-				gbc_textField.insets = new Insets(0, 0, 5, 5);
-				gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField.gridx = 16;
-				gbc_textField.gridy = 9;
-				newOrder.add(textField, gbc_textField);
-				textField.setColumns(10);
-				GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-				gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
-				gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
-				gbc_btnNewButton_4.gridx = 14;
-				gbc_btnNewButton_4.gridy = 11;
-				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
-
-				JButton btnNewButton_3 = new JButton("Submit Order");
-				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
-				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
-				gbc_btnNewButton_3.gridx = 16;
-				gbc_btnNewButton_3.gridy = 11;
-				newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
-				btnNewButton_3.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-
-						int n = JOptionPane.showConfirmDialog(frame,
-								"Are you sure you want to submit order?",
-								"Cancel Order", JOptionPane.YES_NO_OPTION);
-
-						System.out.println("ANSWER: " + n);
-
-						int index = mainTabbedPane.indexOfTab("NEW ORDER");
-
-						if (index >= 0 && n == 0) {
-							mainTabbedPane.remove(newOrder);
-							btnNewButton_1.setEnabled(true);
-						}
-					}
-				});
+				
+				
+				
+				
+				
+				
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -444,6 +282,232 @@ public class SupermarketSys {
 		mainTabbedPane.addTab("Account", null, accountTab, null);
 
 		// CODES FOR NEW ORDER PAGE
+		// This codes will create a new tab called NEW ORDER
+		final JPanel newOrder = new JPanel();
+		// tabNumber++;
+		// String tabName = "NEW ORDER " + tabNumber;
+		btnNewButton_1.setEnabled(false);
+		mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);
+		mainTabbedPane.setBackgroundAt(4, new Color(0, 0, 0));
+		mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
+		GridBagLayout gbl_newOrder = new GridBagLayout();
+		gbl_newOrder.columnWidths = new int[] { 0, 90, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_newOrder.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0 };
+		gbl_newOrder.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0,
+				0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_newOrder.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0,
+				0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
+				Double.MIN_VALUE };
+		newOrder.setLayout(gbl_newOrder);
+
+		String[] supplierNames = connect.getSupplierNames();
+
+		JLabel lblNewLabel_2 = new JLabel("Select Supplier:");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_2.gridwidth = 2;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 0;
+		gbc_lblNewLabel_2.gridy = 0;
+		newOrder.add(lblNewLabel_2, gbc_lblNewLabel_2);
+
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(supplierNames));
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.anchor = GridBagConstraints.WEST;
+		gbc_comboBox.gridwidth = 7;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 0;
+		newOrder.add(comboBox, gbc_comboBox);
+
+		ActionListener actionListener = new ActionListener() {
+
+			public void actionPerformed(ActionEvent actionEvent) {
+				System.out.println("SUPPLIER INDEX: "
+						+ comboBox.getSelectedIndex());
+				itemsList = connect.getItemListForSupplier(comboBox
+						.getSelectedIndex());
+				itemsTableModel = new DefaultTableModel(itemsList,
+						itemsColumnNames) {
+					Class[] columnTypes = new Class[] { String.class,
+							String.class, String.class, BigDecimal.class,
+							String.class, String.class, BigDecimal.class };
+
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+
+					boolean[] columnEditables = new boolean[] { false,
+							false, false, true, false, false, true };
+
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				};
+				
+				itemsTable.setModel(itemsTableModel);
+				
+				//code for calculating the total and the grand total
+				
+				final String startingNum = "0.00";
+				String newVal;
+				
+				itemsTableModel.addTableModelListener(new TableModelListener() {
+					
+					@Override
+					public void tableChanged(TableModelEvent e) {
+						int numberOfRow = itemsTableModel.getRowCount();
+					
+						
+						
+						System.out.println("Total Row Numbers: " + numberOfRow);
+						
+						
+						for (int i = 0; i < numberOfRow; i++) {
+							
+							System.out.println("Value in row " + i + " column 2: " + itemsTableModel.getValueAt(i, 2));
+							
+							if(itemsTableModel.getValueAt(i, 3) != "")
+							{
+						        String unit_price = (itemsTableModel.getValueAt(i, 4).toString());
+			                    BigDecimal bdUnit_price = new BigDecimal(unit_price);
+			                    
+			                    String quantity = (itemsTableModel.getValueAt(i, 3).toString());
+			                    BigDecimal bdQuantity = new BigDecimal(quantity);
+			                    
+			                    BigDecimal bdTotal = bdQuantity.multiply(bdUnit_price);
+			                    
+			                    System.out.println("ITEM TOTAL: " + bdTotal.toString());
+			                    
+			                    itemsList[i][6] = bdTotal.toString();
+			                    
+//			                    itemsTableModel.setValueAt(bdTotal, i, 6);
+//			                    itemsTable.setModel(itemsTableModel);
+			                    
+			                    itemsTableModel.fireTableCellUpdated(i, 6);
+			                    itemsTable.setModel(itemsTableModel);
+			                    
+			                    
+			                    //itemsTableModel.setValueAt(dbTotal.toString(), i, 6);
+			                    
+			                    BigDecimal finalTotal = new BigDecimal(startingNum);
+			                   
+			                    finalTotal.add(bdTotal);
+							}
+		            
+		              }//end of for loop
+						
+						//grandTotal.setText(finalTotal.toString());
+						
+						
+						
+						
+					}
+				});
+
+
+			}
+		};
+
+		comboBox.addActionListener(actionListener);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.gridheight = 8;
+		gbc_scrollPane_1.gridwidth = 18;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 0;
+		gbc_scrollPane_1.gridy = 1;
+
+		newOrder.add(scrollPane_1, gbc_scrollPane_1);
+
+		itemsTableModel = new DefaultTableModel(itemsList,itemsColumnNames);
+		newOrder.add(scrollPane_1, gbc_scrollPane_1);	
+
+		itemsTable = new JTable(new DefaultTableModel());
+		itemsTable.setRowSelectionAllowed(false);
+		scrollPane_1.setViewportView(itemsTable);
+		
+		
+		
+		
+
+		JButton btnNewButton_4 = new JButton("Cancel Order");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int n = JOptionPane.showConfirmDialog(frame,
+						"Are you sure you want to cancel order?",
+						"Cancel Order", JOptionPane.YES_NO_OPTION);
+
+				System.out.println("ANSWER: " + n);
+
+				int index = mainTabbedPane.indexOfTab("NEW ORDER");
+
+				if (index >= 0 && n == 0) {
+					mainTabbedPane.remove(newOrder);
+					btnNewButton_1.setEnabled(true);
+				}
+			}
+		});
+
+		JLabel lblNewLabel_1 = new JLabel("GRAND TOTAL:");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 14;
+		gbc_lblNewLabel_1.gridy = 9;
+		newOrder.add(lblNewLabel_1, gbc_lblNewLabel_1);
+
+		grandTotal = new JTextField();
+		grandTotal.setEditable(false);
+		GridBagConstraints gbc_grandTotal = new GridBagConstraints();
+		gbc_grandTotal.insets = new Insets(0, 0, 5, 5);
+		gbc_grandTotal.fill = GridBagConstraints.HORIZONTAL;
+		gbc_grandTotal.gridx = 16;
+		gbc_grandTotal.gridy = 9;
+		newOrder.add(grandTotal, gbc_grandTotal);
+		grandTotal.setColumns(10);
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_4.gridx = 14;
+		gbc_btnNewButton_4.gridy = 11;
+		newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
+
+		JButton btnNewButton_3 = new JButton("Submit Order");
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_3.gridx = 16;
+		gbc_btnNewButton_3.gridy = 11;
+		newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int n = JOptionPane.showConfirmDialog(frame,
+						"Are you sure you want to submit order?",
+						"Cancel Order", JOptionPane.YES_NO_OPTION);
+
+				System.out.println("ANSWER: " + n);
+
+				int index = mainTabbedPane.indexOfTab("NEW ORDER");
+
+				if (index >= 0 && n == 0) {
+					mainTabbedPane.remove(newOrder);
+					btnNewButton_1.setEnabled(true);
+				}
+			}
+		});
+		
+		
+		
+		
+		
 
 	}
 

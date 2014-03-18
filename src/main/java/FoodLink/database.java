@@ -315,7 +315,7 @@ public class database {
 		        	System.out.println("Item Type: " + item_type);
 			       	//get quantity
 		        	String quantity = "";
-		        	itemList.add("");
+		        	itemList.add(quantity);
 			       	//get unit price
 		        	String unit_price = rs.getString("unit_price");
 		        	itemList.add(unit_price);
