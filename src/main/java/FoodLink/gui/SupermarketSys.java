@@ -88,7 +88,7 @@ public class SupermarketSys {
 	private JTable inventoryTable;
 	
 	//temporary?
-	private int grandTotal = 0;
+	private double grandTotal = 0.0;
 	
 	
 	private String selectedRow= null;
@@ -356,12 +356,12 @@ public class SupermarketSys {
 							    		  if (table_4.getValueAt(i,6) != "")
 							    		  {
 							    			  
-							    			  grandTotal += Integer.valueOf(table_4.getValueAt(i, 6).toString());
+							    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
 							    			  System.out.println("gtotal: " + grandTotal);
 							    		  }//
 						    		  }
 						    		  
-						    		  textField.setText(Integer.toString(grandTotal));
+						    		  textField.setText(Double.toString(grandTotal));
 						    		  
 						    	  }
 						      }
