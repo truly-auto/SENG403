@@ -428,10 +428,7 @@ private JTable table_2;
 		jpInvoices.add(new JPanel(new FlowLayout()).add(jbPrint),BorderLayout.SOUTH);
 	}
 
-<<<<<<< HEAD
-	
 
-=======
 	private static final class GradientButton extends JButton{
         private GradientButton(){
             this.setText("");
@@ -442,8 +439,6 @@ private JTable table_2;
             setContentAreaFilled(false);
             
         }
->>>>>>> 89b28ca7a6ff67dc0e87729fa50bc5c4c8b1381f
-
         @Override
         protected void paintComponent(Graphics g){
             Graphics2D G2D = (Graphics2D)g.create();

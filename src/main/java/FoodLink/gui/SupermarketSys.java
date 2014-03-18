@@ -39,11 +39,9 @@ import FoodLink.Driver;
 import FoodLink.Inventory;
 
 
-<<<<<<< HEAD
-=======
+
 import FoodLink.Driver;
 import FoodLink.Inventory;
->>>>>>> 89b28ca7a6ff67dc0e87729fa50bc5c4c8b1381f
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
