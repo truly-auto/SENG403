@@ -30,7 +30,6 @@ CREATE TABLE items (
   item_type varchar(32),
   supplier_id int,
   quantity int,
-  --unit_price double,
   unit_price decimal,
   unit varchar(32),
   PRIMARY KEY (item_number),
@@ -45,7 +44,6 @@ CREATE TABLE supermarket_inventory (
   supermarket_id int,
   quantity int,
   supplier_item_number int,
- -- unit_price double,
   unit_price decimal,
   unit varchar(32),
   PRIMARY KEY (inventory_number),
@@ -159,6 +157,8 @@ VALUES ('John_Doe','password',1, 'true');
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('June_Doe','password',1, 'false');
 
+INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID)
+VALUES ('Jane_Doe','password',1);	
 
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('Josh_Senior','password',2, 'true');

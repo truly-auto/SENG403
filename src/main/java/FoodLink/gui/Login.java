@@ -145,6 +145,12 @@ public class Login extends JFrame {
 		lblUsername.setBounds(140, 260, 89, 14);
 		this.getContentPane().add(lblUsername);
 
+		// creating password label
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPassword.setBounds(99, 117, 89, 14);
+		this.getContentPane().add(lblPassword);
+
 		// adding username text field
 		userField = new JTextField();
 		userField.setBounds(220, 258, 122, 23);

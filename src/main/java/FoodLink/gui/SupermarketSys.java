@@ -37,11 +37,14 @@ import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
+<<<<<<< HEAD
 
 
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
+=======
+>>>>>>> 0f1abe4438963d27eeca461b9828d5c24302f00b
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
@@ -50,6 +53,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import java.awt.Color;
 import java.io.File;
@@ -59,6 +64,7 @@ import java.math.BigDecimal;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
+import java.awt.Font;
 
 public class SupermarketSys {
 
@@ -122,7 +128,7 @@ public class SupermarketSys {
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		Color grey = new Color(153, 153, 153);
 		Color green = new Color(182, 215, 168);
 		frame.getContentPane().setBackground(green);
 		BufferedImage Logo = null;
@@ -253,7 +259,6 @@ public class SupermarketSys {
 		
 		
 		scrollPane1.setViewportView(table1);
-		
 		
 		
 		final GradientButton btnNewButton_1 = new GradientButton("Create Order");
@@ -399,7 +404,7 @@ public class SupermarketSys {
 				table_4.setRowSelectionAllowed(false);
 				scrollPane_1.setViewportView(table_4);
 
-				GradientButton btnNewButton_4 = new GradientButton("Cancel Order");
+				JButton btnNewButton_4 = new JButton("Cancel Order");
 				btnNewButton_4.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
@@ -500,10 +505,10 @@ public class SupermarketSys {
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
 		//use this one when building
-		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 
 		JPanel inventoryTab = new JPanel();
@@ -523,9 +528,6 @@ public class SupermarketSys {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		inventoryTab.add(scrollPane, gbc_scrollPane);
-		
-		
-		
 		
 		table = new JTable(data, columnNames);
 		table.addMouseListener(new MouseAdapter() {

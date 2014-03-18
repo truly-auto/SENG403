@@ -63,7 +63,7 @@ public class SupplierSys {
 	private database connect = new database ();
 	private String selectedRow= null;
 	private int row;
-	
+	private boolean manager = true;
 
 private JTable table_1;
 private JTable table_2;
@@ -75,7 +75,7 @@ private JTable table_2;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//hard code parameter to swicth suppliers here (1-5)
+					//hard code parameter to switch suppliers here (1-5)
 					SupplierSys window = new SupplierSys(1, true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -199,6 +199,13 @@ private JTable table_2;
 		gbc_btnNewButton_1.gridy = 0;
 		orderTab.add(btnNewButton_1, gbc_btnNewButton_1);
 		
+		JButton btnNewButton_2 = new JButton("Automated Ordering");
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_2.gridx = 1;
+		gbc_btnNewButton_2.gridy = 0;
+		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 		
 		JLabel lblNewLabel = new JLabel("Current Orders");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -235,7 +242,7 @@ private JTable table_2;
 		
 		
 		
-		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Price", "Units"};
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price", "Units"};
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
@@ -340,7 +347,6 @@ private JTable table_2;
 		
 		/*Invoice tab*/	
 		JPanel jpInvoices = new JPanel(new BorderLayout());
-		
 		mainTabbedPane.addTab("Invoices",null, jpInvoices, null);
 		
 		final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
@@ -364,6 +370,7 @@ private JTable table_2;
 		final JTable jtInvoice = new JTable();
 		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"supermarket1","supermarket2"});
 		jcbSupermarkets.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				int index = jcbSupermarkets.getSelectedIndex();
@@ -402,7 +409,9 @@ private JTable table_2;
 					out.write("\n");
 					for(int i=0; i < model.getRowCount();i++){
 						for(int j=0;j < model.getColumnCount();j++){
+		
 							out.write(model.getValueAt(i,j).toString() + "\t");
+							
 						}
 							out.write("\n");
 					}
@@ -439,6 +448,10 @@ private JTable table_2;
             setContentAreaFilled(false);
             
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0f1abe4438963d27eeca461b9828d5c24302f00b
         @Override
         protected void paintComponent(Graphics g){
             Graphics2D G2D = (Graphics2D)g.create();
