@@ -44,6 +44,7 @@ CREATE TABLE supermarket_inventory (
   inventory_type varchar(32),
   supermarket_id int,
   quantity int,
+  supplier_item_number int,
  -- unit_price double,
   unit_price decimal,
   unit varchar(32),

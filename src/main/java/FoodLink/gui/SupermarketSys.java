@@ -30,13 +30,9 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
-import FoodLink.Driver;
 
 import FoodLink.Inventory;
 
-
-import FoodLink.Driver;
-import FoodLink.Inventory;
 
 import FoodLink.database;
 
@@ -85,7 +81,7 @@ public class SupermarketSys {
 			public void run() {
 				try {
 					//hard code parameter to swicth suppliers here (1-5) same as SupplierSys
-					SupermarketSys window = new SupermarketSys(1);
+					SupermarketSys window = new SupermarketSys(1, true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -97,14 +93,14 @@ public class SupermarketSys {
 	/**
 	 * Create the application.
 	 */
-	public SupermarketSys(int supermarket_id) {
-		initialize(supermarket_id);
+	public SupermarketSys(int supermarket_id, boolean manager) {
+		initialize(supermarket_id, manager);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final int supermarket_id) {
+	private void initialize(final int supermarket_id, final boolean manager) {
 		frame = new JFrame();
 		//LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
@@ -664,6 +660,13 @@ public class SupermarketSys {
 		});
 		scrollPane_1.setViewportView(inventoryTable);
 
+		//role enforcement
+		if(!manager){
+			//cant create orders
+			btnNewButton_1.setVisible(false);
+			//cant automate orders
+			btnNewButton_2.setVisible(false);
+		}
 		// CODES FOR NEW ORDER PAGE
 
 	}
