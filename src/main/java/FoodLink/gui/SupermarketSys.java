@@ -1,7 +1,8 @@
 package FoodLink.gui;
 
 import java.awt.EventQueue;
-
+import java.awt.*;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import java.awt.GridBagLayout;
@@ -15,8 +16,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
@@ -28,16 +31,25 @@ import javax.swing.JComboBox;
 import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
 
+<<<<<<< HEAD
 import FoodLink.Driver;
 
 import FoodLink.Inventory;
 
+=======
+
+
+import FoodLink.Driver;
+import FoodLink.Inventory;
+>>>>>>> a0f80cafaecc060ed90ae51ded4676e7e6418226
 import FoodLink.database;
 
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.swing.JTextField;
@@ -98,10 +110,29 @@ public class SupermarketSys {
 	 */
 	private void initialize(final int supermarket_id) {
 		frame = new JFrame();
-		LookAndFeel lookAndFeel = new LookAndFeel(frame);
+		//LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Color grey = new Color(153, 153, 153);
+		Color green = new Color(182, 215, 168);
+		frame.getContentPane().setBackground(green);
+		BufferedImage Logo = null;
+		JPanel banner = new JPanel();
+		try 
+		{
+		    Logo = ImageIO.read(new File("src/main/resources/images/Logo17.JPG")); // put icon image here
+		    JLabel LogoPanel = new JLabel(new ImageIcon( Logo ));
+			banner.add(LogoPanel);
+		} 
+		catch (IOException e) 
+		{
+		    e.printStackTrace();
+		}
+		banner.setBackground(green);
+		frame.getContentPane().add(banner);
+		frame.setBackground(green);
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -134,6 +165,7 @@ public class SupermarketSys {
 		frame.getContentPane().add(label, gbc_label);
 
 		JButton btnNewButton1 = new JButton("Log Out");
+		btnNewButton1.setBackground(grey);
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -263,6 +295,9 @@ public class SupermarketSys {
 				ActionListener actionListener = new ActionListener() {
 
 					public void actionPerformed(ActionEvent actionEvent) {
+						int index = mainTabbedPane.getSelectedIndex();
+						mainTabbedPane.setTitleAt(index, (String) comboBox.getSelectedItem());
+		            
 						System.out.println("SUPPLIER INDEX: "
 								+ comboBox.getSelectedIndex());
 						itemsList = connect.getItemListForSupplier(comboBox

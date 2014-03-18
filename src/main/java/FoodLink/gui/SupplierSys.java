@@ -11,6 +11,7 @@ import javax.swing.JButton;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog.ModalityType;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -43,10 +44,13 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class SupplierSys {
 
 	public JFrame frame;
+	private String [] supplier;
 	private JTable table;
 	private database connect = new database ();
 	private String selectedRow= null;
@@ -86,11 +90,12 @@ private JTable table_2;
 	 */
 	private void initialize(final int supplier_id, boolean manager) {
 		
-		String [] supplier = connect.getSpecSupplier(supplier_id);
+		supplier = connect.getSpecSupplier(supplier_id);
 		System.out.println("this is .." + supplier_id);
 		frame = new JFrame();
 		frame.setTitle("FoodLink");
-		frame.setBounds(100, 100, 608, 300);
+		//frame.setBounds(100, 100, 608, 300);
+		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -298,43 +303,47 @@ private JTable table_2;
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
 		
+		/*Invoice tab*/	
 		JPanel jpInvoices = new JPanel(new BorderLayout());
+		
 		mainTabbedPane.addTab("Invoices",null, jpInvoices, null);
 		
-		
-		/*Invoice tab*/
-		
+		final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
 		
 		final Object[][] order1 = new Object[][]{
 				{data[0][0], data[0][1], 2, data[0][4], 2 * Double.parseDouble((String) data[0][4])},
 				{data[1][0], data[1][1], 2, data[1][4], 2 * Double.parseDouble((String) data[1][4])}
 		};
 		
+		final Object[][] order2 = new Object[][]{
+				{data[0][0], data[0][1], 20, data[0][4], 20 * Integer.parseInt((String) data[0][4])},
+				{data[1][0], data[1][1], 12, data[1][4], 12 * Integer.parseInt((String) data[1][4])},
+				{data[3][0], data[3][1], 4, data[3][4], 4 * Integer.parseInt((String) data[3][4])},
+				{data[4][0], data[4][1], 8, data[4][4], 8 * Integer.parseInt((String) data[4][4])},
+		};
 		
-		String[] title = new String[] {"Item Number", "Item", "quantity", "Price($)", "Total($)"};
+		listOrders.add(order1);
+		listOrders.add(order2);
+		
+		final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
-		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"supermarket1","supermarket2","supermarket3"});
+		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"supermarket1","supermarket2"});
 		jcbSupermarkets.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				int index = jcbSupermarkets.getSelectedIndex();
-				if(index >= 0){
+				jtInvoice.setModel(new DefaultTableModel(listOrders.get(index),title) {
+					boolean[] columnEditables = new boolean[] { false, false, false,
+							false };
 
-				}
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				});
 			}
 		});
 		
-		jtInvoice.setModel(new DefaultTableModel(order1,title) {
-			boolean[] columnEditables = new boolean[] { false, false, false,
-					false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		
-		JButton jbPrint = new JButton("Save and Open");
+		JButton jbPrint = new JButton("Save invoice and Open");
 		jbPrint.addActionListener(new ActionListener() {
 			
 			@Override
@@ -343,16 +352,22 @@ private JTable table_2;
 					File file = new File("invoice_" + jcbSupermarkets.getSelectedItem()+ ".xls");
 					TableModel model = jtInvoice.getModel();
 					FileWriter out = new FileWriter(file);
+					SimpleDateFormat sdf = new SimpleDateFormat("MMM. d, yyyy", java.util.Locale.ENGLISH);
+					
+					out.write(supplier[0] + "\t\t\t" + jcbSupermarkets.getSelectedItem() + "\n");
+					out.write(supplier[1] + "\t\t\t" + "SUPERMARKET ADDRESS" + "\n");
+					out.write(supplier[2] + "\t\t\t" + "SUPERMARKET PHONE#" + "\n");
+					out.write(supplier[3] + "\t\t\t" + sdf.format(java.util.Calendar.getInstance().getTime()) + "\n");
+					out.write("\n\n");
 					
 					for(int i = 0; i < model.getColumnCount(); i++){
-						out.write(model.getColumnName(i)+"\t");
+						out.write(model.getColumnName(i) + "\t");
 					}
+					
 					out.write("\n");
 					for(int i=0; i < model.getRowCount();i++){
 						for(int j=0;j < model.getColumnCount();j++){
-		
 							out.write(model.getValueAt(i,j).toString() + "\t");
-							
 						}
 							out.write("\n");
 					}
@@ -362,10 +377,10 @@ private JTable table_2;
 					r.exec("cmd.exe /c start " + file);
 					
 					
-					//Print off table directly
+					/*THE FOLLOWING LINE PRINTS OFF THE TABLE DIRECTLY*/
 					//jtInvoice.print(JTable.PrintMode.NORMAL);
 					
-				} catch (/*PrinterException |*/ IOException e1) {
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 				
@@ -375,7 +390,7 @@ private JTable table_2;
 		JScrollPane jspInvoice = new JScrollPane(jtInvoice);
 		jpInvoices.add(jcbSupermarkets, BorderLayout.NORTH);
 		jpInvoices.add(jspInvoice, BorderLayout.CENTER);
-		jpInvoices.add(jbPrint,BorderLayout.SOUTH);
+		jpInvoices.add(new JPanel(new FlowLayout()).add(jbPrint),BorderLayout.SOUTH);
 	}
 
 
