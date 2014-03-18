@@ -311,46 +311,30 @@ public class SupermarketSys {
 				ActionListener actionListener = new ActionListener() {
 
 					public void actionPerformed(ActionEvent actionEvent) {
-<<<<<<< HEAD
 						int index = mainTabbedPane.getSelectedIndex();
 						mainTabbedPane.setTitleAt(index, (String) comboBox.getSelectedItem());
 		            
-=======
->>>>>>> FETCH_HEAD
 						System.out.println("SUPPLIER INDEX: "
 								+ comboBox.getSelectedIndex());
 						itemsList = connect.getItemListForSupplier(comboBox
 								.getSelectedIndex());
-<<<<<<< HEAD
 						itemsListModel = new DefaultTableModel(itemsList,
 								itemsColumnNames) {
 							Class[] columnTypes = new Class[] { String.class,
 									String.class, String.class, BigDecimal.class,
 									String.class, String.class, BigDecimal.class };
-=======
-						itemsTableModel = new DefaultTableModel(itemsList,
-								itemsColumnNames) {
-							Class[] columnTypes = new Class[] { String.class,
-									String.class, String.class, BigDecimal.class,
-									String.class, String.class, String.class };
->>>>>>> FETCH_HEAD
 
 							public Class getColumnClass(int columnIndex) {
 								return columnTypes[columnIndex];
 							}
 
 							boolean[] columnEditables = new boolean[] { false,
-<<<<<<< HEAD
 									false, false, true, false, false, false };
-=======
-									false, false, true, false, false, true };
->>>>>>> FETCH_HEAD
 
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];
 							}
 						};
-<<<<<<< HEAD
 						table_4.setModel(itemsListModel);
 						table_4.getModel().addTableModelListener(new TableModelListener() {
 							  /**
@@ -382,132 +366,6 @@ public class SupermarketSys {
 						    	  }
 						      }
 						});
-=======
-						
-						itemsTable.setModel(itemsTableModel);
-						
-						//code for calculating the total and the grand total
-						
-						final String startingNum = "0.00";
-						String newVal;
-						
-						itemsTableModel.addTableModelListener(new TableModelListener() {
-							
-							@Override
-							public void tableChanged(TableModelEvent e) {
-								int numberOfRow = itemsTableModel.getRowCount();
-								String[] totalSet = new String[numberOfRow-1];
-								
-								
-								
-								//System.out.println("Total Row Numbers: " + numberOfRow);
-								
-								int editRowIndex = itemsTable.getEditingRow();
-								int editColIndex = itemsTable.getEditingColumn();
-								System.out.println("Row editing index: " + editRowIndex);
-								
-								
-								
-								if((editRowIndex != -1) && (editColIndex == 3))
-								{
-									
-									
-									//get unit price
-							        String unit_price = (itemsTableModel.getValueAt(editRowIndex, 4).toString());
-				                    BigDecimal bdUnit_price = new BigDecimal(unit_price);
-				                    
-				                    //get quantity value
-				                    String quantity = (itemsTableModel.getValueAt(editRowIndex, 3).toString());
-				                    BigDecimal bdQuantity = new BigDecimal(quantity);
-				                    
-				                    BigDecimal bdTotal = bdQuantity.multiply(bdUnit_price);
-				                    
-				                    System.out.println("ITEM TOTAL: " + bdTotal.toString());
-				                    
-				                    totalSet[editRowIndex] = bdTotal.toString();
-				                    
-				                    itemsTable.setValueAt(new BigDecimal( totalSet[editRowIndex]), editRowIndex, 6);
-				                   // System.out.println("ADDED SUCCESSFULLY");
-				                    
-				                    //update the grand total here
-				                    
-				                   
-				                    for(int i = 0; i < totalSet.length; i++)
-				                    {
-				                    	if(totalSet[i] != null)
-				                    	{
-				                    		double value = Double.parseDouble(totalSet[i]);
-				                    		System.out.println("VALUE: " + value);
-				                    		System.out.println("BEFORE : " + mygrandTotal);
-				                    		mygrandTotal += value;
-				                    		System.out.println("GRAND TOTAL: " + mygrandTotal);
-				                    	}
-				                    }
-				                    
-				                    grandTotal.setText(Double.toString(mygrandTotal));
-				                    
-								}
-								
-//								for (int i = 0; i < numberOfRow; i++) {
-//									
-//									System.out.println("Value in row " + i + " column 2: " + itemsTableModel.getValueAt(i, 3));
-//									
-//									if(itemsTableModel.getValueAt(i, 3) != "")
-//									{
-//										//get unit price
-//								        String unit_price = (itemsTableModel.getValueAt(i, 4).toString());
-//					                    BigDecimal bdUnit_price = new BigDecimal(unit_price);
-//					                    
-//					                    //get quantity value
-//					                    String quantity = (itemsTableModel.getValueAt(i, 3).toString());
-//					                    BigDecimal bdQuantity = new BigDecimal(quantity);
-//					                    
-//					                    BigDecimal bdTotal = bdQuantity.multiply(bdUnit_price);
-//					                    
-//					                    System.out.println("ITEM TOTAL: " + bdTotal.toString());
-//					                    
-//					                    totalSet[i] = bdTotal.toString();
-//					                    
-////					                   
-////					                    
-////					                    TableColumn c = new TableColumn(6);
-////					                    c.setHeaderValue(itemsTableModel.getColumnName(6));
-////					                    TableColumnModel columns = itemsTable.getColumnModel();
-////					                    columns.addColumn(c);
-//					                    
-//					                    itemsTable.setValueAt(totalSet[i], i, 6);
-//					                    System.out.println("ADDED SUCCESSFULLY");
-//					                    
-////					                    int colCount = itemsTableModel.getColumnCount();
-////					                    itemsTableModel.setColumnCount(colCount+1);
-////					                    itemsTableModel.addColumn("Total");
-//					                    
-////					                    itemsTableModel.setValueAt(bdTotal, i, 6);
-////					                    itemsTable.setModel(itemsTableModel);
-//					                    
-////					                    itemsTableModel.fireTableCellUpdated(i, 6);
-////					                    itemsTable.setModel(itemsTableModel);
-//					                    
-//					                    
-//					                    //itemsTableModel.setValueAt(dbTotal.toString(), i, 6);
-//					                    
-//					                    BigDecimal finalTotal = new BigDecimal(startingNum);
-//					                   
-//					                    finalTotal.add(bdTotal);
-//									}
-//				            
-//				              }//end of for loop
-//								
-								//grandTotal.setText(finalTotal.toString());
-								
-								
-								
-								
-							}
-						});
-
-
->>>>>>> FETCH_HEAD
 					}
 				};
 
@@ -524,7 +382,6 @@ public class SupermarketSys {
 
 				newOrder.add(scrollPane_1, gbc_scrollPane_1);
 
-<<<<<<< HEAD
 				itemsListModel = new DefaultTableModel(itemsList,
 						itemsColumnNames);
 
@@ -545,18 +402,6 @@ public class SupermarketSys {
 				table_4 = new JTable(new DefaultTableModel());
 				table_4.setRowSelectionAllowed(false);
 				scrollPane_1.setViewportView(table_4);
-=======
-				itemsTableModel = new DefaultTableModel(itemsList,itemsColumnNames);
-				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
-
-				itemsTable = new JTable(new DefaultTableModel());
-				itemsTable.setRowSelectionAllowed(false);
-				scrollPane_1.setViewportView(itemsTable);
-				
-				
-				
-				
->>>>>>> FETCH_HEAD
 
 				JButton btnNewButton_4 = new JButton("Cancel Order");
 				btnNewButton_4.addActionListener(new ActionListener() {
@@ -584,7 +429,6 @@ public class SupermarketSys {
 				gbc_lblNewLabel_1.gridy = 9;
 				newOrder.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-<<<<<<< HEAD
 				textField = new JTextField();
 				textField.setEditable(false);
 				GridBagConstraints gbc_textField = new GridBagConstraints();
@@ -594,48 +438,6 @@ public class SupermarketSys {
 				gbc_textField.gridy = 9;
 				newOrder.add(textField, gbc_textField);
 				textField.setColumns(10);
-=======
-				grandTotal = new JTextField();
-				grandTotal.setEditable(false);
-				GridBagConstraints gbc_grandTotal = new GridBagConstraints();
-				gbc_grandTotal.insets = new Insets(0, 0, 5, 5);
-				gbc_grandTotal.fill = GridBagConstraints.HORIZONTAL;
-				gbc_grandTotal.gridx = 16;
-				gbc_grandTotal.gridy = 9;
-				newOrder.add(grandTotal, gbc_grandTotal);
-				grandTotal.setColumns(10);
-				GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-				gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
-				gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
-				gbc_btnNewButton_4.gridx = 14;
-				gbc_btnNewButton_4.gridy = 11;
-				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
-
-				JButton btnNewButton_3 = new JButton("Submit Order");
-				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
-				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
-				gbc_btnNewButton_3.gridx = 16;
-				gbc_btnNewButton_3.gridy = 11;
-				newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
-				btnNewButton_3.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-
-						int n = JOptionPane.showConfirmDialog(frame,
-								"Are you sure you want to submit order?",
-								"Cancel Order", JOptionPane.YES_NO_OPTION);
-
-						System.out.println("ANSWER: " + n);
-
-						int index = mainTabbedPane.indexOfTab("NEW ORDER");
-
-						if (index >= 0 && n == 0) {
-							mainTabbedPane.remove(newOrder);
-							btnNewButton_1.setEnabled(true);
-						}
-					}
-				});
->>>>>>> FETCH_HEAD
 				
 				
 				
@@ -740,7 +542,6 @@ public class SupermarketSys {
 		
 		
 		scrollPane.setViewportView(table);
-<<<<<<< HEAD
 		
 		GradientButton btnAutomatedOrdering = new GradientButton("Automated Ordering");
 		btnAutomatedOrdering.addActionListener(new ActionListener() {
@@ -830,17 +631,6 @@ public class SupermarketSys {
 
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
-=======
-
-		JPanel supermarketTab = new JPanel();
-		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
-
-		JPanel accountTab = new JPanel();
-		mainTabbedPane.addTab("Account", null, accountTab, null);
-
-		// CODES FOR NEW ORDER PAGE
-
->>>>>>> FETCH_HEAD
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
