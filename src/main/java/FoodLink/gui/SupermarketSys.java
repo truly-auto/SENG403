@@ -39,6 +39,10 @@ import FoodLink.Driver;
 import FoodLink.Inventory;
 import FoodLink.database;
 
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
 
@@ -72,6 +76,10 @@ public class SupermarketSys {
 	private JTextField textField;
 	private int tabNumber = 0;
 	private JTable inventoryTable;
+	
+	//temporary?
+	private int grandTotal = 0;
+	
 	
 	private String selectedRow= null;
 	private int row;
@@ -109,7 +117,7 @@ public class SupermarketSys {
 		frame.setTitle("FoodLink");
 		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		Color grey = new Color(153, 153, 153);
 		Color green = new Color(182, 215, 168);
 		frame.getContentPane().setBackground(green);
 		BufferedImage Logo = null;
@@ -139,7 +147,7 @@ public class SupermarketSys {
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
-		GradientButton btnNewButton = new GradientButton("Log Out");
+		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
@@ -159,8 +167,8 @@ public class SupermarketSys {
 		gbc_label.gridy = 0;
 		frame.getContentPane().add(label, gbc_label);
 
-		GradientButton btnNewButton1 = new GradientButton("Log Out");
-		
+		JButton btnNewButton1 = new JButton("Log Out");
+		btnNewButton1.setBackground(grey);
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -237,9 +245,13 @@ public class SupermarketSys {
 			};;
 		table1 = new JTable(orderModel);
 
+		
+		
 		scrollPane1.setViewportView(table1);
-
-		final GradientButton btnNewButton_1 = new GradientButton("Create Order");
+		
+		
+		
+		final JButton btnNewButton_1 = new JButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// When Create Order button is clicked the following codes will
@@ -315,6 +327,36 @@ public class SupermarketSys {
 							}
 						};
 						table_4.setModel(itemsListModel);
+						table_4.getModel().addTableModelListener(new TableModelListener() {
+							  /**
+							   * 
+							   */
+						      public void tableChanged(TableModelEvent e) {
+						         // Code here to update the order
+						    	  
+						    	  // ensures that only when updates to quantity warrant a change to order
+						    	  if (e.getColumn() == 3)
+						    	  {
+						    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
+						    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
+						    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
+						    		  
+						    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
+						    		  grandTotal = 0;
+						    		  for (int i = 0; i < table_4.getRowCount(); i++) {
+							    		  if (table_4.getValueAt(i,6) != "")
+							    		  {
+							    			  
+							    			  grandTotal += Integer.valueOf(table_4.getValueAt(i, 6).toString());
+							    			  System.out.println("gtotal: " + grandTotal);
+							    		  }//
+						    		  }
+						    		  
+						    		  textField.setText(Integer.toString(grandTotal));
+						    		  
+						    	  }
+						      }
+						});
 					}
 				};
 
@@ -352,7 +394,7 @@ public class SupermarketSys {
 				table_4.setRowSelectionAllowed(false);
 				scrollPane_1.setViewportView(table_4);
 
-				GradientButton btnNewButton_4 = new GradientButton("Cancel Order");
+				JButton btnNewButton_4 = new JButton("Cancel Order");
 				btnNewButton_4.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
@@ -387,6 +429,9 @@ public class SupermarketSys {
 				gbc_textField.gridy = 9;
 				newOrder.add(textField, gbc_textField);
 				textField.setColumns(10);
+				
+				
+				
 				GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 				gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
 				gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
@@ -394,7 +439,7 @@ public class SupermarketSys {
 				gbc_btnNewButton_4.gridy = 11;
 				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
 
-				GradientButton btnNewButton_3 = new GradientButton("Submit Order");
+				JButton btnNewButton_3 = new JButton("Submit Order");
 				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
 				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
@@ -427,7 +472,7 @@ public class SupermarketSys {
 		gbc_btnNewButton_1.gridy = 0;
 		orderTab.add(btnNewButton_1, gbc_btnNewButton_1);
 
-		GradientButton btnNewButton_2 = new GradientButton("Automated Ordering");
+		JButton btnNewButton_2 = new JButton("Automated Ordering");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
@@ -450,10 +495,10 @@ public class SupermarketSys {
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
 		//use this one when building
-		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 
 		JPanel inventoryTab = new JPanel();
@@ -474,6 +519,9 @@ public class SupermarketSys {
 		gbc_scrollPane.gridy = 1;
 		inventoryTab.add(scrollPane, gbc_scrollPane);
 		
+		
+		
+		
 		table = new JTable(data, columnNames);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -484,9 +532,12 @@ public class SupermarketSys {
 				System.out.println(selectedRow);
 			}
 		});
+		
+		
+		
 		scrollPane.setViewportView(table);
 		
-		GradientButton btnAutomatedOrdering = new GradientButton("Automated Ordering");
+		JButton btnAutomatedOrdering = new JButton("Automated Ordering");
 		btnAutomatedOrdering.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedRow!=null){
@@ -519,7 +570,7 @@ public class SupermarketSys {
 		gbc_btnAutomatedOrdering.gridy = 0;
 		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
 		
-		GradientButton newInventoryItem = new GradientButton("New Custom Item");
+		JButton newInventoryItem = new JButton("New Custom Item");
 		newInventoryItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String [] item=null;
@@ -546,7 +597,7 @@ public class SupermarketSys {
 		gbc_newInventoryItem.gridy = 0;
 		inventoryTab.add(newInventoryItem, gbc_newInventoryItem);
 		
-		GradientButton saveChanges = new GradientButton("Save Current Row");
+		JButton saveChanges = new JButton("Save Current Row");
 		saveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedRow!=null){
@@ -620,7 +671,7 @@ public class SupermarketSys {
 		};
 		supplierSelector.addActionListener(actionListener);
 		
-		GradientButton addToInventory = new GradientButton("Add Item to Inventory");
+		JButton addToInventory = new JButton("Add Item to Inventory");
 		addToInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedRow!=null){
@@ -669,31 +720,5 @@ public class SupermarketSys {
 
 	public JComboBox getComboBox() {
 		return comboBox;
-	}
-	private static final class GradientButton extends JButton{
-        private GradientButton(){
-            this.setText("");
-            setContentAreaFilled(false);
-        }
-        private GradientButton(String str){
-            this.setText(str);;
-            setContentAreaFilled(false);
-            
-        }
-
-        @Override
-        protected void paintComponent(Graphics g){
-            Graphics2D G2D = (Graphics2D)g.create();
-            Color grey = new Color(153, 153, 153);
-            G2D.setPaint(new GradientPaint(
-                    new Point(0, 0), 
-                    Color.white, 
-                    new Point(0, getHeight()), 
-                    grey));
-            G2D.fillRect(0, 0, getWidth(), getHeight());
-            G2D.dispose();
-
-            super.paintComponent(g);
-        }
 	}
 }
