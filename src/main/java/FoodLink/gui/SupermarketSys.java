@@ -10,8 +10,12 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.Dialog.ModalityType;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -33,7 +37,6 @@ import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
@@ -92,7 +95,7 @@ public class SupermarketSys {
 			public void run() {
 				try {
 					//hard code parameter to swicth suppliers here (1-5) same as SupplierSys
-					SupermarketSys window = new SupermarketSys(1);
+					SupermarketSys window = new SupermarketSys(1, true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -494,10 +497,10 @@ public class SupermarketSys {
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
 		//use this one when building
-		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 
 		JPanel inventoryTab = new JPanel();
@@ -723,5 +726,32 @@ public class SupermarketSys {
 
 	public JComboBox getComboBox() {
 		return comboBox;
+	}
+	
+	private static final class GradientButton extends JButton{
+        private GradientButton(){
+            this.setText("");
+            setContentAreaFilled(false);
+        }
+        private GradientButton(String str){
+            this.setText(str);;
+            setContentAreaFilled(false);
+            
+        }
+
+        @Override
+        protected void paintComponent(Graphics g){
+            Graphics2D G2D = (Graphics2D)g.create();
+            Color grey = new Color(153, 153, 153);
+            G2D.setPaint(new GradientPaint(
+                    new Point(0, 0), 
+                    Color.white, 
+                    new Point(0, getHeight()), 
+                    grey));
+            G2D.fillRect(0, 0, getWidth(), getHeight());
+            G2D.dispose();
+
+            super.paintComponent(g);
+        }
 	}
 }
