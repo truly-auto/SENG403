@@ -359,20 +359,7 @@ public class SupermarketSys {
 				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
 
 				JButton btnNewButton_3 = new JButton("Submit Order");
-				btnNewButton_3.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						invoiceListModel = new DefaultTableModel(invoiceList,
-								invoiceColumnNames);
-						try {
-							AddItem window = new AddItem();
-							window.setModalityType(ModalityType.APPLICATION_MODAL);
-							window.setVisible(true);
 
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-					}
-				});
 				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
 				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
@@ -393,7 +380,20 @@ public class SupermarketSys {
 						if (index >= 0 && n == 0) {
 							mainTabbedPane.remove(newOrder);
 							btnNewButton_1.setEnabled(true);
+						} else {
+							invoiceListModel = new DefaultTableModel(
+									invoiceList, invoiceColumnNames);
+
+							try {
+								AddInvoice newInvoice = new AddInvoice(
+										supermarket_id);
+
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+
 						}
+
 					}
 				});
 			}
