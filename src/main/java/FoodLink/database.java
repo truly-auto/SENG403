@@ -500,7 +500,7 @@ public class database {
 		else{
 			command = "select * from store_users where username = '" +username+"'";
 		}
-		Object [] user = new Object [2]; 
+		Object [] user = new Object [3]; 
 		
 		//===
 		try {
@@ -512,7 +512,10 @@ public class database {
 		        String password = rs.getString("password");
 		        System.out.println(password);
 		        user[0]=password;  
-		     	if(supplier){
+		     	
+		        String manager = rs.getString("manager");
+		        user[2]=manager;
+		        if(supplier){
 			        int sup_id = rs.getInt("supplier_id");
 			        System.out.println(sup_id);
 			        user[1]=sup_id;  }
@@ -536,10 +539,17 @@ public class database {
 		return user;
 	}
 	
-	public void addSupermarketItem(String[] item, int id) {
+	public void addSupermarketItem(String[] item, int id, boolean customItem) {
 		
-		String command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit) VALUES "
-				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", '" + item[4] +  "')";
+		String command = "";
+		if (customItem) {
+			//Custom additions don't need the supplier's item number
+			command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit) VALUES "
+					+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", '" + item[4] + "')";
+		}else{
+			command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit, supplier_item_number) VALUES "
+					+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", '" + item[4] + "', " + item[5] +  ")";
+		}
 		
 		try {
 		     statement.execute(command);
@@ -629,6 +639,46 @@ public class database {
 		}
 		
 		return returnArray;
-	}	
+	}
+	
+	public void addAutomaticOrder(String[] order, int id) {
+		
+		String command = "INSERT INTO automatic_orders (threshold, quantity, supermarket_item) VALUES "
+				+ "(" + Integer.parseInt(order[0]) + ", "+ Integer.parseInt(order[1]) + ", " + id + ")";
+		
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		   }
+		System.out.println("Add Successful");
+	}
+	
+	public Integer[] getThreshold(int id) {
+		String command = "select * from automatic_orders where supermarket_item = " + id;
+		ArrayList<Integer> itemsList = new ArrayList<Integer>() ;
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     
+		     //while(rs.next()) {
+		    if (rs.next()) {
+		    	 itemsList.add(Integer.parseInt(rs.getString("threshold")));
+		    	 itemsList.add(Integer.parseInt(rs.getString("quantity")));
+		     }
+		}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		}
+		
+		return itemsList.toArray(new Integer[itemsList.size()]);
+	}
 }
 

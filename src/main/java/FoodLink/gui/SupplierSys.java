@@ -55,7 +55,7 @@ public class SupplierSys {
 	private database connect = new database ();
 	private String selectedRow= null;
 	private int row;
-	private boolean manager = true;
+	
 
 private JTable table_1;
 private JTable table_2;
@@ -68,7 +68,7 @@ private JTable table_2;
 			public void run() {
 				try {
 					//hard code parameter to swicth suppliers here (1-5)
-					SupplierSys window = new SupplierSys(1);
+					SupplierSys window = new SupplierSys(1, true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -80,15 +80,15 @@ private JTable table_2;
 	/**
 	 * Create the application.
 	 */
-	public SupplierSys(int supplier_id) {
+	public SupplierSys(int supplier_id, boolean manager) {
 		
-		initialize(supplier_id);
+		initialize(supplier_id, manager);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final int supplier_id) {
+	private void initialize(final int supplier_id, boolean manager) {
 		
 		supplier = connect.getSpecSupplier(supplier_id);
 		System.out.println("this is .." + supplier_id);
@@ -106,7 +106,13 @@ private JTable table_2;
 		JButton btnNewButton = new JButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			}
+				frame.dispose();
+				try {
+					Login window = new Login();
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}		}
 		});
 		
 		JLabel lblNewLabel_1 = new JLabel(supplier[0]);
@@ -304,8 +310,8 @@ private JTable table_2;
 		final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
 		
 		final Object[][] order1 = new Object[][]{
-				{data[0][0], data[0][1], 2, data[0][4], 2 * Integer.parseInt((String) data[0][4])},
-				{data[1][0], data[1][1], 2, data[1][4], 2 * Integer.parseInt((String) data[1][4])}
+				{data[0][0], data[0][1], 2, data[0][4], 2 * Double.parseDouble((String) data[0][4])},
+				{data[1][0], data[1][1], 2, data[1][4], 2 * Double.parseDouble((String) data[1][4])}
 		};
 		
 		final Object[][] order2 = new Object[][]{
