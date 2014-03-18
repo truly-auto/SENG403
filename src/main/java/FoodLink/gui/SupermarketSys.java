@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -23,7 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
-
 import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.database;
@@ -35,6 +35,7 @@ import java.awt.Color;
 import java.math.BigDecimal;
 
 import javax.swing.JTextField;
+
 import java.awt.Font;
 
 public class SupermarketSys {
@@ -47,7 +48,8 @@ public class SupermarketSys {
 	DefaultListModel orderListModel;
 	private Object[][] itemsList;
 
-	private String[] itemsColumnNames = {"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
+	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
+			"Quantity", "Unit Price ($)", "Unit", "Total" };
 
 	DefaultTableModel itemsListModel;
 
@@ -90,12 +92,12 @@ public class SupermarketSys {
 		frame.setBounds(100, 100, 640, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
@@ -105,15 +107,16 @@ public class SupermarketSys {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		
+
 		String[] supermarketName = connect.getSupermarketName(4);
-		
+
 		System.out.println("SUPERMARKET NAME: " + supermarketName);
-		
+
 		JLabel SupermarketName = new JLabel(supermarketName[0]);
 		SupermarketName.setForeground(new Color(0, 0, 255));
 		SupermarketName.setBackground(new Color(255, 255, 255));
-		SupermarketName.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 17));
+		SupermarketName
+				.setFont(new Font("Rockwell Extra Bold", Font.PLAIN, 17));
 		GridBagConstraints gbc_SupermarketName = new GridBagConstraints();
 		gbc_SupermarketName.anchor = GridBagConstraints.WEST;
 		gbc_SupermarketName.gridwidth = 8;
@@ -154,11 +157,12 @@ public class SupermarketSys {
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
 		gbl_orderTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0 };
 		gbl_orderTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, Double.MIN_VALUE };
-		gbl_orderTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0,
-				1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_orderTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
+				1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		orderTab.setLayout(gbl_orderTab);
 
 		String[] columnNameInvoice = { "Invoice Number", "Total Cost($)",
@@ -169,13 +173,13 @@ public class SupermarketSys {
 				{ "123456", "567.33", "02/28/2014", "Shipped" },
 				{ "234567", "730.98", "02/16/2014", "Completed" } };
 
-				JLabel lblNewLabel = new JLabel("Order Status");
-				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-				gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_lblNewLabel.gridx = 0;
-				gbc_lblNewLabel.gridy = 1;
-				orderTab.add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblNewLabel = new JLabel("Order Status");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		orderTab.add(lblNewLabel, gbc_lblNewLabel);
 
 		JScrollPane scrollPane1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
@@ -189,14 +193,16 @@ public class SupermarketSys {
 
 		Object[][] orderList = connect.getOrderList();
 
-		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnNameInvoice){
-			boolean[] columnEditables = new boolean[] {
-					false, false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			};;
+		DefaultTableModel orderModel = new DefaultTableModel(orderList,
+				columnNameInvoice) {
+			boolean[] columnEditables = new boolean[] { false, false, false,
+					false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		};
+		;
 		table1 = new JTable(orderModel);
 
 		scrollPane1.setViewportView(table1);
@@ -259,8 +265,9 @@ public class SupermarketSys {
 						itemsListModel = new DefaultTableModel(itemsList,
 								itemsColumnNames) {
 							Class[] columnTypes = new Class[] { String.class,
-									String.class, String.class, BigDecimal.class,
-									String.class, String.class, BigDecimal.class };
+									String.class, String.class,
+									BigDecimal.class, String.class,
+									String.class, BigDecimal.class };
 
 							public Class getColumnClass(int columnIndex) {
 								return columnTypes[columnIndex];
@@ -295,17 +302,17 @@ public class SupermarketSys {
 
 				table_4 = new JTable(new DefaultTableModel());
 
+				newOrder.add(scrollPane_1, gbc_scrollPane_1);
 
-				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
-
-				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
-//				{
-//					boolean[] columnEditables = new boolean[] { false,
-//							false, false, false};
-//
-//					public boolean isCellEditable(int row, int column) {
-//						return columnEditables[column];
-//				}};
+				itemsListModel = new DefaultTableModel(itemsList,
+						itemsColumnNames);
+				// {
+				// boolean[] columnEditables = new boolean[] { false,
+				// false, false, false};
+				//
+				// public boolean isCellEditable(int row, int column) {
+				// return columnEditables[column];
+				// }};
 
 				table_4 = new JTable(new DefaultTableModel());
 				table_4.setRowSelectionAllowed(false);
@@ -354,6 +361,28 @@ public class SupermarketSys {
 				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
 
 				JButton btnNewButton_3 = new JButton("Submit Order");
+				btnNewButton_3.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String[] invoice = null;
+						try {
+							AddItem window = new AddItem();
+							window.setModalityType(ModalityType.APPLICATION_MODAL);
+							window.setVisible(true);
+
+							invoice = window.getResult();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+
+						if (item != null) {
+							connect.addItem(invoice, supermarket_id);
+							Object[][] data2 = connect
+									.getInventory(supermarket_id);
+							table_2 = new JTable(data2, columnNames);
+							scrollPane_1.setViewportView(table_2);
+						}
+					}
+				});
 				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
 				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
