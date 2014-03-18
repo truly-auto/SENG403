@@ -297,23 +297,17 @@ private JTable table_2;
 		
 		
 		/*Invoice tab*/
-		final Object[][] objs1 = new Object[][] {
-				{ "012345", "Apple", 2, 500.99 },
-				{ "123456", "Banana", 3, 500.99 },
-				{ "234567", "Whatever", 6, 500.99 } };
-		final Object[][] objs2 = new Object[][] {
-				{ "012345", "Apple", 2, 500.99 },
-				{ "123456", "Banana", 3, 500.99 },
-				{ "234567", "Whatever", 6, 500.99 } };
-		final Object[][] objs3 = new Object[][] {
-				{ "012345", "Apple", 2, 500.99 },
-				{ "123456", "Banana", 3, 500.99 },
-				{ "234567", "Whatever", 6, 500.99 } };
-		Object[][] objs;
 		
-		String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)"};
+		
+		final Object[][] order1 = new Object[][]{
+				{data[0][0], data[0][1], 2, data[0][4], 2 * Integer.parseInt((String) data[0][4])},
+				{data[1][0], data[1][1], 2, data[1][4], 2 * Integer.parseInt((String) data[1][4])}
+		};
+		
+		
+		String[] title = new String[] {"Item Number", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
-		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"s1","s2","s3"});
+		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"supermarket1","supermarket2","supermarket3"});
 		jcbSupermarkets.addActionListener(new ActionListener() {
 			
 			@Override
@@ -325,7 +319,7 @@ private JTable table_2;
 			}
 		});
 		
-		jtInvoice.setModel(new DefaultTableModel(objs1,title) {
+		jtInvoice.setModel(new DefaultTableModel(order1,title) {
 			boolean[] columnEditables = new boolean[] { false, false, false,
 					false };
 
@@ -334,13 +328,13 @@ private JTable table_2;
 			}
 		});
 		
-		JButton jbPrint = new JButton("Print");
+		JButton jbPrint = new JButton("Save and Open");
 		jbPrint.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					File file = new File("invoice.xls");
+					File file = new File("invoice_" + jcbSupermarkets.getSelectedItem()+ ".xls");
 					TableModel model = jtInvoice.getModel();
 					FileWriter out = new FileWriter(file);
 					
