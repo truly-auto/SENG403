@@ -60,6 +60,7 @@ public class SupermarketSys {
 	private JTable itemsTable;
 	private JTextField grandTotal;
 	private int tabNumber = 0;
+	double mygrandTotal = 0;
 
 	/**
 	 * Launch the application.
@@ -337,7 +338,7 @@ public class SupermarketSys {
 						itemsColumnNames) {
 					Class[] columnTypes = new Class[] { String.class,
 							String.class, String.class, BigDecimal.class,
-							String.class, String.class, BigDecimal.class };
+							String.class, String.class, String.class };
 
 					public Class getColumnClass(int columnIndex) {
 						return columnTypes[columnIndex];
@@ -372,6 +373,8 @@ public class SupermarketSys {
 						int editRowIndex = itemsTable.getEditingRow();
 						System.out.println("Row editing index: " + editRowIndex);
 						
+						
+						
 						if(editRowIndex != -1)
 						{
 							//get unit price
@@ -385,11 +388,82 @@ public class SupermarketSys {
 		                    BigDecimal bdTotal = bdQuantity.multiply(bdUnit_price);
 		                    
 		                    System.out.println("ITEM TOTAL: " + bdTotal.toString());
-		                    		                    
-		                    //itemsTable.setValueAt(bdTotal, editRowIndex, 6);
-//		                    System.out.println("ADDED SUCCESSFULLY");
+		                    
+		                    totalSet[editRowIndex] = bdTotal.toString();
+		                    
+		                    //itemsTable.setValueAt(totalSet[editRowIndex], editRowIndex, 6);
+		                   // System.out.println("ADDED SUCCESSFULLY");
+		                    
+		                    //update the grand total here
+		                    
+		                   
+		                    for(int i = 0; i < totalSet.length; i++)
+		                    {
+		                    	if(totalSet[i] != null)
+		                    	{
+		                    		double value = Double.parseDouble(totalSet[i]);
+		                    		System.out.println("VALUE: " + value);
+		                    		System.out.println("BEFORE : " + mygrandTotal);
+		                    		mygrandTotal += value;
+		                    		System.out.println("GRAND TOTAL: " + mygrandTotal);
+		                    	}
+		                    }
+		                    
+		                    grandTotal.setText(Double.toString(mygrandTotal));
+		                    
 						}
-				
+						
+//						for (int i = 0; i < numberOfRow; i++) {
+//							
+//							System.out.println("Value in row " + i + " column 2: " + itemsTableModel.getValueAt(i, 3));
+//							
+//							if(itemsTableModel.getValueAt(i, 3) != "")
+//							{
+//								//get unit price
+//						        String unit_price = (itemsTableModel.getValueAt(i, 4).toString());
+//			                    BigDecimal bdUnit_price = new BigDecimal(unit_price);
+//			                    
+//			                    //get quantity value
+//			                    String quantity = (itemsTableModel.getValueAt(i, 3).toString());
+//			                    BigDecimal bdQuantity = new BigDecimal(quantity);
+//			                    
+//			                    BigDecimal bdTotal = bdQuantity.multiply(bdUnit_price);
+//			                    
+//			                    System.out.println("ITEM TOTAL: " + bdTotal.toString());
+//			                    
+//			                    totalSet[i] = bdTotal.toString();
+//			                    
+////			                    TableColumn tcol = itemsTable.getColumnModel().getColumn(6);
+////			                    itemsTable.removeColumn(tcol);
+////			                    
+////			                    TableColumn c = new TableColumn(6);
+////			                    c.setHeaderValue(itemsTableModel.getColumnName(6));
+////			                    TableColumnModel columns = itemsTable.getColumnModel();
+////			                    columns.addColumn(c);
+//			                    
+//			                    itemsTable.setValueAt(totalSet[i], i, 6);
+//			                    System.out.println("ADDED SUCCESSFULLY");
+//			                    
+////			                    int colCount = itemsTableModel.getColumnCount();
+////			                    itemsTableModel.setColumnCount(colCount+1);
+////			                    itemsTableModel.addColumn("Total");
+//			                    
+////			                    itemsTableModel.setValueAt(bdTotal, i, 6);
+////			                    itemsTable.setModel(itemsTableModel);
+//			                    
+////			                    itemsTableModel.fireTableCellUpdated(i, 6);
+////			                    itemsTable.setModel(itemsTableModel);
+//			                    
+//			                    
+//			                    //itemsTableModel.setValueAt(dbTotal.toString(), i, 6);
+//			                    
+//			                    BigDecimal finalTotal = new BigDecimal(startingNum);
+//			                   
+//			                    finalTotal.add(bdTotal);
+//							}
+//		            
+//		              }//end of for loop
+//						
 						//grandTotal.setText(finalTotal.toString());
 						
 						
