@@ -18,6 +18,7 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionListener;
@@ -371,6 +372,7 @@ private JTable table_2;
 		
 		final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
+		jtInvoice.getTableHeader().setReorderingAllowed(false);
 		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"supermarket1","supermarket2"});
 		jcbSupermarkets.setSelectedIndex(-1);
 		jcbSupermarkets.addActionListener(new ActionListener() {
@@ -452,7 +454,9 @@ private JTable table_2;
 		JScrollPane jspInvoice = new JScrollPane(jtInvoice);
 		jpInvoices.add(jcbSupermarkets, BorderLayout.NORTH);
 		jpInvoices.add(jspInvoice, BorderLayout.CENTER);
-		jpInvoices.add(new JPanel(new FlowLayout()).add(jbPrint),BorderLayout.SOUTH);
+		JPanel jpSouth = new JPanel(new FlowLayout());
+		jpSouth.add(jbPrint);
+		jpInvoices.add(jpSouth,BorderLayout.SOUTH);
 	}
 
 
