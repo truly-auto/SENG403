@@ -87,8 +87,7 @@ public class SupermarketSys {
 	private int tabNumber = 0;
 	private JTable inventoryTable;
 	
-	//temporary?
-	private int grandTotal = 0;
+	private double grandTotal = 0;
 	
 	
 	private String selectedRow= null;
@@ -346,9 +345,14 @@ public class SupermarketSys {
 						    	  // ensures that only when updates to quantity warrant a change to order
 						    	  if (e.getColumn() == 3)
 						    	  {
+						    		  //check if the input is negative
+						    		  
+						    		  
 						    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
 						    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
+						    		  b.abs();
 						    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
+						    		  c.abs();
 						    		  
 						    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
 						    		  grandTotal = 0;
@@ -356,12 +360,12 @@ public class SupermarketSys {
 							    		  if (table_4.getValueAt(i,6) != "")
 							    		  {
 							    			  
-							    			  grandTotal += Integer.valueOf(table_4.getValueAt(i, 6).toString());
+							    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
 							    			  System.out.println("gtotal: " + grandTotal);
 							    		  }//
 						    		  }
 						    		  
-						    		  textField.setText(Integer.toString(grandTotal));
+						    		  textField.setText(Double.toString(grandTotal));
 						    		  
 						    	  }
 						      }
@@ -413,10 +417,11 @@ public class SupermarketSys {
 
 						System.out.println("ANSWER: " + n);
 
-						int index = mainTabbedPane.indexOfTab("NEW ORDER");
+						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						System.out.println("INDEX OF TAB: " + index);
 
 						if (index >= 0 && n == 0) {
-							mainTabbedPane.remove(newOrder);
+							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
 						}
 					}
@@ -464,10 +469,11 @@ public class SupermarketSys {
 
 						System.out.println("ANSWER: " + n);
 
-						int index = mainTabbedPane.indexOfTab("NEW ORDER");
-
+						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						System.out.println("INDEX OF TAB: " + index);
+						
 						if (index >= 0 && n == 0) {
-							mainTabbedPane.remove(newOrder);
+							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
 						}
 					}
