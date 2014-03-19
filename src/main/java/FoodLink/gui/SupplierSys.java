@@ -372,9 +372,13 @@ private JTable table_2;
 		
 		final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
+
 		jtInvoice.getTableHeader().setReorderingAllowed(false);
-		final JComboBox<String> jcbSupermarkets = new JComboBox<>(new String[] {"supermarket1","supermarket2"});
+		final JComboBox jcbSupermarkets = new JComboBox(new String[] {"supermarket1","supermarket2"});
 		jcbSupermarkets.setSelectedIndex(-1);
+
+		//final JComboBox jcbSupermarkets = new JComboBox(new String[] {"supermarket1","supermarket2"});
+
 		jcbSupermarkets.addActionListener(new ActionListener() {
 			
 			@SuppressWarnings("serial")
