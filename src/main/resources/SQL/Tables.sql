@@ -43,9 +43,9 @@ CREATE TABLE supermarket_inventory (
   inventory_type varchar(32),
   supermarket_id int,
   quantity int,
-  supplier_item_number int,
   unit_price decimal,
   unit varchar(32),
+  supplier_item_number int,
   PRIMARY KEY (inventory_number),
   FOREIGN KEY (supermarket_id) references Supermarket(store_id)
 );
@@ -157,9 +157,6 @@ VALUES ('John_Doe','password',1, 'true');
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('June_Doe','password',1, 'false');
 
-INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID)
-VALUES ('Jack_Doe','password',1);	
-
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('Josh_Senior','password',2, 'true');
 
@@ -214,3 +211,6 @@ VALUES (15600.99, CURRENT_TIMESTAMP, 'Shipped');
 INSERT INTO ORDER_HISTORY (TOTAL_COST, DATE_TIME_CREATED, STATUS)
 VALUES (10600.49, CURRENT_TIMESTAMP, 'Completed');
 
+--Add some supermarket items
+INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit, supplier_item_number)
+VALUES ('grapes', 'fruits', 1, 5000, 2000, 'lb', 2);

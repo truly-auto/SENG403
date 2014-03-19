@@ -566,17 +566,10 @@ public class database {
 		return user;
 	}
 	
-	public void addSupermarketItem(String[] item, int id, boolean customItem) {
+	public void addSupermarketItem(String[] item, int id) {
 		
-		String command = "";
-		if (customItem) {
-			//Custom additions don't need the supplier's item number
-			command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit) VALUES "
-					+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", '" + item[4] + "')";
-		}else{
-			command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit, supplier_item_number) VALUES "
-					+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", '" + item[4] + "', " + item[5] +  ")";
-		}
+		String command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit, supplier_item_number) VALUES " 
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+ Double.parseDouble(item[3]) +", '" + item[4] + "', " + item[5] +  ")";
 		
 		try {
 		     statement.execute(command);

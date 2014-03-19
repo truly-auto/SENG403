@@ -52,3 +52,6 @@ nb-configuration.xml
 #derby files
 derbyDB/
 derby.log
+
+#Invoice folder
+*.xls
