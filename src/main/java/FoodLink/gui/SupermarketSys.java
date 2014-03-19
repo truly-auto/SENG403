@@ -357,28 +357,33 @@ public class SupermarketSys {
 						    	  // ensures that only when updates to quantity warrant a change to order
 						    	  if (e.getColumn() == 3)
 						    	  {
-
-						    		  // add/remove items as necessary
-						    		  currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow());
-						    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
-						    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
-						    		  b.abs();
-						    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
-						    		  c.abs();
-						    		  
-						    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
-						    		  grandTotal = 0;
-						    		  for (int i = 0; i < table_4.getRowCount(); i++) {
-							    		  if (table_4.getValueAt(i,6) != "")
-							    		  {
-							    			  
-							    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
-							    			  System.out.println("gtotal: " + grandTotal);
-							    		  }//
+						    		  if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1)
+						    		  {
+						    			  JOptionPane.showMessageDialog(frame, comboBox.getSelectedItem() + " does not have enough units of " + table_4.getValueAt(e.getFirstRow(), 1) + " to fulfil this order.");
+						    			  table_4.setValueAt(0, e.getFirstRow(), 3);	// override user's input and reset value too 0
 						    		  }
+						    		  else {
+						    			  
 						    		  
-						    		  textField.setText(Double.toString(grandTotal));
-						    		  
+							    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
+							    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
+							    		  b.abs();
+							    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
+							    		  c.abs();
+							    		  
+							    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
+							    		  grandTotal = 0;
+							    		  for (int i = 0; i < table_4.getRowCount(); i++) {
+								    		  if (table_4.getValueAt(i,6) != "")
+								    		  {
+								    			  
+								    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
+								    			  System.out.println("gtotal: " + grandTotal);
+								    		  }//
+							    		  }
+							    		  
+							    		  textField.setText(Double.toString(grandTotal));
+						    		  }
 						    	  }
 						      }
 						});
@@ -435,6 +440,7 @@ public class SupermarketSys {
 						if (index >= 0 && n == 0) {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
+							currentOrder = null;	// destroy order object
 						}
 					}
 				});
