@@ -35,8 +35,15 @@ public class Order {
 		
 		
 	}
-	
-	public void updateOrder(int quantity, int supplierID, int itemIndex)
+	/**
+	 * 
+	 * This method updates order (add/remove items from order)
+	 * @param quantity: the quantity read from order form
+	 * @param supplierID: the id of supplier in database
+	 * @param itemIndex: the item index in database
+	 *
+	 */
+	public int updateOrder(int quantity, int supplierID, int itemIndex)
 	{
 		//System.out.println(db.getSupplierNames()[0]);
 		
@@ -49,23 +56,33 @@ public class Order {
 			if (itemList.get(i).getItemName().equals(db.getSupplierInventory(supplierID)[itemIndex][1].toString())) {
 				if (quantity != 0)
 				{
-					itemList.set(i, new Item(db.getSupplierInventory(supplierID)[itemIndex][1].toString(), Double.parseDouble(db.getSupplierInventory(supplierID)[itemIndex][4].toString()), quantity));
-					
+					if(supplierHasItemAvailable(supplierID, itemIndex, quantity))
+					{
+						itemList.set(i, new Item(db.getSupplierInventory(supplierID)[itemIndex][1].toString(), Double.parseDouble(db.getSupplierInventory(supplierID)[itemIndex][4].toString()), quantity));
+						
+					}
+					else
+						return -1;
 				}
 				else {
 					itemList.remove(i); // if item quantity was already in list and user is updating to 0, just remove it!
-					System.out.println("removing item");
+					
 				}
-				System.out.println("QUANTITY BEING READ: " + quantity);
+				//System.out.println("QUANTITY BEING READ: " + quantity);
 				itemExists = true;
 			}
 	
 		}
 		if (itemExists == false) {
 			if (quantity != 0) {
-				itemList.add(new Item(db.getSupplierInventory(supplierID)[itemIndex][1].toString(), Double.parseDouble(db.getSupplierInventory(supplierID)[itemIndex][4].toString()), quantity));
+				if(supplierHasItemAvailable(supplierID, itemIndex, quantity))
+				{
+								itemList.add(new Item(db.getSupplierInventory(supplierID)[itemIndex][1].toString(), Double.parseDouble(db.getSupplierInventory(supplierID)[itemIndex][4].toString()), quantity));
+								
+				}
+				else 
+					return -1;
 			}
-			
 		}
 		// zero out cost and recalculate new total after change
 		cost = 0;
@@ -73,9 +90,20 @@ public class Order {
 		{
 			cost += (itemList.get(i).getItemPrice() * (float) itemList.get(i).getItemQuantity());
 		}
-		System.out.println("cost of order according to order: " + cost);
+		//debug code: uncomment to check order's accumulated cost
+		//System.out.println("cost of order according to order: " + cost);
+		return 0;
 	}
 	
+	public boolean supplierHasItemAvailable(int supplierID, int itemIndex, int quantity)
+	{
+		if (Integer.parseInt(db.getSupplierInventory(supplierID)[itemIndex][3].toString()) >= quantity){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	public Order getInvoices(){
 		return orderInstance;
 	}
