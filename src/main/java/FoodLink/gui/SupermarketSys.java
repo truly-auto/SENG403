@@ -37,9 +37,9 @@ import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Driver;
 import FoodLink.Inventory;
+import FoodLink.Order;
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
@@ -86,10 +86,15 @@ public class SupermarketSys {
 	//temporary?
 	private int grandTotal = 0;
 	
+	private Order currentOrder;
+	
+	
 	
 	private String selectedRow= null;
 	private int row;
-
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -261,7 +266,15 @@ public class SupermarketSys {
 			public void actionPerformed(ActionEvent e) {
 				// When Create Order button is clicked the following codes will
 				// execute
-
+				
+				/**
+				 * HEREE!!!!!!!!!!!!!!
+				 */
+				//currentOrder = new Order();
+				//currentOrder.addItem();
+				
+				
+				
 				// This codes will create a new tab called NEW ORDER
 				final JPanel newOrder = new JPanel();
 				// tabNumber++;
@@ -337,11 +350,17 @@ public class SupermarketSys {
 							   * 
 							   */
 						      public void tableChanged(TableModelEvent e) {
-						         // Code here to update the order
+						         // create order if customer has tried changing order UI
+						    	  if (currentOrder == null)
+						    	  {
+						    		  currentOrder = new Order();						    		  
+						    	  }
 						    	  
 						    	  // ensures that only when updates to quantity warrant a change to order
 						    	  if (e.getColumn() == 3)
 						    	  {
+						    		  // add/remove items as necessary
+						    		  currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow());
 						    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
 						    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
 						    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());

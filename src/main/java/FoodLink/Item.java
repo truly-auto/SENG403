@@ -5,7 +5,9 @@ public class Item {
 	private int itemQuantity;
 	private double itemPrice;
 	private String itemName;
-
+	
+	
+	/*
 	public Item(){
 		
 	}
@@ -47,4 +49,31 @@ public class Item {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}		
+	*/
+	
+	public Item (String name, double price, int quantity)
+	{
+		itemName = name;
+		itemPrice = price;
+		itemQuantity = quantity;
+		
+	}
+	
+	public String getItemName() {
+		return itemName;
+	}
+	
+	public int getItemQuantity() {
+		return itemQuantity;
+	}
+	
+	public double getItemPrice() {
+		return itemPrice;
+	}
+	// UNSURE IF ABOVE CODE IS USED
+	// TODO: figure out if i can delete above
+	// start new code here: 
+	
+	
+	
 }
