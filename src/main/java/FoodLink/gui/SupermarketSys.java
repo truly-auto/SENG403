@@ -38,10 +38,8 @@ import javax.swing.DefaultComboBoxModel;
 import FoodLink.Driver;
 import FoodLink.Inventory;
 
-
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
