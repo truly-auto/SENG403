@@ -37,9 +37,8 @@ import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-import FoodLink.Driver;
-import FoodLink.Inventory;
 import FoodLink.Order;
+
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
@@ -83,8 +82,7 @@ public class SupermarketSys {
 	private int tabNumber = 0;
 	private JTable inventoryTable;
 	
-	//temporary?
-	private int grandTotal = 0;
+	private double grandTotal = 0;
 	
 	private Order currentOrder;
 	
@@ -359,33 +357,27 @@ public class SupermarketSys {
 						    	  // ensures that only when updates to quantity warrant a change to order
 						    	  if (e.getColumn() == 3)
 						    	  {
-						    		  // if this condition is hit, -1 means supplier inventory < requested quantity
-						    		  if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1)
-						    		  {
-						    			  JOptionPane.showMessageDialog(frame, comboBox.getSelectedItem() + " does not have enough units of " + table_4.getValueAt(e.getFirstRow(), 1) + " to fulfil this order.");
-						    			  table_4.setValueAt(0, e.getFirstRow(), 3);	// override user's input and reset value too 0
-						    		  }
-						    		  // this condition means there is enough quantity, so update UI as necessary
-						    		  else {	
-						    			  
+
+						    		  // add/remove items as necessary
+						    		  currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow());
+						    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
+						    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
+						    		  b.abs();
+						    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
+						    		  c.abs();
 						    		  
-							    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
-							    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
-							    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
-							    		  
-							    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
-							    		  grandTotal = 0;
-							    		  for (int i = 0; i < table_4.getRowCount(); i++) {
-								    		  if (table_4.getValueAt(i,6) != "")
-								    		  {
-								    			  
-								    			  grandTotal += Integer.valueOf(table_4.getValueAt(i, 6).toString());
-								    			 
-								    		  }//
-							    		  }
-							    		  
-							    		  textField.setText(Integer.toString(grandTotal));
+						    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
+						    		  grandTotal = 0;
+						    		  for (int i = 0; i < table_4.getRowCount(); i++) {
+							    		  if (table_4.getValueAt(i,6) != "")
+							    		  {
+							    			  
+							    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
+							    			  System.out.println("gtotal: " + grandTotal);
+							    		  }//
 						    		  }
+						    		  
+						    		  textField.setText(Double.toString(grandTotal));
 						    		  
 						    	  }
 						      }
@@ -436,14 +428,13 @@ public class SupermarketSys {
 								"Cancel Order", JOptionPane.YES_NO_OPTION);
 
 						System.out.println("ANSWER: " + n);
-						
-						
-						int index = mainTabbedPane.indexOfTab("NEW ORDER");
+
+						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						System.out.println("INDEX OF TAB: " + index);
 
 						if (index >= 0 && n == 0) {
-							mainTabbedPane.remove(newOrder);
+							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
-							currentOrder = null;	// destroy order object
 						}
 					}
 				});
@@ -490,10 +481,11 @@ public class SupermarketSys {
 
 						System.out.println("ANSWER: " + n);
 
-						int index = mainTabbedPane.indexOfTab("NEW ORDER");
-
+						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						System.out.println("INDEX OF TAB: " + index);
+						
 						if (index >= 0 && n == 0) {
-							mainTabbedPane.remove(newOrder);
+							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
 						}
 					}
