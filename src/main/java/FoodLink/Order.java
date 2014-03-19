@@ -111,4 +111,8 @@ public class Order {
 	public void printInvoices(){
 
 	}
+	
+	public float getCost() {
+		return cost;
+	}
 }
