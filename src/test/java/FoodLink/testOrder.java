@@ -28,7 +28,7 @@ public class testOrder {
 	 */
 	@Test
 	public void testOverwrite1() {
-		Item i = new Item("Apple Pies", (float)4, 3);
+		
 		Order o = new Order();
 		o.updateOrder(3, 1, 0);
 		o.updateOrder(4, 1, 0);
@@ -40,7 +40,7 @@ public class testOrder {
 	 */
 	@Test
 	public void testOverwrite2() {
-		Item i = new Item("Apple Pies", (float)4, 3);
+		
 		Order o = new Order();
 		o.updateOrder(4, 1, 0);
 		o.updateOrder(0, 1, 0);
@@ -48,4 +48,17 @@ public class testOrder {
 		
 	}
 
+	/**
+	 * Test to ensure order price for multiple items calculated correctly
+	 */
+	@Test
+	public void testCostTotal() {
+		
+		Order o = new Order();
+		o.updateOrder(2, 1, 0);	// 22 apple pies = 4*2
+		o.updateOrder(1, 1, 1);	// 1 Cinamon bb pies = 40*1
+		o.updateOrder(0, 1, 2); // 0 of something else = 0
+		assertEquals(o.getCost(), (double)48, DELTA);  
+		
+	}
 }

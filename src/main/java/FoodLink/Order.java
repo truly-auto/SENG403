@@ -42,6 +42,7 @@ public class Order {
 	 * @param supplierID: the id of supplier in database
 	 * @param itemIndex: the item index in database
 	 *
+	 * returns: 0 when no error and -1 if cannot add to order (i.e. out of stock)
 	 */
 	public int updateOrder(int quantity, int supplierID, int itemIndex)
 	{
