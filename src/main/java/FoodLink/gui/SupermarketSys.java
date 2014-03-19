@@ -528,10 +528,10 @@ public class SupermarketSys {
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
 		//use this one when building
-		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 
 		JPanel inventoryTab = new JPanel();
@@ -546,7 +546,6 @@ public class SupermarketSys {
 		final JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 4;
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
@@ -600,32 +599,19 @@ public class SupermarketSys {
 		gbc_btnAutomatedOrdering.gridy = 0;
 		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
 		
-		GradientButton newInventoryItem = new GradientButton("New Custom Item");
-		newInventoryItem.addActionListener(new ActionListener() {
+		JButton refreshInventoryButton = new JButton("Refresh");
+		refreshInventoryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String [] item=null;
-				try {
-					AddItem window = new AddItem();
-					window.setModalityType(ModalityType.APPLICATION_MODAL);
-					window.setVisible(true);
-					
-					item =window.getResult();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}		
-				
-				if(item!=null)	
-					{connect.addSupermarketItem(item, supermarket_id, true);
-					Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
-					table = new JTable(data2, columnNames);
-					scrollPane.setViewportView(table);}
+				Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
+				table = new JTable(data2, columnNames);
+				scrollPane.setViewportView(table);
 			}
 		});
-		GridBagConstraints gbc_newInventoryItem = new GridBagConstraints();
-		gbc_newInventoryItem.insets = new Insets(0, 0, 5, 5);
-		gbc_newInventoryItem.gridx = 1;
-		gbc_newInventoryItem.gridy = 0;
-		inventoryTab.add(newInventoryItem, gbc_newInventoryItem);
+		GridBagConstraints gbc_refreshInventoryButton = new GridBagConstraints();
+		gbc_refreshInventoryButton.insets = new Insets(0, 0, 5, 5);
+		gbc_refreshInventoryButton.gridx = 1;
+		gbc_refreshInventoryButton.gridy = 0;
+		inventoryTab.add(refreshInventoryButton, gbc_refreshInventoryButton);
 		
 		GradientButton saveChanges = new GradientButton("Save Current Row");
 		saveChanges.addActionListener(new ActionListener() {
@@ -712,7 +698,7 @@ public class SupermarketSys {
 	
 					
 					if(item!=null) {
-						connect.addSupermarketItem(item, supermarket_id, false);
+						connect.addSupermarketItem(item, supermarket_id);
 					}
 				}
 			}
