@@ -448,10 +448,7 @@ private JTable table_2;
             setContentAreaFilled(false);
             
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> 0f1abe4438963d27eeca461b9828d5c24302f00b
         @Override
         protected void paintComponent(Graphics g){
             Graphics2D G2D = (Graphics2D)g.create();

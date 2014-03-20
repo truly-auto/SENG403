@@ -1,11 +1,11 @@
-Aliments Reinhart Foods			supermarket2
-1-905-264-0072			SUPERMARKET ADDRESS
-235 Yorkland Blvd, Suite 1101			SUPERMARKET PHONE#
+ACE Bakery			supermarket2
+1-800-443-7929			SUPERMARKET ADDRESS
+1 Hafis Rd.			SUPERMARKET PHONE#
 Toronto			Mar. 18, 2014
 
 
 Item ID	Item	quantity	Price($)	Total($)	
-7	Beets	20	10	200.0	
-8	Broccoli	12	9	108.0	
-10	Cabbage	4	8	32.0	
-11	Cucumber	8	8	64.0	
+1	Apple Pies	20	4	80.0	
+2	Cinnamon Blueberry Pies	12	40	480.0	
+4	Blueberry Muffins (6-pack)	4	14	56.0	
+5	Brownies	8	34	272.0	
