@@ -37,18 +37,8 @@ import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-<<<<<<< HEAD
-
-
-
-
-import FoodLink.Driver;
-import FoodLink.Inventory;
-
-=======
 import FoodLink.Order;
 
->>>>>>> 6f1260e7915e60e2405bce4316669a894c83a564
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
@@ -367,33 +357,28 @@ public class SupermarketSys {
 						    	  // ensures that only when updates to quantity warrant a change to order
 						    	  if (e.getColumn() == 3)
 						    	  {
-						    		  if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1)
-						    		  {
-						    			  JOptionPane.showMessageDialog(frame, comboBox.getSelectedItem() + " does not have enough units of " + table_4.getValueAt(e.getFirstRow(), 1) + " to fulfil this order.");
-						    			  table_4.setValueAt(0, e.getFirstRow(), 3);	// override user's input and reset value too 0
-						    		  }
-						    		  else {
-						    			  
+
+						    		  // add/remove items as necessary
+						    		  currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow());
+						    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
+						    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
+						    		  b.abs();
+						    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
+						    		  c.abs();
 						    		  
-							    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
-							    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
-							    		  b.abs();
-							    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
-							    		  c.abs();
-							    		  
-							    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
-							    		  grandTotal = 0;
-							    		  for (int i = 0; i < table_4.getRowCount(); i++) {
-								    		  if (table_4.getValueAt(i,6) != "")
-								    		  {
-								    			  
-								    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
-								    			  System.out.println("gtotal: " + grandTotal);
-								    		  }//
-							    		  }
-							    		  
-							    		  textField.setText(Double.toString(grandTotal));
+						    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
+						    		  grandTotal = 0;
+						    		  for (int i = 0; i < table_4.getRowCount(); i++) {
+							    		  if (table_4.getValueAt(i,6) != "")
+							    		  {
+							    			  
+							    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
+							    			  System.out.println("gtotal: " + grandTotal);
+							    		  }//
 						    		  }
+						    		  
+						    		  textField.setText(Double.toString(grandTotal));
+						    		  
 						    	  }
 						      }
 						});
@@ -450,7 +435,6 @@ public class SupermarketSys {
 						if (index >= 0 && n == 0) {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
-							currentOrder = null;	// destroy order object
 						}
 					}
 				});
@@ -538,10 +522,10 @@ public class SupermarketSys {
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
 		//use this one when building
-		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 
 		JPanel inventoryTab = new JPanel();
@@ -556,6 +540,7 @@ public class SupermarketSys {
 		final JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
@@ -609,19 +594,32 @@ public class SupermarketSys {
 		gbc_btnAutomatedOrdering.gridy = 0;
 		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
 		
-		JButton refreshInventoryButton = new JButton("Refresh");
-		refreshInventoryButton.addActionListener(new ActionListener() {
+		GradientButton newInventoryItem = new GradientButton("New Custom Item");
+		newInventoryItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
-				table = new JTable(data2, columnNames);
-				scrollPane.setViewportView(table);
+				String [] item=null;
+				try {
+					AddItem window = new AddItem();
+					window.setModalityType(ModalityType.APPLICATION_MODAL);
+					window.setVisible(true);
+					
+					item =window.getResult();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}		
+				
+				if(item!=null)	
+					{connect.addSupermarketItem(item, supermarket_id, true);
+					Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
+					table = new JTable(data2, columnNames);
+					scrollPane.setViewportView(table);}
 			}
 		});
-		GridBagConstraints gbc_refreshInventoryButton = new GridBagConstraints();
-		gbc_refreshInventoryButton.insets = new Insets(0, 0, 5, 5);
-		gbc_refreshInventoryButton.gridx = 1;
-		gbc_refreshInventoryButton.gridy = 0;
-		inventoryTab.add(refreshInventoryButton, gbc_refreshInventoryButton);
+		GridBagConstraints gbc_newInventoryItem = new GridBagConstraints();
+		gbc_newInventoryItem.insets = new Insets(0, 0, 5, 5);
+		gbc_newInventoryItem.gridx = 1;
+		gbc_newInventoryItem.gridy = 0;
+		inventoryTab.add(newInventoryItem, gbc_newInventoryItem);
 		
 		GradientButton saveChanges = new GradientButton("Save Current Row");
 		saveChanges.addActionListener(new ActionListener() {
@@ -708,7 +706,7 @@ public class SupermarketSys {
 	
 					
 					if(item!=null) {
-						connect.addSupermarketItem(item, supermarket_id);
+						connect.addSupermarketItem(item, supermarket_id, false);
 					}
 				}
 			}

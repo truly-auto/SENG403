@@ -50,11 +50,7 @@ public class Item {
 		this.itemName = itemName;
 	}		
 	*/
-	// UNSURE IF ABOVE CODE IS USED
-	// TODO: figure out if i can delete above
-	// start new code here: 
 	
-	// pass this class name, price, and quantity to instantiate
 	public Item (String name, double price, int quantity)
 	{
 		itemName = name;
@@ -74,7 +70,9 @@ public class Item {
 	public double getItemPrice() {
 		return itemPrice;
 	}
-
+	// UNSURE IF ABOVE CODE IS USED
+	// TODO: figure out if i can delete above
+	// start new code here: 
 	
 	
 	
