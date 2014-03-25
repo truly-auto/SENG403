@@ -37,18 +37,12 @@ import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-<<<<<<< HEAD
-
-
-
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
 
-=======
 import FoodLink.Order;
 
->>>>>>> 6f1260e7915e60e2405bce4316669a894c83a564
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
