@@ -33,6 +33,40 @@ public class database {
 		
 	}
 	
+	public void getInvoices(){
+		String command = "select * invoices from supermarket where store_id = " + id;
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		         //Retrieve by column name
+		         int id  = rs.getInt("supplier_id");
+		         String name = rs.getString("name");
+		         String tel = rs.getString("phoneNumber");
+		         String add = rs.getString("address");
+		         String city = rs.getString("city");
+		         String email = rs.getString("email");
+		         
+		         //Display values
+		         System.out.print("ID: " + id);
+		         System.out.print(", name: " + name);
+		         System.out.print(", tel: " + tel );
+		         System.out.print(", address: " + add);
+		         System.out.print(", city: " + city);
+		         System.out.println(", email: " + email);
+		      }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		
+	}
+	
 	public void getSupplier(){
 		String command = "select * from supplier";
 		

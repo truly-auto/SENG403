@@ -223,10 +223,7 @@ public class SupermarketSys {
 		final String[] columnNameInvoice = { "Invoice Number", "Total Cost($)",
 				"Date/Time Created", "Status" };
 
-		Object[][] dataOrdering = {
-				{ "012345", "500.99", "03/10/2014", "Submitted" },
-				{ "123456", "567.33", "02/28/2014", "Shipped" },
-				{ "234567", "730.98", "02/16/2014", "Completed" } };
+		Object[][] dataOrdering = connect.getInvoices();
 		
 				JLabel lblNewLabel = new JLabel("Order Status");
 				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
