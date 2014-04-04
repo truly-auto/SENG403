@@ -220,7 +220,7 @@ public class SupermarketSys {
 				1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		orderTab.setLayout(gbl_orderTab);
 
-		String[] columnNameInvoice = { "Invoice Number", "Total Cost($)",
+		final String[] columnNameInvoice = { "Invoice Number", "Total Cost($)",
 				"Date/Time Created", "Status" };
 
 		Object[][] dataOrdering = {
