@@ -32,30 +32,36 @@ public class database {
         }
 		
 	}
-	
-	public void getInvoices(){
+
+	public Object [] [] getInvoices(int id){
+		ArrayList<ArrayList<String>> invoice = new ArrayList<ArrayList<String>>();
 		String command = "select * invoices from supermarket where store_id = " + id;
 		
+		//===
 		try {
 		     statement.execute(command);
 		     ResultSet rs = statement.getResultSet();
 		     while(rs.next()){
-		         //Retrieve by column name
-		         int id  = rs.getInt("supplier_id");
-		         String name = rs.getString("name");
-		         String tel = rs.getString("phoneNumber");
-		         String add = rs.getString("address");
-		         String city = rs.getString("city");
-		         String email = rs.getString("email");
-		         
-		         //Display values
-		         System.out.print("ID: " + id);
-		         System.out.print(", name: " + name);
-		         System.out.print(", tel: " + tel );
-		         System.out.print(", address: " + add);
-		         System.out.print(", city: " + city);
-		         System.out.println(", email: " + email);
-		      }
+		    	 ArrayList <String> currentInvoice = new ArrayList <String> (); 
+		    	 //Retrieve by column name
+		    	 int number = rs.getInt("invoice_number");
+			      System.out.println(number);
+			        currentInvoice.add(Integer.toString(number)); 
+		    	 
+		        int total_cost = rs.getInt("total_cost");
+		        System.out.println(total_cost);
+		        currentInvoice.add(Integer.toString(total_cost));  
+		     	
+		        String date_time_created = rs.getString("date_time_created");
+		        System.out.println(date_time_created);
+		        currentInvoice.add(date_time_created);  
+	  
+		        String status = rs.getString("status");
+		        System.out.println(status);
+		        currentInvoice.add(status); 
+		     
+		        invoice.add(currentInvoice);
+		     	}
 		      rs.close();
 		    }
 		catch (SQLException e) {
@@ -64,9 +70,23 @@ public class database {
 		     System.out.println(e);;
 		    }
 		
+		//===
+
+		for (int i = 0; i< invoice.size(); i++){
+			System.out.println(invoice.get(i));
+			
+		}
 		
+		Object [] [] invoiceArray =  new Object [invoice.size()] [];
+		
+		for (int i = 0; i< invoice.size(); i++){
+			ArrayList <String> row =  invoice.get(i);
+			invoiceArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return invoiceArray;
 	}
-	
 	public void getSupplier(){
 		String command = "select * from supplier";
 		
@@ -75,20 +95,18 @@ public class database {
 		     ResultSet rs = statement.getResultSet();
 		     while(rs.next()){
 		         //Retrieve by column name
-		         int id  = rs.getInt("supplier_id");
-		         String name = rs.getString("name");
-		         String tel = rs.getString("phoneNumber");
-		         String add = rs.getString("address");
-		         String city = rs.getString("city");
-		         String email = rs.getString("email");
+		         int id  = rs.getInt("supermarket_id");
+		         int invoice_number = rs.getInt("invoice_number");
+		         int total_cost = rs.getInt("total_cost");
+		         String date_time_created = rs.getString("date_time_created");
+		         String status = rs.getString("status");
 		         
 		         //Display values
 		         System.out.print("ID: " + id);
-		         System.out.print(", name: " + name);
-		         System.out.print(", tel: " + tel );
-		         System.out.print(", address: " + add);
-		         System.out.print(", city: " + city);
-		         System.out.println(", email: " + email);
+		         System.out.print(", invoice number: " + invoice_number);
+		         System.out.print(", total cost: " + total_cost);
+		         System.out.print(", date time created: " + date_time_created);
+		         System.out.print(", status: " + status);
 		      }
 		      rs.close();
 		    }
