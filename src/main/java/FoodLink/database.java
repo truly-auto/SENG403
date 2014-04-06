@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
@@ -31,6 +32,61 @@ public class database {
             except.printStackTrace();
         }
 		
+	}
+	
+	public Object [] [] getInvoices(int id){
+		ArrayList<ArrayList<String>> invoice = new ArrayList<ArrayList<String>>();
+		String command = "select * invoices from supermarket where store_id = " + id;
+		
+		//===
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		    	 ArrayList <String> currentInvoice = new ArrayList <String> (); 
+		    	 //Retrieve by column name
+		    	 int number = rs.getInt("invoice_number");
+			      System.out.println(number);
+			        currentInvoice.add(Integer.toString(number)); 
+		    	 
+		        int total_cost = rs.getInt("total_cost");
+		        System.out.println(total_cost);
+		        currentInvoice.add(Integer.toString(total_cost));  
+		     	
+		        String date_time_created = rs.getString("date_time_created");
+		        System.out.println(date_time_created);
+		        currentInvoice.add(date_time_created);  
+	  
+		        String status = rs.getString("status");
+		        System.out.println(status);
+		        currentInvoice.add(status); 
+		     
+		        invoice.add(currentInvoice);
+		     	}
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		//===
+
+		for (int i = 0; i< invoice.size(); i++){
+			System.out.println(invoice.get(i));
+			
+		}
+		
+		Object [] [] invoiceArray =  new Object [invoice.size()] [];
+		
+		for (int i = 0; i< invoice.size(); i++){
+			ArrayList <String> row =  invoice.get(i);
+			invoiceArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return invoiceArray;
 	}
 	
 	public void getSupplier(){
@@ -426,7 +482,7 @@ public class database {
 
 	public Object[][] getOrderList()
 	{
-		String command = "select invoice_number, total_cost, date_time_created, status from order_history";
+		String command = "select invoice_number, supplier, total_cost, date_time_created, status from order_history";
 		ArrayList<ArrayList<String>> orders = new ArrayList<ArrayList<String>>();
 		try {
 		     statement.execute(command);
@@ -438,6 +494,10 @@ public class database {
 			       	String invoice_number = rs.getString("invoice_number");
 			       	currOrder.add(invoice_number);
 			       	System.out.println("Invoice number: " + invoice_number);
+			       	//get supplier name
+			       	String supplier = rs.getString("supplier");
+			       	currOrder.add(supplier);
+			       	System.out.println("Supplier: " + supplier);
 			       	//get item name
 			       	String total_cost = rs.getString("total_cost");
 			       	currOrder.add(total_cost);
@@ -700,5 +760,79 @@ public class database {
 		
 		return itemsList.toArray(new Integer[itemsList.size()]);
 	}
+	
+	public void addOrderInformation(String name, String phone, String address, String city, String email ){
+		String command = "INSERT INTO supplier (name, phoneNumber, address, city, email) VALUES "
+				+ "("+name+","+ phone+ ","+address+","+ city+ "," + email+")";
+		
+
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add Succesful");
+		
+	}
+	
+	public void addToOrderHistory(String supplierName, Double grandTotal, String orderStatus){
+		java.util.Date date= new java.util.Date();
+		
+		//printed time may vary from the table time by a few milliseconds 
+		System.out.println("Current timestamp added: " + new Timestamp(date.getTime()));
+		
+		
+		String current_timestamp = "" +  new Timestamp(date.getTime());
+		String command = "INSERT INTO order_history (supplier, total_cost, date_time_created, status) VALUES "
+				+ "(" + "'" + supplierName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" +")";
+		
+
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add Succesful");
+		
+	}
+	
+	public int getLastElementInOrderHistory()
+	{
+		String command = "SELECT MAX(INVOICE_NUMBER) FROM ORDER_HISTORY";
+		
+		int orderNum = -1;
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     
+		     while(rs.next())
+		     	{
+			         int invoiceNum = rs.getInt(1);
+			         System.out.println("The last INVOICE_NUMBER: " + invoiceNum);
+			     }
+		    
+		     
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		
+		}
+		return orderNum;
+	}
+	
+	
+	
 }
 
