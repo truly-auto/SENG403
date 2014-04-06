@@ -104,6 +104,17 @@ CREATE TABLE automatic_orders(
 	foreign key (supermarket_item) references supermarket_inventory(inventory_number)
 	);
 
+--Supplier comments table
+CREATE TABLE supplier_comments(
+	id int not null generated always as identity,
+	comment varchar(1000),
+	store_id int,
+	supplier_id int,
+	PRIMARY KEY (id),
+	FOREIGN KEY (store_id) references Supermarket(store_id),
+	FOREIGN KEY (supplier_id) references Supplier(supplier_id)
+	);
+
 
 	
 --adding some sample stores
