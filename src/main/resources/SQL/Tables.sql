@@ -77,6 +77,7 @@ CREATE TABLE order_history(
 	status varchar(32),
 	PRIMARY KEY (invoice_number),
 	FOREIGN KEY (supermarket_id) references Supermarket(store_id)
+	FOREIGN KEY (supplier_id) references Supermarket(supplier_id)
 	);
 
 CREATE TABLE automatic_orders(
