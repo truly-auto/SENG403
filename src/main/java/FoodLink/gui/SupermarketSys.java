@@ -812,6 +812,7 @@ public class SupermarketSys {
 
 					scrollPane1.setViewportView(orderStatusTable);
 					
+					
 					int lastIndex = connect.getLastElementInOrderHistory();
 					
 					//link the items to the order number in the database
@@ -842,40 +843,6 @@ public class SupermarketSys {
 						}
 						
 					}
-					
-
-					
-//					int lastIndex = connect.getLastElementInOrderHistory();
-//					
-//					//link the items to the order number in the database
-//					int totalCol = table_4.getColumnCount();
-//					int totalRow = table_4.getRowCount();
-//					
-//					System.out.println("COL: " + totalCol + " ROW: " + totalRow);
-//					for (int col = 0; col < totalCol; col++)
-//					{
-//						//COLUMN
-////						  invoice_number int NOT NULL generated always as identity, = lastIndex 
-////						  name varchar(32), = itemName | 2
-////						  item_type varchar(32), = itemType | 3
-////						  quantity int, = quantity | 4
-////						  unit_price decimal, = unitPrice | 5
-////						  unit varchar(32), = unit | 6
-////						  total decimal, = total | 7
-////						  grandTotal decimal, = grandTotal
-//						
-//						for (int row = 0; row < totalRow; row++)
-//						{
-//							String itemName;
-//							String itemType;
-//							int quantity; 
-//							double unitPrice;
-//							String unit;
-//							double total;
-//						}
-//						
-//					}
-					
 					
 				}
 			}
