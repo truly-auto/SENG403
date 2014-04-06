@@ -75,8 +75,7 @@ CREATE TABLE order_history(
 	total_cost decimal,
 	date_time_created timestamp,
 	status varchar(32),
-	PRIMARY KEY (invoice_number),
-	FOREIGN KEY (supermarket_id) references Supermarket(store_id)
+	PRIMARY KEY (invoice_number)
 	);
 
 CREATE TABLE automatic_orders(
