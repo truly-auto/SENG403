@@ -595,8 +595,8 @@ public class SupermarketSys {
 
 				System.out.println("SUPPLIER INDEX: "
 						+ comboBox.getSelectedIndex());
-				itemsList = connect.getItemListForSupplier(comboBox
-						.getSelectedIndex());
+				itemsList = connect.getItemListForSupplier((comboBox
+						.getSelectedIndex()+1));
 				itemsListModel = new DefaultTableModel(itemsList,
 						itemsColumnNames) {
 					Class[] columnTypes = new Class[] { String.class,
