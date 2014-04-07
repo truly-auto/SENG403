@@ -71,7 +71,7 @@ CREATE TABLE supplier_users (
 	
 --Create Order table
 CREATE TABLE order_history(
-	invoice_number int NOT NULL generated always as identity,
+	invoice_number int,
 	supplier varchar(255),
 	total_cost decimal,
 	date_time_created varchar (255),
@@ -83,7 +83,7 @@ CREATE TABLE order_history(
 	
 --Create Items table 
 CREATE TABLE order_items_list (
-  invoice_number int NOT NULL generated always as identity,
+  invoice_number int,
   name varchar(32),
   item_type varchar(32),
   quantity int,
@@ -295,14 +295,14 @@ VALUES ('Mango Blitz','Donuts',3, 2000, 8, '20LBS');
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Donna Italiano','Donuts',3, 2000, 8, '20LBS');
 
-INSERT INTO ORDER_HISTORY (SUPPLIER, TOTAL_COST, DATE_TIME_CREATED, STATUS, STORE_ID)
-VALUES ('Someone', 500.50, CURRENT_TIMESTAMP, 'submitted',1);
+INSERT INTO ORDER_HISTORY (INVOICE_NUMBER, SUPPLIER, TOTAL_COST, DATE_TIME_CREATED, STATUS, STORE_ID)
+VALUES (123456, 'Someone', 500.50, CURRENT_TIMESTAMP, 'submitted',1);
 
-INSERT INTO ORDER_HISTORY (SUPPLIER, TOTAL_COST, DATE_TIME_CREATED, STATUS, STORE_ID)
-VALUES ('AHAHAHA', 156000.99, CURRENT_TIMESTAMP, 'shipped',2);
+INSERT INTO ORDER_HISTORY (INVOICE_NUMBER, SUPPLIER, TOTAL_COST, DATE_TIME_CREATED, STATUS, STORE_ID)
+VALUES (123123,'AHAHAHA', 15600.99, CURRENT_TIMESTAMP, 'shipped',2);
 
-INSERT INTO ORDER_HISTORY (SUPPLIER, TOTAL_COST, DATE_TIME_CREATED, STATUS, STORE_ID)
-VALUES ('Idunnoyet', 10600.49, CURRENT_TIMESTAMP, 'completed',1);
+INSERT INTO ORDER_HISTORY (INVOICE_NUMBER, SUPPLIER, TOTAL_COST, DATE_TIME_CREATED, STATUS, STORE_ID)
+VALUES (121212,'Idunnoyet', 10600.49, CURRENT_TIMESTAMP, 'completed',1);
 
 --adding some default users	
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
