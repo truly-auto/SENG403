@@ -33,7 +33,7 @@ public class database {
         }
 		
 	}
-	
+	/*
 	public Object [] [] getInvoices(int id){
 		ArrayList<ArrayList<String>> invoice = new ArrayList<ArrayList<String>>();
 		String command = "select * from order_history where store_id = " + id;
@@ -92,7 +92,7 @@ public class database {
 		}
 		return invoiceArray;
 	}
-	
+	*/
 	public void getSupplier(){
 		String command = "select * from supplier";
 		
@@ -484,9 +484,9 @@ public class database {
 	}
 		     
 
-	public Object[][] getOrderList()
+	public Object[][] getOrderList(int id)
 	{
-		String command = "select invoice_number, supplier, total_cost, date_time_created, status from order_history";
+		String command = "select invoice_number, supplier, total_cost, date_time_created, status from order_history where store_id = " + id;
 		ArrayList<ArrayList<String>> orders = new ArrayList<ArrayList<String>>();
 		try {
 		     statement.execute(command);

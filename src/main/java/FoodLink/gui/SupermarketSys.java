@@ -243,7 +243,7 @@ public class SupermarketSys {
 		gbc_scrollPane1.gridy = 2;
 		orderTab.add(scrollPane1, gbc_scrollPane1);
 
-		Object[][] orderList = connect.getOrderList();
+		Object[][] orderList = connect.getOrderList(supermarket_id);
 
 		final DefaultTableModel orderModel = new DefaultTableModel(orderList,
 				columnNameInvoice) {
@@ -796,7 +796,7 @@ public class SupermarketSys {
 							"Submitted");
 
 					// refresh the orderListTable
-					Object[][] orderList = connect.getOrderList();
+					Object[][] orderList = connect.getOrderList(supermarket_id);
 
 					final DefaultTableModel orderModel = new DefaultTableModel(
 							orderList, columnNameInvoice) {
