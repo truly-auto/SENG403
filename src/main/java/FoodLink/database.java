@@ -33,7 +33,7 @@ public class database {
         }
 		
 	}
-	/*
+	
 	public Object [] [] getInvoices(int id){
 		ArrayList<ArrayList<String>> invoice = new ArrayList<ArrayList<String>>();
 		String command = "select * from order_history where store_id = " + id;
@@ -49,9 +49,9 @@ public class database {
 			      System.out.println(number);
 			        currentInvoice.add(Integer.toString(number)); 
 
-			    int supplier_id = rs.getInt("supplier_id");
-			    System.out.println(supplier_id);
-			    currentInvoice.add(Integer.toString(supplier_id));     
+			    String supplier = rs.getString("supplier");
+			    System.out.println(supplier);
+			    currentInvoice.add(supplier);     
 			        
 		        int total_cost = rs.getInt("total_cost");
 		        System.out.println(total_cost);
@@ -92,7 +92,7 @@ public class database {
 		}
 		return invoiceArray;
 	}
-	*/
+	
 	public void getSupplier(){
 		String command = "select * from supplier";
 		
