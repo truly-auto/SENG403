@@ -209,9 +209,65 @@ public class database {
 		    }
 		
 		//===
+		
 		return supplier;
 	}
 	
+	//getting supplier and supermarket users from database (id, if supermarket)
+	public Object [] [] getUser(int id, boolean supermarket){
+		String command ="";
+		if (supermarket)
+			{command = "select * from store_users where store_id = " +id;
+			}
+		else{
+			command = "select * from supplier_users where supplier_id = " +id;}
+		ArrayList<ArrayList<String>> userArrayList = new ArrayList<ArrayList<String>>();
+		//===
+		try {
+			statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		    	 ArrayList <String> currentUser = new ArrayList <String> ();  
+		    	 //Retrieve by column name
+		        String username = rs.getString("username");
+		        currentUser.add(username);  
+		     	
+		        
+		        String manager = rs.getString("manager");
+		        if(manager.equals("true"))
+		        		{manager="Administrative User";}
+		        else
+		        	{manager="Limited User";}
+		        currentUser.add(manager);
+		        
+		     	userArrayList.add(currentUser);   }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		//===
+		
+		for (int i = 0; i< userArrayList.size(); i++){
+			System.out.println(userArrayList.get(i));
+			
+		}
+		
+		Object [] [] userArray =  new Object [userArrayList.size()] [];
+		
+		for (int i = 0; i< userArrayList.size(); i++){
+			ArrayList <String> row =  userArrayList.get(i);
+			userArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		
+		return userArray;
+	}
+
 	public String [] getSupplierNames()
 	{
 		String command = "select name from supplier";
@@ -554,10 +610,15 @@ public class database {
 	}
 	
 	
-	
-	public void addItem(String[] item, int id) {
-		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, unit_price , unit) VALUES "
-				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+Double.parseDouble(item[3])+" ,' "+ item[4]+"')";
+	public void manageSupplierUsers(String[] user, int id, boolean add) {
+		String command;
+		
+		if (add==true)
+			{command = "INSERT INTO supplier_users (username, password, supplier_id, manager) VALUES "
+				+ "('"+user[0]+"', '"+ user[1]+"', "+ id +", '" + user[2] + "')";
+			}
+		else {command = "DELETE FROM supplier_users WHERE username = '"+ user[0]+"'";
+			}
 		
 		try {
 		     statement.execute(command);
@@ -568,13 +629,40 @@ public class database {
 		     System.out.println(e);
 		     System.exit(0);
 		    }
-		System.out.println("Add Succesful");
+		System.out.println("Add or delete Succesful");
+		
+	}
+	
+	public void manageItems(String[] item, int id, boolean add) {
+		String command;
+		
+		if (add==true)
+			{command = "INSERT INTO items (name, item_type, supplier_id, quantity, unit_price , unit) VALUES "
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+Double.parseDouble(item[3])+" ,' "+ item[4]+"')";
+			}
+		else {command = "DELETE FROM items WHERE item_number = "+ id;
+			}
+		
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add or delete Succesful");
 		
 	}
 
 
 	public void modifyItem(String[] item, int itemNum) {
-	
+		System.out.println(item[0]);
+		System.out.println(item[1]);
+		System.out.println(item[2]);
+		System.out.println(item[3]);
+		System.out.println(item[4]);
 		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = '"+ item[3]+ "' + unit = '" +item[4]+"' "
 				+ "WHERE item_number="+  itemNum;
 		try {

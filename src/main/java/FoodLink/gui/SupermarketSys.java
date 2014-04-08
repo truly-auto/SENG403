@@ -32,19 +32,28 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
+
 import FoodLink.Driver;
 import FoodLink.Inventory;
+
 import FoodLink.Order;
+
 import FoodLink.database;
 
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import java.awt.Color;
 import java.io.File;
@@ -53,12 +62,15 @@ import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 
+import java.awt.GridLayout;
+import java.awt.Font;
 
 public class SupermarketSys {
 
 	public JFrame frame;
 
 	private JTable orderStatusTable;
+	private JTable table1;
 	private JTable table;
 	private JComboBox<String> comboBox;
 	private JComboBox<String> supplierSelector;
@@ -75,16 +87,21 @@ public class SupermarketSys {
 	DefaultListModel<String> itemsListModel1;
 	private JTable table_4;
 	private JTextField grandTotalField;
-	//private int tabNumber = 0;
+	private JTextField textField;
+	private int tabNumber = 0;
 	private JTable inventoryTable;
-
+	
 	private double grandTotal = 0;
-
+	
 	private Order currentOrder;
-
-	private String selectedRow = null;
+	
+	
+	
+	private String selectedRow= null;
 	private int row;
-
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -92,8 +109,7 @@ public class SupermarketSys {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// hard code parameter to swicth suppliers here (1-5) same
-					// as SupplierSys
+					//hard code parameter to swicth suppliers here (1-5) same as SupplierSys
 					SupermarketSys window = new SupermarketSys(1, true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -127,21 +143,20 @@ public class SupermarketSys {
 		frame.setSize(d);
 		BufferedImage Logo = null;
 		JPanel banner = new JPanel();
-		try {
-			Logo = ImageIO
-					.read(new File("src/main/resources/images/Logo17.JPG")); // put
-																				// icon
-																				// image
-																				// here
-			JLabel LogoPanel = new JLabel(new ImageIcon(Logo));
+		try 
+		{
+		    Logo = ImageIO.read(new File("src/main/resources/images/Logo17.JPG")); // put icon image here
+		    JLabel LogoPanel = new JLabel(new ImageIcon( Logo ));
 			banner.add(LogoPanel);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+		    e.printStackTrace();
 		}
 		banner.setBackground(green);
 		frame.getContentPane().add(banner);
 		frame.setBackground(green);
-
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -162,8 +177,8 @@ public class SupermarketSys {
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-			}
+				}		
+				 }
 		});
 
 		JLabel label = new JLabel("");
@@ -174,7 +189,7 @@ public class SupermarketSys {
 		frame.getContentPane().add(label, gbc_label);
 
 		GradientButton btnNewButton1 = new GradientButton("Log Out");
-
+		
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -184,8 +199,7 @@ public class SupermarketSys {
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-			}
+				}		}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
@@ -207,24 +221,28 @@ public class SupermarketSys {
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
 		gbl_orderTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0 };
+		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_orderTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, Double.MIN_VALUE };
-		gbl_orderTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
-				1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_orderTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0,
+				1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		orderTab.setLayout(gbl_orderTab);
 
-		final String[] columnNameInvoice = { "Invoice Number", "Supplier",
-				"Total Cost($)", "Date/Time Created", "Status" };
+		String[] columnNameInvoice = { "Invoice Number", "Total Cost($)",
+				"Date/Time Created", "Status" };
 
-		JLabel lblNewLabel = new JLabel("Order Status");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 1;
-		orderTab.add(lblNewLabel, gbc_lblNewLabel);
+		Object[][] dataOrdering = {
+				{ "012345", "500.99", "03/10/2014", "Submitted" },
+				{ "123456", "567.33", "02/28/2014", "Shipped" },
+				{ "234567", "730.98", "02/16/2014", "Completed" } };
+		
+				JLabel lblNewLabel = new JLabel("Order Status");
+				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+				gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewLabel.gridx = 0;
+				gbc_lblNewLabel.gridy = 1;
+				orderTab.add(lblNewLabel, gbc_lblNewLabel);
 
 		final JScrollPane scrollPane1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
@@ -238,31 +256,259 @@ public class SupermarketSys {
 
 		Object[][] orderList = connect.getOrderList(supermarket_id);
 
-		final DefaultTableModel orderModel = new DefaultTableModel(orderList,
-				columnNameInvoice) {
-			boolean[] columnEditables = new boolean[] { false, false, false,
-					false };
+		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnNameInvoice){
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};;
+		table1 = new JTable(orderModel);
 
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		};
-		;
-		orderStatusTable = new JTable(orderModel);
-
-		scrollPane1.setViewportView(orderStatusTable);
-
+		
+		
+		scrollPane1.setViewportView(table1);
+		
+		
 		final GradientButton btnNewButton_1 = new GradientButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// When Create Order button is clicked the following codes will
 				// execute
-
+				
 				/**
 				 * HEREE!!!!!!!!!!!!!!
 				 */
+				//currentOrder = new Order();
+				//currentOrder.addItem();
+				
+				
+				
+				// This codes will create a new tab called NEW ORDER
+				final JPanel newOrder = new JPanel();
+				// tabNumber++;
+				// String tabName = "NEW ORDER " + tabNumber;
+				btnNewButton_1.setEnabled(false);
+				mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);
+				mainTabbedPane.setBackgroundAt(4, new Color(0, 0, 0));
+				mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
+				GridBagLayout gbl_newOrder = new GridBagLayout();
+				gbl_newOrder.columnWidths = new int[] { 0, 90, 0, 0, 0, 0, 0,
+						0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0 };
+				gbl_newOrder.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0, 0, 0, 0 };
+				gbl_newOrder.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0,
+						0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+						1.0, 1.0, 1.0, Double.MIN_VALUE };
+				gbl_newOrder.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0,
+						0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
+						Double.MIN_VALUE };
+				newOrder.setLayout(gbl_newOrder);
 
-			}// end of the new Order Tab code
+				String[] supplierNames = connect.getSupplierNames();
+
+				JLabel lblNewLabel_2 = new JLabel("Select Supplier:");
+				GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+				gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
+				gbc_lblNewLabel_2.gridwidth = 2;
+				gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewLabel_2.gridx = 0;
+				gbc_lblNewLabel_2.gridy = 0;
+				newOrder.add(lblNewLabel_2, gbc_lblNewLabel_2);
+
+				comboBox = new JComboBox();
+				comboBox.setModel(new DefaultComboBoxModel(supplierNames));
+				GridBagConstraints gbc_comboBox = new GridBagConstraints();
+				gbc_comboBox.anchor = GridBagConstraints.WEST;
+				gbc_comboBox.gridwidth = 7;
+				gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+				gbc_comboBox.gridx = 2;
+				gbc_comboBox.gridy = 0;
+				newOrder.add(comboBox, gbc_comboBox);
+
+				ActionListener actionListener = new ActionListener() {
+
+					public void actionPerformed(ActionEvent actionEvent) {
+						int index = mainTabbedPane.getSelectedIndex();
+						mainTabbedPane.setTitleAt(index, (String) comboBox.getSelectedItem());
+		            
+						System.out.println("SUPPLIER INDEX: "
+								+ comboBox.getSelectedIndex());
+						itemsList = connect.getItemListForSupplier(comboBox
+								.getSelectedIndex());
+						itemsListModel = new DefaultTableModel(itemsList,
+								itemsColumnNames) {
+							Class[] columnTypes = new Class[] { String.class,
+									String.class, String.class, BigDecimal.class,
+									String.class, String.class, BigDecimal.class };
+
+							public Class getColumnClass(int columnIndex) {
+								return columnTypes[columnIndex];
+							}
+
+							boolean[] columnEditables = new boolean[] { false,
+									false, false, true, false, false, false };
+
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						};
+						table_4.setModel(itemsListModel);
+						table_4.getModel().addTableModelListener(new TableModelListener() {
+							  /**
+							   * 
+							   */
+						      public void tableChanged(TableModelEvent e) {
+						         // create order if customer has tried changing order UI
+						    	  if (currentOrder == null)
+						    	  {
+						    		  currentOrder = new Order();						    		  
+						    	  }
+						    	  
+						    	  // ensures that only when updates to quantity warrant a change to order
+						    	  if (e.getColumn() == 3)
+						    	  {
+						    		  if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1)
+						    		  {
+						    			  JOptionPane.showMessageDialog(frame, comboBox.getSelectedItem() + " does not have enough units of " + table_4.getValueAt(e.getFirstRow(), 1) + " to fulfil this order.");
+						    			  table_4.setValueAt(0, e.getFirstRow(), 3);	// override user's input and reset value too 0
+						    		  }
+						    		  else {
+						    			  
+						    		  
+							    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
+							    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
+							    		  b.abs();
+							    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
+							    		  c.abs();
+							    		  
+							    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
+							    		  grandTotal = 0;
+							    		  for (int i = 0; i < table_4.getRowCount(); i++) {
+								    		  if (table_4.getValueAt(i,6) != "")
+								    		  {
+								    			  
+								    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
+								    			  System.out.println("gtotal: " + grandTotal);
+								    		  }//
+							    		  }
+							    		  
+							    		  textField.setText(Double.toString(grandTotal));
+						    		  }
+						    	  }
+						      }
+						});
+					}
+				};
+
+				comboBox.addActionListener(actionListener);
+
+				JScrollPane scrollPane_1 = new JScrollPane();
+				GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+				gbc_scrollPane_1.gridheight = 8;
+				gbc_scrollPane_1.gridwidth = 18;
+				gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+				gbc_scrollPane_1.gridx = 0;
+				gbc_scrollPane_1.gridy = 1;
+
+				newOrder.add(scrollPane_1, gbc_scrollPane_1);
+
+				itemsListModel = new DefaultTableModel(itemsList,
+						itemsColumnNames);
+
+				table_4 = new JTable(new DefaultTableModel());
+
+
+				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
+
+				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
+//				{
+//					boolean[] columnEditables = new boolean[] { false,
+//							false, false, false};
+//
+//					public boolean isCellEditable(int row, int column) {
+//						return columnEditables[column];
+//				}};
+
+				table_4 = new JTable(new DefaultTableModel());
+				table_4.setRowSelectionAllowed(false);
+				scrollPane_1.setViewportView(table_4);
+
+				JButton btnNewButton_4 = new JButton("Cancel Order");
+				btnNewButton_4.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						int n = JOptionPane.showConfirmDialog(frame,
+								"Are you sure you want to cancel order?",
+								"Cancel Order", JOptionPane.YES_NO_OPTION);
+
+						System.out.println("ANSWER: " + n);
+
+						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						System.out.println("INDEX OF TAB: " + index);
+
+						if (index >= 0 && n == 0) {
+							mainTabbedPane.remove(index);
+							btnNewButton_1.setEnabled(true);
+							currentOrder = null;	// destroy order object
+						}
+					}
+				});
+
+				JLabel lblNewLabel_1 = new JLabel("GRAND TOTAL:");
+				GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+				gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewLabel_1.gridx = 14;
+				gbc_lblNewLabel_1.gridy = 9;
+				newOrder.add(lblNewLabel_1, gbc_lblNewLabel_1);
+
+				textField = new JTextField();
+				textField.setEditable(false);
+				GridBagConstraints gbc_textField = new GridBagConstraints();
+				gbc_textField.insets = new Insets(0, 0, 5, 5);
+				gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_textField.gridx = 16;
+				gbc_textField.gridy = 9;
+				newOrder.add(textField, gbc_textField);
+				textField.setColumns(10);
+				
+				
+				
+				GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+				gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
+				gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
+				gbc_btnNewButton_4.gridx = 14;
+				gbc_btnNewButton_4.gridy = 11;
+				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
+
+				GradientButton btnNewButton_3 = new GradientButton("Submit Order");
+				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
+				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
+				gbc_btnNewButton_3.gridx = 16;
+				gbc_btnNewButton_3.gridy = 11;
+				newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
+				btnNewButton_3.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						int n = JOptionPane.showConfirmDialog(frame,
+								"Are you sure you want to submit order?",
+								"Cancel Order", JOptionPane.YES_NO_OPTION);
+
+						System.out.println("ANSWER: " + n);
+
+						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						System.out.println("INDEX OF TAB: " + index);
+						
+						if (index >= 0 && n == 0) {
+							mainTabbedPane.remove(index);
+							btnNewButton_1.setEnabled(true);
+						}
+					}
+				});
+			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
@@ -295,29 +541,22 @@ public class SupermarketSys {
 		gbc_list.gridy = 6;
 		orderTab.add(list, gbc_list);
 
-		final String[] columnNames = { "Item Number", "Item name", "Type",
-				"Quantity", "Unit Price ($)", "Unit" };
-
-		// this one will access data from the the database but will cause the
-		// code not to work in design mode
-		// use this one when testing
-		// final Object[][] data =
-		// connect.getSupermarketInventory(supermarket_id);
-
-		// use this one when building
-		final Object[][] data = {
-				{ "1", "papples", "fruits", "5000", "2000", "lb" },
-				{ "2", "apples", "fruits", "5000", "2000", "lb" },
-				{ "3", "grapes", "fruits", "5000", "2000", "lb" },
-				{ "4", "pears", "fruits", "5000", "2000", "lb" } };
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};
+		
+		//this one will access data from the the database but will cause the code not to work in design mode
+		//use this one when testing
+		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+		
+		//use this one when building
+		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		
 
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[] { 0, 0, 30, 0 };
+		gbl_inventoryTab.columnWidths = new int[] {0, 0, 30, 0};
 		gbl_inventoryTab.rowHeights = new int[] { 0, 0, 0 };
-		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0,
-				Double.MIN_VALUE };
+		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		gbl_inventoryTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		inventoryTab.setLayout(gbl_inventoryTab);
 
@@ -328,48 +567,44 @@ public class SupermarketSys {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		inventoryTab.add(scrollPane, gbc_scrollPane);
-
+		
 		table = new JTable(data, columnNames);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {
 				java.awt.Point point = mevt.getPoint();
-				row = table.rowAtPoint(point);
-				selectedRow = (String) table.getValueAt(row, 0);
+				row =table.rowAtPoint(point);
+				selectedRow=(String) table.getValueAt(row, 0);
 				System.out.println(selectedRow);
 			}
 		});
-
+		
+		
+		
 		scrollPane.setViewportView(table);
-
-		GradientButton btnAutomatedOrdering = new GradientButton(
-				"Automated Ordering");
+		
+		GradientButton btnAutomatedOrdering = new GradientButton("Automated Ordering");
 		btnAutomatedOrdering.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (selectedRow != null) {
-					System.out.println("About to auto-order item on this row "
-							+ selectedRow);
-					System.out.println("Is this the anser?? "
-							+ table.getValueAt(row, 1));
-
-					String[] item = null;
+				if (selectedRow!=null){
+					System.out.println("About to auto-order item on this row " + selectedRow);
+					System.out.println("Is this the anser?? " + table.getValueAt(row, 1));
+	
+					String [] item=null;
 					try {
-						AutomatedOrdering window = new AutomatedOrdering(
-								(String) table.getValueAt(row, 1),
-								(String) table.getValueAt(row, 5));
+						AutomatedOrdering window = new AutomatedOrdering((String) table.getValueAt(row, 1), (String) table.getValueAt(row, 5));
 						window.setModalityType(ModalityType.APPLICATION_MODAL);
 						window.setVisible(true);
-
-						item = window.getResult();
+						
+						item =window.getResult();
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-
-					if (item != null) {
-						connect.addAutomaticOrder(item,
-								Integer.parseInt(selectedRow));
+					
+					if(item!=null) {
+						connect.addAutomaticOrder(item, Integer.parseInt(selectedRow));
 					}
-
+					
 					scrollPane.setViewportView(table);
 				}
 				else
@@ -384,12 +619,11 @@ public class SupermarketSys {
 		gbc_btnAutomatedOrdering.gridx = 0;
 		gbc_btnAutomatedOrdering.gridy = 0;
 		inventoryTab.add(btnAutomatedOrdering, gbc_btnAutomatedOrdering);
-
+		
 		JButton refreshInventoryButton = new JButton("Refresh");
 		refreshInventoryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object[][] data2 = connect
-						.getSupermarketInventory(supermarket_id);
+				Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
 				table = new JTable(data2, columnNames);
 				scrollPane.setViewportView(table);
 			}
@@ -399,29 +633,22 @@ public class SupermarketSys {
 		gbc_refreshInventoryButton.gridx = 1;
 		gbc_refreshInventoryButton.gridy = 0;
 		inventoryTab.add(refreshInventoryButton, gbc_refreshInventoryButton);
-
+		
 		GradientButton saveChanges = new GradientButton("Save Current Row");
 		saveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (selectedRow != null) {
-					System.out.println("About to save changes to this row "
-							+ selectedRow);
-					System.out.println("Is this the anser?? "
-							+ table.getValueAt(row, 1));
-					String[] item = { (String) table.getValueAt(row, 1),
-							(String) table.getValueAt(row, 2),
-							(String) table.getValueAt(row, 3),
-							(String) table.getValueAt(row, 4),
-							(String) table.getValueAt(row, 5) };
-
-					if (item != null) {
+				if (selectedRow!=null){
+					System.out.println("About to save changes to this row " + selectedRow);
+					System.out.println("Is this the anser?? " + table.getValueAt(row, 1));
+					String [] item={(String) table.getValueAt(row, 1),(String) table.getValueAt(row, 2), (String) table.getValueAt(row, 3), (String) table.getValueAt(row, 4), (String) table.getValueAt(row, 5)};
+	
+					
+					if(item!=null) {
 						Inventory inventory = new Inventory();
 						inventory.editItem(item, Integer.parseInt(selectedRow));
-						// connect.modifySupermarketItem(item,
-						// Integer.parseInt(selectedRow));
+						//connect.modifySupermarketItem(item, Integer.parseInt(selectedRow));
 					}
-					Object[][] data2 = connect
-							.getSupermarketInventory(supermarket_id);
+					Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
 					table = new JTable(data2, columnNames);
 					scrollPane.setViewportView(table);
 				}
@@ -435,22 +662,19 @@ public class SupermarketSys {
 
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
-
-		JPanel supplierTab = new JPanel();
-		mainTabbedPane.addTab("Supplier", null, supplierTab, null);
-		GridBagLayout gbl_supplierTab = new GridBagLayout();
-		gbl_supplierTab.columnWidths = new int[] { 0, 30, 30, 0 };
-		gbl_supplierTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_supplierTab.columnWeights = new double[] { 1.0, 0.0, 0.0,
-				Double.MIN_VALUE };
-		gbl_supplierTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0,
-				0.0, 1.0, Double.MIN_VALUE };
-		supplierTab.setLayout(gbl_supplierTab);
-
-		final String[] supplierTableColumnNames = { "Item Number", "Item name",
-				"Type", "Quantity", "Unit Price ($)", "Units" };
-		String[] supplierNames = connect.getSupplierNames();
-
+		
+		JPanel supermarketTab = new JPanel();
+		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
+		GridBagLayout gbl_supermarketTab = new GridBagLayout();
+		gbl_supermarketTab.columnWidths = new int[] {0, 30, 30, 0};
+		gbl_supermarketTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_supermarketTab.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_supermarketTab.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		supermarketTab.setLayout(gbl_supermarketTab);
+		
+		final String[] supplierTableColumnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Units"};
+		String [] supplierNames = connect.getSupplierNames();
+		
 		supplierSelector = new JComboBox();
 		supplierSelector.setModel(new DefaultComboBoxModel(supplierNames));
 		GridBagConstraints gbc_supplierSelector = new GridBagConstraints();
@@ -458,53 +682,43 @@ public class SupermarketSys {
 		gbc_supplierSelector.fill = GridBagConstraints.HORIZONTAL;
 		gbc_supplierSelector.gridx = 0;
 		gbc_supplierSelector.gridy = 0;
-		supplierTab.add(supplierSelector, gbc_supplierSelector);
-
+		supermarketTab.add(supplierSelector, gbc_supplierSelector);
+		
 		ActionListener actionListener = new ActionListener() {
-			public void actionPerformed(ActionEvent actionEvent) {
-				System.out.println("SUPPLIER INDEX: "
-						+ (supplierSelector.getSelectedIndex() + 1));
-				itemsList = connect.getSupplierInventory(supplierSelector
-						.getSelectedIndex() + 1);
-				itemsListModel = new DefaultTableModel(itemsList,
-						supplierTableColumnNames) {
-					Class[] columnTypes = new Class[] { String.class,
-							String.class, String.class, String.class,
-							String.class, String.class };
-
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
-
-					boolean[] columnEditables = new boolean[] { false, false,
-							false, false, false, false };
-
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				};
-				inventoryTable.setModel(itemsListModel);
-			}
+			 public void actionPerformed(ActionEvent actionEvent)
+			 {
+				 System.out.println("SUPPLIER INDEX: " + (supplierSelector.getSelectedIndex() + 1));
+				 itemsList = connect.getSupplierInventory(supplierSelector.getSelectedIndex()+1);
+				 itemsListModel = new DefaultTableModel(itemsList, supplierTableColumnNames){
+						Class[] columnTypes = new Class[] {
+								String.class, String.class, String.class, String.class, String.class, String.class
+							};
+							public Class getColumnClass(int columnIndex) {
+								return columnTypes[columnIndex];
+							}
+							boolean[] columnEditables = new boolean[] {
+								false, false, false, false, false, false
+							};
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						};
+				 inventoryTable.setModel(itemsListModel);
+			 }
 		};
 		supplierSelector.addActionListener(actionListener);
-
-		GradientButton addToInventory = new GradientButton(
-				"Add Item to Inventory");
+		
+		GradientButton addToInventory = new GradientButton("Add Item to Inventory");
 		addToInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (selectedRow != null) {
-					System.out.println("About to auto-order item on this row "
-							+ selectedRow);
-					System.out.println("Is this the anser?? "
-							+ inventoryTable.getValueAt(row, 1));
-					String[] item = {
-							(String) inventoryTable.getValueAt(row, 1),
-							(String) inventoryTable.getValueAt(row, 2), "0",
-							(String) inventoryTable.getValueAt(row, 4),
-							(String) inventoryTable.getValueAt(row, 5),
-							(String) inventoryTable.getValueAt(row, 0) };
-
-					if (item != null) {
+				if (selectedRow!=null){
+					System.out.println("About to auto-order item on this row " + selectedRow);
+					System.out.println("Is this the anser?? " + inventoryTable.getValueAt(row, 1));
+					String [] item={(String) inventoryTable.getValueAt(row, 1),(String) inventoryTable.getValueAt(row, 2), "0", 
+							(String) inventoryTable.getValueAt(row, 4), (String) inventoryTable.getValueAt(row, 5), (String) inventoryTable.getValueAt(row, 0)};
+	
+					
+					if(item!=null) {
 						connect.addSupermarketItem(item, supermarket_id);
 					}
 				}
@@ -514,31 +728,28 @@ public class SupermarketSys {
 		gbc_addToInventory.insets = new Insets(0, 0, 5, 0);
 		gbc_addToInventory.gridx = 2;
 		gbc_addToInventory.gridy = 0;
-		supplierTab.add(addToInventory, gbc_addToInventory);
-
+		supermarketTab.add(addToInventory, gbc_addToInventory);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_1.gridheight = 4;
+		gbc_scrollPane_1.gridheight = 5;
 		gbc_scrollPane_1.gridwidth = 3;
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 2;
-		supplierTab.add(scrollPane_1, gbc_scrollPane_1);
-
+		supermarketTab.add(scrollPane_1, gbc_scrollPane_1);
+			
 		inventoryTable = new JTable();
 		inventoryTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {
 				java.awt.Point point = mevt.getPoint();
-				row = inventoryTable.rowAtPoint(point);
-				selectedRow = (String) inventoryTable.getValueAt(row, 0);
+				row =inventoryTable.rowAtPoint(point);
+				selectedRow=(String) inventoryTable.getValueAt(row, 0);
 				System.out.println(selectedRow);
 			}
 		});
-		inventoryTable.getTableHeader().setReorderingAllowed(false);
 		scrollPane_1.setViewportView(inventoryTable);
-		
 
 		GradientButton btnComment = new GradientButton("Send Comment");
 		GridBagConstraints gbc_btnComment = new GridBagConstraints();
@@ -546,7 +757,7 @@ public class SupermarketSys {
 		gbc_btnComment.insets = new Insets(0, 0, 0, 0);
 		gbc_btnComment.gridx = 0;
 		gbc_btnComment.gridy = 6;
-		supplierTab.add(btnComment, gbc_btnComment);
+		supermarketTab.add(btnComment, gbc_btnComment);
 		
 		btnComment.addActionListener(new ActionListener() {
 			
@@ -571,349 +782,41 @@ public class SupermarketSys {
 		if (!manager) {
 			// cant create orders
 			btnNewButton_1.setVisible(false);
-			// cant automate orders
+			//cant automate orders
 			btnNewButton_2.setVisible(false);
 		}
 		// CODES FOR NEW ORDER PAGE
-		// This codes will create a new tab called NEW ORDER
-		final JPanel newOrder = new JPanel();
-		// tabNumber++;
-		// String tabName = "NEW ORDER " + tabNumber;
-		btnNewButton_1.setEnabled(false);
-		mainTabbedPane.addTab("NEW ORDER", null, newOrder, null);
-		mainTabbedPane.setBackgroundAt(4, new Color(0, 0, 0));
-		mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
-		GridBagLayout gbl_newOrder = new GridBagLayout();
-		gbl_newOrder.columnWidths = new int[] { 0, 90, 0, 0, 0, 0, 0, 0, 0, 0,
-				0, 28, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_newOrder.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0, 0 };
-		gbl_newOrder.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 0.0,
-				0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0,
-				1.0, Double.MIN_VALUE };
-		gbl_newOrder.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, 0.0,
-				0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		newOrder.setLayout(gbl_newOrder);
-
-		String[] supplierNames1 = connect.getSupplierNames();
-
-		JLabel lblNewLabel_2 = new JLabel("Select Supplier:");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_2.gridwidth = 2;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 0;
-		newOrder.add(lblNewLabel_2, gbc_lblNewLabel_2);
-
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(supplierNames1));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.anchor = GridBagConstraints.WEST;
-		gbc_comboBox.gridwidth = 7;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 0;
-		newOrder.add(comboBox, gbc_comboBox);
-
-		ActionListener actionListener1 = new ActionListener() {
-
-			public void actionPerformed(ActionEvent actionEvent) {
-				int index = mainTabbedPane.getSelectedIndex();
-				mainTabbedPane.setTitleAt(index,
-						(String) comboBox.getSelectedItem());
-
-				supplierName = (String) comboBox.getSelectedItem();
-
-				System.out.println("SUPPLIER INDEX: "
-						+ comboBox.getSelectedIndex());
-				itemsList = connect.getItemListForSupplier(comboBox
-						.getSelectedIndex());
-				itemsListModel = new DefaultTableModel(itemsList,
-						itemsColumnNames) {
-					Class[] columnTypes = new Class[] { String.class,
-							String.class, String.class, BigDecimal.class,
-							String.class, String.class, BigDecimal.class };
-
-					public Class getColumnClass(int columnIndex) {
-						return columnTypes[columnIndex];
-					}
-
-					boolean[] columnEditables = new boolean[] { false, false,
-							false, true, false, false, false };
-
-					public boolean isCellEditable(int row, int column) {
-						return columnEditables[column];
-					}
-				};
-				table_4.setModel(itemsListModel);
-				table_4.getTableHeader().setReorderingAllowed(false);
-				table_4.getModel().addTableModelListener(
-						new TableModelListener() {
-							/**
-					   * 
-					   */
-							public void tableChanged(TableModelEvent e) {
-								// create order if customer has tried changing
-								// order UI
-								if (currentOrder == null) {
-									currentOrder = new Order();
-								}
-
-								// ensures that only when updates to quantity
-								// warrant a change to order
-								if (e.getColumn() == 3) {
-									if (currentOrder.updateOrder(Integer
-											.parseInt(table_4.getValueAt(
-													e.getFirstRow(), 3)
-													.toString()), comboBox
-											.getSelectedIndex(), e
-											.getFirstRow()) == -1) {
-										JOptionPane
-												.showMessageDialog(
-														frame,
-														comboBox.getSelectedItem()
-																+ " does not have enough units of "
-																+ table_4
-																		.getValueAt(
-																				e.getFirstRow(),
-																				1)
-																+ " to fulfil this order.");
-										table_4.setValueAt(0, e.getFirstRow(),
-												3); // override user's input and
-													// reset value too 0
-									} else {
-
-										// creates big decimals with updated
-										// values in order to multiply and set
-										// total which is of big decimal type
-										BigDecimal b = new BigDecimal(table_4
-												.getValueAt(e.getFirstRow(), 3)
-												.toString());
-										b.abs();
-										BigDecimal c = new BigDecimal(table_4
-												.getValueAt(e.getFirstRow(), 4)
-												.toString());
-										c.abs();
-
-										table_4.setValueAt(b.multiply(c),
-												e.getFirstRow(), 6);
-										grandTotal = 0;
-										for (int i = 0; i < table_4
-												.getRowCount(); i++) {
-											if (table_4.getValueAt(i, 6) != "") {
-
-												grandTotal += Double
-														.valueOf(table_4
-																.getValueAt(i,
-																		6)
-																.toString());
-												System.out.println("gtotal: "
-														+ grandTotal);
-											}//
-										}
-
-										grandTotalField.setText(Double
-												.toString(grandTotal));
-									}
-								}
-							}
-						});
-			}
-		};
-
-		
-		
-		comboBox.addActionListener(actionListener1);
-
-		JScrollPane newOrderTabScrollPane = new JScrollPane();
-		GridBagConstraints scrollPaneGridBagLayout = new GridBagConstraints();
-		scrollPaneGridBagLayout.gridheight = 8;
-		scrollPaneGridBagLayout.gridwidth = 18;
-		scrollPaneGridBagLayout.insets = new Insets(0, 0, 5, 0);
-		scrollPaneGridBagLayout.fill = GridBagConstraints.BOTH;
-		scrollPaneGridBagLayout.gridx = 0;
-		scrollPaneGridBagLayout.gridy = 1;
-
-		newOrder.add(newOrderTabScrollPane, scrollPaneGridBagLayout);
-
-		itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
-
-		table_4 = new JTable(new DefaultTableModel());
-
-		newOrder.add(newOrderTabScrollPane, scrollPaneGridBagLayout);
-
-		itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
-		// {
-		// boolean[] columnEditables = new boolean[] { false,
-		// false, false, false};
-		//
-		// public boolean isCellEditable(int row, int column) {
-		// return columnEditables[column];
-		// }};
-
-		table_4 = new JTable(new DefaultTableModel());
-		table_4.setRowSelectionAllowed(false);
-		newOrderTabScrollPane.setViewportView(table_4);
-
-		JButton btnNewButton_4 = new JButton("Cancel Order");
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				int n = JOptionPane.showConfirmDialog(frame,
-						"Are you sure you want to cancel order?",
-						"Cancel Order", JOptionPane.YES_NO_OPTION);
-
-				System.out.println("ANSWER: " + n);
-
-				int index = mainTabbedPane.indexOfTab((String) comboBox
-						.getSelectedItem());
-				System.out.println("INDEX OF TAB: " + index);
-
-				if (index >= 0 && n == 0) {
-					mainTabbedPane.remove(index);
-					btnNewButton_1.setEnabled(true);
-					currentOrder = null; // destroy order object
-				}
-			}
-		});
-
-		JLabel lblNewLabel_1 = new JLabel("GRAND TOTAL:");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 14;
-		gbc_lblNewLabel_1.gridy = 9;
-		newOrder.add(lblNewLabel_1, gbc_lblNewLabel_1);
-
-		grandTotalField = new JTextField();
-		grandTotalField.setEditable(false);
-		GridBagConstraints gbc_grandTotalField = new GridBagConstraints();
-		gbc_grandTotalField.insets = new Insets(0, 0, 5, 5);
-		gbc_grandTotalField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_grandTotalField.gridx = 16;
-		gbc_grandTotalField.gridy = 9;
-		newOrder.add(grandTotalField, gbc_grandTotalField);
-		grandTotalField.setColumns(10);
-
-		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_4.gridx = 14;
-		gbc_btnNewButton_4.gridy = 11;
-		newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
-
-		GradientButton submitNewOrderButton = new GradientButton("Submit Order");
-		GridBagConstraints gbc_submitNewOrderButton = new GridBagConstraints();
-		gbc_submitNewOrderButton.anchor = GridBagConstraints.EAST;
-		gbc_submitNewOrderButton.insets = new Insets(0, 0, 0, 5);
-		gbc_submitNewOrderButton.gridx = 16;
-		gbc_submitNewOrderButton.gridy = 11;
-		newOrder.add(submitNewOrderButton, gbc_submitNewOrderButton);
-		submitNewOrderButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				int n = JOptionPane.showConfirmDialog(frame,
-						"Are you sure you want to submit order?",
-						"Cancel Order", JOptionPane.YES_NO_OPTION);
-
-				System.out.println("ANSWER: " + n);
-
-				int index = mainTabbedPane.indexOfTab((String) comboBox
-						.getSelectedItem());
-				System.out.println("INDEX OF TAB: " + index);
-
-				// if answer is yes
-				if (index >= 0 && n == 0) {
-					mainTabbedPane.remove(index);
-					btnNewButton_1.setEnabled(true);
-					// add the new order in the database
-					connect.addToOrderHistory(supplierName, grandTotal,
-							"Submitted");
-
-					// refresh the orderListTable
-					Object[][] orderList = connect.getOrderList(supermarket_id);
-
-					final DefaultTableModel orderModel = new DefaultTableModel(
-							orderList, columnNameInvoice) {
-						boolean[] columnEditables = new boolean[] { false,
-								false, false, false };
-
-						public boolean isCellEditable(int row, int column) {
-							return columnEditables[column];
-						}
-					};
-					;
-					orderStatusTable = new JTable(orderModel);
-
-					scrollPane1.setViewportView(orderStatusTable);
-
-					int lastIndex = connect.getLastElementInOrderHistory();
-
-					// link the items to the order number in the database
-					int totalCol = table_4.getColumnCount();
-					int totalRow = table_4.getRowCount();
-
-					System.out
-							.println("COL: " + totalCol + " ROW: " + totalRow);
-					for (int col = 0; col < totalCol; col++) {
-						// COLUMN
-						// invoice_number int NOT NULL generated always as
-						// identity, = lastIndex
-						// name varchar(32), = itemName | 2
-						// item_type varchar(32), = itemType | 3
-						// quantity int, = quantity | 4
-						// unit_price decimal, = unitPrice | 5
-						// unit varchar(32), = unit | 6
-						// total decimal, = total | 7
-						// grandTotal decimal, = grandTotal
-
-						for (int row = 0; row < totalRow; row++) {
-							String itemName;
-							String itemType;
-							int quantity;
-							double unitPrice;
-							String unit;
-							double total;
-						}
-
-					}
-
-				}
-			}
-		});
 
 	}
-	
-	
-	
 
 	public JComboBox<String> getComboBox() {
 		return comboBox;
 	}
+	
+	private static final class GradientButton extends JButton{
+        private GradientButton(){
+            this.setText("");
+            setContentAreaFilled(false);
+        }
+        private GradientButton(String str){
+            this.setText(str);;
+            setContentAreaFilled(false);
+            
+        }
 
-	private static final class GradientButton extends JButton {
-		private GradientButton() {
-			this.setText("");
-			setContentAreaFilled(false);
-		}
+        @Override
+        protected void paintComponent(Graphics g){
+            Graphics2D G2D = (Graphics2D)g.create();
+            Color grey = new Color(153, 153, 153);
+            G2D.setPaint(new GradientPaint(
+                    new Point(0, 0), 
+                    Color.white, 
+                    new Point(0, getHeight()), 
+                    grey));
+            G2D.fillRect(0, 0, getWidth(), getHeight());
+            G2D.dispose();
 
-		private GradientButton(String str) {
-			this.setText(str);
-			;
-			setContentAreaFilled(false);
-
-		}
-
-		@Override
-		protected void paintComponent(Graphics g) {
-			Graphics2D G2D = (Graphics2D) g.create();
-			Color grey = new Color(153, 153, 153);
-			G2D.setPaint(new GradientPaint(new Point(0, 0), Color.white,
-					new Point(0, getHeight()), grey));
-			G2D.fillRect(0, 0, getWidth(), getHeight());
-			G2D.dispose();
-
-			super.paintComponent(g);
-		}
+            super.paintComponent(g);
+        }
 	}
 }
