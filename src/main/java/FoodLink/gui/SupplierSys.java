@@ -56,6 +56,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JToolBar;
+import java.awt.Button;
+import java.awt.Panel;
+import javax.swing.JSplitPane;
 
 public class SupplierSys {
 
@@ -64,12 +68,15 @@ public class SupplierSys {
 	private JTable table;
 	private database connect = new database ();
 	private String selectedRow= null;
+	private String selectedUser= null;
 	private int row;
 	private boolean manager = true;
+	
 
 private JTable table_1;
-private JTable table_2;
-	
+private JTable inventoryTable;
+private JTable userTable;
+private final JScrollPane scrollPane_2 = new JScrollPane();	
 	/**
 	 * Launch the application.
 	 */
@@ -233,9 +240,9 @@ private JTable table_2;
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
-		gbl_inventoryTab.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0};
+		gbl_inventoryTab.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0};
 		gbl_inventoryTab.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_inventoryTab.rowHeights = new int[]{0, 0, 0};
 		gbl_inventoryTab.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -251,31 +258,67 @@ private JTable table_2;
 		final Object[][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
-		//final Object [][] data = {{"1","papples", "fruits", "5000", "$2000"},{"2","apples", "fruits", "5000", "$2000"},{"3","grapes", "fruits", "5000", "$2000"},{"4","pears", "fruits", "5000", "$2000"} };
+		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000","$20LBs" },{"2","apples", "fruits", "5000", "2000","$20LBs"},{"3","grapes", "fruits", "5000", "2000","$20LBs"},{"4","pears", "fruits", "5000", "2000","$20LBs"} };
+		
 		
 		
 		final JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.gridwidth = 3;
+		gbc_scrollPane_1.gridwidth = 4;
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 1;
 		inventoryTab.add(scrollPane_1, gbc_scrollPane_1);
 		
-		table_2 = new JTable(data, columnNames);
-		table_2.addMouseListener(new MouseAdapter() {
+		inventoryTable = new JTable(data, columnNames);
+		inventoryTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {
 				java.awt.Point point = mevt.getPoint();
-				row =table_2.rowAtPoint(point);
-				selectedRow=(String) table_2.getValueAt(row, 0);
+				row =inventoryTable.rowAtPoint(point);
+				selectedRow=(String) inventoryTable.getValueAt(row, 0);
 				System.out.println(selectedRow);
 				
 				
 			}
 		});
-		scrollPane_1.setViewportView(table_2);
+		scrollPane_1.setViewportView(inventoryTable);
 		
+		JButton btnDeleteCurrentRow = new JButton("Delete Current Row");
+		btnDeleteCurrentRow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (selectedRow!=null)
+				{
+					System.out.println("About to delete this row " + selectedRow);
+					connect.manageItems(null, Integer.parseInt(selectedRow), false);
+					//getting data from the database
+					Object [] [] data2 = connect.getInventory(supplier_id);
+					//creating new table with the new data from the database
+					inventoryTable = new JTable(data2, columnNames);
+					//adding action listener on the new table 
+					inventoryTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent mevt) {
+							java.awt.Point point = mevt.getPoint();
+							row =inventoryTable.rowAtPoint(point);
+							selectedRow=(String) inventoryTable.getValueAt(row, 0);
+							System.out.println(selectedRow);
+							
+							
+						}
+					});
+					scrollPane_1.setViewportView(inventoryTable);
+					
+				}
+				else {System.out.println("selctedRow is null");}
+				
+			}
+		});
+		GridBagConstraints gbc_btnDeleteCurrentRow = new GridBagConstraints();
+		gbc_btnDeleteCurrentRow.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDeleteCurrentRow.gridx = 2;
+		gbc_btnDeleteCurrentRow.gridy = 0;
+		inventoryTab.add(btnDeleteCurrentRow, gbc_btnDeleteCurrentRow);
 		
 		GradientButton btnNewButton_3 = new GradientButton("Add New Item");
 		btnNewButton_3.addActionListener(new ActionListener() {
@@ -292,10 +335,23 @@ private JTable table_2;
 				}		
 				
 				if(item!=null)	
-					{connect.addItem(item, supplier_id);
+					{connect.manageItems(item, supplier_id, true);
 					Object [] [] data2 = connect.getInventory(supplier_id);
-					table_2 = new JTable(data2, columnNames);
-					scrollPane_1.setViewportView(table_2);}
+					//creating a new table with new information
+					inventoryTable = new JTable(data2, columnNames);
+					//adding an action listener
+					inventoryTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent mevt) {
+							java.awt.Point point = mevt.getPoint();
+							row =inventoryTable.rowAtPoint(point);
+							selectedRow=(String) inventoryTable.getValueAt(row, 0);
+							System.out.println(selectedRow);
+							
+							
+						}
+					});
+					scrollPane_1.setViewportView(inventoryTable);}
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
@@ -312,15 +368,29 @@ private JTable table_2;
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedRow!=null){
 					System.out.println("About to save changes to this row " + selectedRow);
-					System.out.println("Is this the anser?? " + table_2.getValueAt(row, 1));
-					String [] item={(String) table_2.getValueAt(row, 1),(String) table_2.getValueAt(row, 2), (String) table_2.getValueAt(row, 3), (String) table_2.getValueAt(row, 4)};
+					System.out.println("Is this the anser?? " + inventoryTable.getValueAt(row, 1));
+					String [] item={(String) inventoryTable.getValueAt(row, 1),(String) inventoryTable.getValueAt(row, 2), (String) inventoryTable.getValueAt(row, 3), (String) inventoryTable.getValueAt(row, 4)};
 	
 					
 					if(item!=null)	
 						{connect.modifyItem(item, Integer.parseInt(selectedRow));
+						//getting information from the database
 						Object [] [] data2 = connect.getInventory(supplier_id);
-						table_2 = new JTable(data2, columnNames);
-						scrollPane_1.setViewportView(table_2);}
+						//adding the information into a new table
+						inventoryTable = new JTable(data2, columnNames);
+						//adding an action listener to the table
+						inventoryTable.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent mevt) {
+								java.awt.Point point = mevt.getPoint();
+								row =inventoryTable.rowAtPoint(point);
+								selectedRow=(String) inventoryTable.getValueAt(row, 0);
+								System.out.println(selectedRow);
+								
+								
+							}
+						});
+						scrollPane_1.setViewportView(inventoryTable);}
 					
 					
 					
@@ -329,7 +399,7 @@ private JTable table_2;
 		});
 		GridBagConstraints gbc_btnSaveChanges = new GridBagConstraints();
 		gbc_btnSaveChanges.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSaveChanges.gridx = 2;
+		gbc_btnSaveChanges.gridx = 3;
 		gbc_btnSaveChanges.gridy = 0;
 		inventoryTab.add(btnSaveChanges, gbc_btnSaveChanges);
 		 
@@ -360,15 +430,15 @@ private JTable table_2;
 		};
 		
 		
-		final Object[][] order2 = new Object[][]{
+		/*final Object[][] order2 = new Object[][]{
 				{data[0][0], data[0][1], 20, data[0][4], 20 * Double.parseDouble((String) data[0][4])},
 				{data[1][0], data[1][1], 12, data[1][4], 12 * Double.parseDouble((String) data[1][4])},
 				{data[3][0], data[3][1], 4, data[3][4], 4 * Double.parseDouble((String) data[3][4])},
 				{data[4][0], data[4][1], 8, data[4][4], 8 * Double.parseDouble((String) data[4][4])},
-		};
+		};*/
 		
 		listOrders.add(order1);
-		listOrders.add(order2);
+		//listOrders.add(order2);
 		
 		final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
@@ -461,6 +531,84 @@ private JTable table_2;
 		JPanel jpSouth = new JPanel(new FlowLayout());
 		jpSouth.add(jbPrint);
 		jpInvoices.add(jpSouth,BorderLayout.SOUTH);
+		if(manager){	
+			JToolBar toolBar = new JToolBar();
+			mainTabbedPane.addTab("Users", null, toolBar, null);
+			
+			JPanel panel_1 = new JPanel();
+			toolBar.add(panel_1);
+			
+			Button button_2 = new Button("Delete User");
+			panel_1.add(button_2);
+			
+			Button button = new Button("Add User");
+			panel_1.add(button);
+			
+			toolBar.add(scrollPane_2);
+			
+			final String[] users = {"User name", "Privileges"};
+		
+			setTable(users, supplier_id);
+			
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String [] user = null;
+					try {
+						AddUser window = new AddUser(supplier_id);
+						window.setModalityType(ModalityType.APPLICATION_MODAL);	
+						window.frame.setVisible(true);
+						user = window.getResult();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					
+					
+					if(user[0]!=null)	
+						{//resetting the table
+						setTable(users, supplier_id);
+						}
+					
+					}
+			});
+			
+			button_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					System.out.println("about to delete this row.."+ selectedUser);
+					String [] user = {selectedUser};
+					//passing the user name, the supplier_id and false to trigger the delete query
+					connect.manageSupplierUsers(user, supplier_id, false);
+					setTable(users, supplier_id);
+				}
+	
+			
+			});	
+		
+	}
+		}
+
+
+	protected void setTable(String [] users, int supplier_id) {
+		//use this one when testing
+		final Object[][] userData = connect.getUser(supplier_id, false);
+				
+		//use this one when building
+		//final Object [][] userData = {{"Josh", "true" },{"Tom", "false" },{"Jayceon", "true" },{"J-Mello", "false" } };
+				
+		userTable = new JTable(userData, users);
+		userTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mevt) {
+				java.awt.Point point = mevt.getPoint();
+				row =userTable.rowAtPoint(point);
+				selectedUser=(String)userTable.getValueAt(row, 0);
+				System.out.println(selectedUser);
+				
+				
+			}
+		});
+		scrollPane_2.setViewportView(userTable);
+		
 	}
 
 

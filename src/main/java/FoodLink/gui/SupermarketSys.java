@@ -541,15 +541,16 @@ public class SupermarketSys {
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[] {0, 0, 30, 0};
+		gbl_inventoryTab.columnWidths = new int[] {0, 0, 0, 30, 0};
 		gbl_inventoryTab.rowHeights = new int[] { 0, 0, 0 };
-		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_inventoryTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		inventoryTab.setLayout(gbl_inventoryTab);
-
+		
+	
 		final JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.gridwidth = 5;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
@@ -613,7 +614,7 @@ public class SupermarketSys {
 		});
 		GridBagConstraints gbc_refreshInventoryButton = new GridBagConstraints();
 		gbc_refreshInventoryButton.insets = new Insets(0, 0, 5, 5);
-		gbc_refreshInventoryButton.gridx = 1;
+		gbc_refreshInventoryButton.gridx = 2;
 		gbc_refreshInventoryButton.gridy = 0;
 		inventoryTab.add(refreshInventoryButton, gbc_refreshInventoryButton);
 		
@@ -639,7 +640,7 @@ public class SupermarketSys {
 		});
 		GridBagConstraints gbc_saveChanges = new GridBagConstraints();
 		gbc_saveChanges.insets = new Insets(0, 0, 5, 5);
-		gbc_saveChanges.gridx = 2;
+		gbc_saveChanges.gridx = 3;
 		gbc_saveChanges.gridy = 0;
 		inventoryTab.add(saveChanges, gbc_saveChanges);
 
