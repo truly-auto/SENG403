@@ -824,7 +824,6 @@ public class database {
 			         System.out.println("The last INVOICE_NUMBER: " + invoiceNum);
 			     }
 		    
-		     
 			}
 		catch (SQLException e) {
 		     e.fillInStackTrace();
