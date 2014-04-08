@@ -811,10 +811,11 @@ public class SupermarketSys {
 					orderStatusTable = new JTable(orderModel);
 
 					scrollPane1.setViewportView(orderStatusTable);
-
+					
 					int lastIndex = connect.getLastElementInOrderHistory();
 					
 					//link the items to the order number in the database
+
 					int totalCol = table_4.getColumnCount();
 					int totalRow = table_4.getRowCount();
 					
@@ -842,7 +843,7 @@ public class SupermarketSys {
 						}
 						
 					}
-
+					
 				}
 			}
 		});
