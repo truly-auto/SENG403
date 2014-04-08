@@ -428,7 +428,7 @@ public class database {
 		return returnArray;
 	}
 		     
-
+	//invoice list for supermarket
 	public Object[][] getOrderList(int id)
 	{
 		String command = "select invoice_number, supplier, total_cost, date_time_created, status from order_history where store_id = " + id;
@@ -491,6 +491,67 @@ public class database {
 
 	}
 	
+	//get orders for supplier from different supermarkets
+	public Object[][] getOrderListSupplier(int id)
+	{
+		String command = "select invoice_number, supermarket, total_cost, date_time_created, status from order_history where supplier_id = " + id;
+		ArrayList<ArrayList<String>> orders = new ArrayList<ArrayList<String>>();
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next())
+		     	{
+		    	 	ArrayList <String> currOrder = new ArrayList <String> ();
+			        //get item number
+			       	String invoice_number = rs.getString("invoice_number");
+			       	currOrder.add(invoice_number);
+			       	System.out.println("Invoice number: " + invoice_number);
+			       	//get supplier name
+			       	String supermarket = rs.getString("supermarket");
+			       	currOrder.add(supermarket);
+			       	System.out.println("Supermarket: " + supermarket);
+			       	//get item name
+			       	String total_cost = rs.getString("total_cost");
+			       	currOrder.add(total_cost);
+			       	System.out.println("Total cost: " + total_cost);
+			       	//get item type
+			       	String date_time_created = rs.getString("date_time_created");
+			       	currOrder.add(date_time_created);
+		        	System.out.println("Date/Time Created: " + date_time_created);
+			       	//get quantity
+			       	String status = rs.getString("status");
+			       	currOrder.add(status);
+		        	System.out.println("Status: " + status);
+			       
+			        orders.add(currOrder);
+			     }
+			 rs.close();
+
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< orders.size(); i++){
+			System.out.println(orders.get(i));
+			
+		}
+		
+		Object [] [] orderList =  new Object [orders.size()] [];
+		
+		for (int i = 0; i< orders.size(); i++){
+			ArrayList <String> row =  orders.get(i);
+			orderList[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return orderList;
+
+	}
 	
 	
 	
