@@ -65,14 +65,15 @@ public class Order {
 					else
 						return -1;
 				}
-				else {
+				else  {
 					itemList.remove(i); // if item quantity was already in list and user is updating to 0, just remove it!
 					
 				}
+
+			}
 				//System.out.println("QUANTITY BEING READ: " + quantity);
 				itemExists = true;
-			}
-	
+			
 		}
 		if (itemExists == false) {
 			if (quantity != 0) {
