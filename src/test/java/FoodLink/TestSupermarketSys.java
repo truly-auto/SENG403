@@ -9,8 +9,10 @@ import FoodLink.gui.SupermarketSys;
 public class TestSupermarketSys {
 
 	@Test
-	public void test() {
-		//tests
+	public void testSuccessInit() {
+		SupermarketSys s = new SupermarketSys(1, false);
+		
+		
 	}
 
 }

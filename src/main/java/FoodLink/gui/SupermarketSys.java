@@ -123,6 +123,8 @@ public class SupermarketSys {
 		Color grey = new Color(153, 153, 153);
 		Color green = new Color(182, 215, 168);
 		frame.getContentPane().setBackground(green);
+		Dimension d = new Dimension(1000,700);
+		frame.setSize(d);
 		BufferedImage Logo = null;
 		JPanel banner = new JPanel();
 		try {

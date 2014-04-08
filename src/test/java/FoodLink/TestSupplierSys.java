@@ -18,16 +18,25 @@ import FoodLink.gui.SupplierSys;
  */
 public class TestSupplierSys {
 
-	@Test
-	public void test() {
-		assertTrue(1==1);
+
+	
+	/**
+	 * Test for checking array is out of bounds
+	 */
+	@Test (expected = ArrayIndexOutOfBoundsException.class)
+	public void testSupplierID()
+	{
+		SupplierSys s = new SupplierSys(9999, false);
+		
 	}
 	
-	@Test
-	public void testTwo() {
-		assertTrue(1==1);
-		
-		
+	/**
+	 * Test for checking array is out of bounds
+	 */
+	@Test (expected = ArrayIndexOutOfBoundsException.class)
+	public void testSupplierID2()
+	{
+		SupplierSys s = new SupplierSys(-1, false);
 	}
 
 }
