@@ -160,6 +160,10 @@ public class database {
 		
 	}
 	
+	public void addComment(String comment, int store_id, int supplier_id){
+		
+	}
+	
 	public Object [] [] getInventory(int id){
 		ArrayList<ArrayList<String>> inventory = new ArrayList<ArrayList<String>>();
 		String command = "select * from items where supplier_id = " +id;

@@ -32,27 +32,19 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
-import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Order;
-
 import FoodLink.database;
 
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 import java.awt.Color;
 import java.io.File;
@@ -61,8 +53,6 @@ import java.math.BigDecimal;
 
 import javax.swing.JTextField;
 
-import java.awt.GridLayout;
-import java.awt.Font;
 
 public class SupermarketSys {
 
@@ -70,9 +60,9 @@ public class SupermarketSys {
 
 	private JTable orderStatusTable;
 	private JTable table;
-	private JComboBox comboBox;
-	private JComboBox supplierSelector;
-	DefaultListModel orderListModel;
+	private JComboBox<String> comboBox;
+	private JComboBox<String> supplierSelector;
+	DefaultListModel<String> orderListModel;
 	private Object[][] itemsList;
 	private String supplierName;
 
@@ -82,10 +72,10 @@ public class SupermarketSys {
 	DefaultTableModel itemsListModel;
 
 	private database connect = new database();
-	DefaultListModel itemsListModel1;
+	DefaultListModel<String> itemsListModel1;
 	private JTable table_4;
 	private JTextField grandTotalField;
-	private int tabNumber = 0;
+	//private int tabNumber = 0;
 	private JTable inventoryTable;
 
 	private double grandTotal = 0;
@@ -123,6 +113,7 @@ public class SupermarketSys {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void initialize(final int supermarket_id, final boolean manager) {
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
@@ -434,16 +425,16 @@ public class SupermarketSys {
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
 
-		JPanel supermarketTab = new JPanel();
-		mainTabbedPane.addTab("Supplier", null, supermarketTab, null);
-		GridBagLayout gbl_supermarketTab = new GridBagLayout();
-		gbl_supermarketTab.columnWidths = new int[] { 0, 30, 30, 0 };
-		gbl_supermarketTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_supermarketTab.columnWeights = new double[] { 1.0, 0.0, 0.0,
+		JPanel supplierTab = new JPanel();
+		mainTabbedPane.addTab("Supplier", null, supplierTab, null);
+		GridBagLayout gbl_supplierTab = new GridBagLayout();
+		gbl_supplierTab.columnWidths = new int[] { 0, 30, 30, 0 };
+		gbl_supplierTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_supplierTab.columnWeights = new double[] { 1.0, 0.0, 0.0,
 				Double.MIN_VALUE };
-		gbl_supermarketTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0,
+		gbl_supplierTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0,
 				0.0, 1.0, Double.MIN_VALUE };
-		supermarketTab.setLayout(gbl_supermarketTab);
+		supplierTab.setLayout(gbl_supplierTab);
 
 		final String[] supplierTableColumnNames = { "Item Number", "Item name",
 				"Type", "Quantity", "Unit Price ($)", "Units" };
@@ -456,7 +447,7 @@ public class SupermarketSys {
 		gbc_supplierSelector.fill = GridBagConstraints.HORIZONTAL;
 		gbc_supplierSelector.gridx = 0;
 		gbc_supplierSelector.gridy = 0;
-		supermarketTab.add(supplierSelector, gbc_supplierSelector);
+		supplierTab.add(supplierSelector, gbc_supplierSelector);
 
 		ActionListener actionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -512,16 +503,17 @@ public class SupermarketSys {
 		gbc_addToInventory.insets = new Insets(0, 0, 5, 0);
 		gbc_addToInventory.gridx = 2;
 		gbc_addToInventory.gridy = 0;
-		supermarketTab.add(addToInventory, gbc_addToInventory);
+		supplierTab.add(addToInventory, gbc_addToInventory);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.gridheight = 5;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_1.gridheight = 4;
 		gbc_scrollPane_1.gridwidth = 3;
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 2;
-		supermarketTab.add(scrollPane_1, gbc_scrollPane_1);
+		supplierTab.add(scrollPane_1, gbc_scrollPane_1);
 
 		inventoryTable = new JTable();
 		inventoryTable.addMouseListener(new MouseAdapter() {
@@ -533,8 +525,37 @@ public class SupermarketSys {
 				System.out.println(selectedRow);
 			}
 		});
+		inventoryTable.getTableHeader().setReorderingAllowed(false);
 		scrollPane_1.setViewportView(inventoryTable);
+		
 
+		GradientButton btnComment = new GradientButton("Send Comment");
+		GridBagConstraints gbc_btnComment = new GridBagConstraints();
+		gbc_btnComment.anchor = GridBagConstraints.WEST;
+		gbc_btnComment.insets = new Insets(0, 0, 0, 0);
+		gbc_btnComment.gridx = 0;
+		gbc_btnComment.gridy = 6;
+		supplierTab.add(btnComment, gbc_btnComment);
+		
+		btnComment.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				SendCommentWindow commentWindow = new SendCommentWindow();
+				commentWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
+				commentWindow.setModalityType(ModalityType.APPLICATION_MODAL);
+				commentWindow.setVisible(true);
+				
+				if(commentWindow.valid()){
+					connect.addComment(commentWindow.getComment(), comboBox.getSelectedIndex(), supermarket_id);
+				}
+				
+			}
+		});
+		
+		
+		
 		// role enforcement
 		if (!manager) {
 			// cant create orders
@@ -615,6 +636,7 @@ public class SupermarketSys {
 					}
 				};
 				table_4.setModel(itemsListModel);
+				table_4.getTableHeader().setReorderingAllowed(false);
 				table_4.getModel().addTableModelListener(
 						new TableModelListener() {
 							/**
@@ -689,6 +711,8 @@ public class SupermarketSys {
 			}
 		};
 
+		
+		
 		comboBox.addActionListener(actionListener1);
 
 		JScrollPane newOrderTabScrollPane = new JScrollPane();
@@ -848,8 +872,11 @@ public class SupermarketSys {
 		});
 
 	}
+	
+	
+	
 
-	public JComboBox getComboBox() {
+	public JComboBox<String> getComboBox() {
 		return comboBox;
 	}
 
