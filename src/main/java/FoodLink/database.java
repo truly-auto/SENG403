@@ -102,7 +102,7 @@ public class database {
 	}
 	
 	public void addComment(String comment, int store_id, int supplier_id){
-		
+		//TODO insert comment to database
 	}
 	
 	public Object [] [] getInventory(int id){
