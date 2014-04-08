@@ -33,66 +33,7 @@ public class database {
         }
 		
 	}
-	/*
-	public Object [] [] getInvoices(int id){
-		ArrayList<ArrayList<String>> invoice = new ArrayList<ArrayList<String>>();
-		String command = "select * from order_history where store_id = " + id;
-		
-		//===
-		try {
-		     statement.execute(command);
-		     ResultSet rs = statement.getResultSet();
-		     while(rs.next()){
-		    	 ArrayList <String> currentInvoice = new ArrayList <String> (); 
-		    	 //Retrieve by column name
-		    	 int number = rs.getInt("invoice_number");
-			      System.out.println(number);
-			        currentInvoice.add(Integer.toString(number)); 
 
-			    String supplier = rs.getString("supplier");
-			    System.out.println(supplier);
-			    currentInvoice.add(supplier);     
-			        
-		        int total_cost = rs.getInt("total_cost");
-		        System.out.println(total_cost);
-		        currentInvoice.add(Integer.toString(total_cost));  
-		     	
-		        String date_time_created = rs.getString("date_time_created");
-		        System.out.println(date_time_created);
-		        currentInvoice.add(date_time_created);  
-	  
-		        String status = rs.getString("status");
-		        System.out.println(status);
-		        currentInvoice.add(status); 
-		     
-		        invoice.add(currentInvoice);
-		     	}
-		      rs.close();
-		    }
-		catch (SQLException e) {
-		     e.fillInStackTrace();
-		     System.out.println("Error executing: " + command);
-		     System.out.println(e);;
-		    }
-		
-		//===
-
-		for (int i = 0; i< invoice.size(); i++){
-			System.out.println(invoice.get(i));
-			
-		}
-		
-		Object [] [] invoiceArray =  new Object [invoice.size()] [];
-		
-		for (int i = 0; i< invoice.size(); i++){
-			ArrayList <String> row =  invoice.get(i);
-			invoiceArray[i]= row.toArray(new String [row.size()]);
-			
-			
-		}
-		return invoiceArray;
-	}
-	*/
 	public void getSupplier(){
 		String command = "select * from supplier";
 		
