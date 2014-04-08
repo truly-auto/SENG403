@@ -272,6 +272,11 @@ public class SupermarketSys {
 		orderTab.add(btnNewButton_1, gbc_btnNewButton_1);
 
 		GradientButton btnNewButton_2 = new GradientButton("Automated Ordering");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
@@ -366,6 +371,10 @@ public class SupermarketSys {
 					}
 
 					scrollPane.setViewportView(table);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Please select an item in the table to automatically order.");
 				}
 			}
 		});
