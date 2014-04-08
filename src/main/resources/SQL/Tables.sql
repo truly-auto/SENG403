@@ -325,3 +325,10 @@ VALUES ('Prince_Doe','password',2, 'false');
 --Add some supermarket items
 INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit, supplier_item_number)
 VALUES ('grapes', 'fruits', 1, 5000, 2000, 'lb', 2);
+
+--Add some comments
+INSERT INTO supplier_comments (comment, store_id, supplier_id)
+VALUES ('This place Rocks!', 1, 1);
+
+INSERT INTO supplier_comments (comment, store_id, supplier_id)
+VALUES ('Unhappy Comment :(', 2, 1);

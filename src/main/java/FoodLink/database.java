@@ -842,7 +842,55 @@ public class database {
 		return orderNum;
 	}
 	
-	
+	//Get the list of comments for a supplier
+	public Object[][] getSuplierComments (int supplier_id)
+	{
+		String command = "select id, comment, store_id, supplier_id from supplier_comments where supplier_id = " + supplier_id;
+		ArrayList<ArrayList<String>> comments = new ArrayList<ArrayList<String>>();
+		try {
+			statement.execute(command);
+			ResultSet rs = statement.getResultSet();
+			while(rs.next())
+			{
+				ArrayList <String> currComment = new ArrayList <String> ();
+				//get item number
+				String id = rs.getString("id");
+				currComment.add(id);
+				System.out.println("ID: " + id);
+				//get supplier name
+				String comment = rs.getString("comment");
+				currComment.add(comment);
+				System.out.println("Comment: " + comment);
+
+				comments.add(currComment);
+			}
+			rs.close();
+
+
+
+		}
+		catch (SQLException e) {
+			e.fillInStackTrace();
+			System.out.println("Error executing: " + command);
+			System.out.println(e);;
+
+		}
+
+		for (int i = 0; i< comments.size(); i++){
+			System.out.println(comments.get(i));
+
+		}
+
+		Object [] [] commentsList =  new Object [comments.size()] [];
+
+		for (int i = 0; i< comments.size(); i++){
+			ArrayList <String> row =  comments.get(i);
+			commentsList[i]= row.toArray(new String [row.size()]);
+
+
+		}
+		return commentsList;
+	}
 	
 }
 
