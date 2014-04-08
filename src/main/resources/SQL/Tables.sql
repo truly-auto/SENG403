@@ -71,7 +71,7 @@ CREATE TABLE supplier_users (
 	
 --Create Order table
 CREATE TABLE order_history(
-	invoice_number int,
+	invoice_number not null generated always as identity,
 	supplier varchar(255),
 	total_cost decimal,
 	date_time_created varchar (255),
