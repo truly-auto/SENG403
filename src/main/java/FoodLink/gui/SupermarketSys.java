@@ -76,6 +76,9 @@ public class SupermarketSys {
 	private Object[][] itemsList;
 	private String supplierName;
 	private int supplier_id;
+	private int numClick = 0;
+	private int rowSelected = -1;
+	private int prevRowSelected = -1;
 
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
 			"Quantity", "Unit Price ($)", "Unit", "Total" };
@@ -257,6 +260,12 @@ public class SupermarketSys {
 		};
 		;
 		orderStatusTable = new JTable(orderModel);
+		orderStatusTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("CLICKING THE TABLE");
+			}
+		});
 
 		scrollPane1.setViewportView(orderStatusTable);
 
@@ -812,6 +821,39 @@ public class SupermarketSys {
 					};
 					;
 					orderStatusTable = new JTable(orderModel);
+					//always makes the table clickable 
+					
+					orderStatusTable.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e)
+						{
+							numClick++; 
+							System.out.println("CLICKING THE TABLE: " + numClick);
+							
+							rowSelected = orderStatusTable.getSelectedRow();
+							System.out.println("ROW NUMBER SELECTED: " + rowSelected);
+							
+							if(numClick == 1)
+							{
+								prevRowSelected = rowSelected;
+							}
+							
+							if((numClick == 2) && (rowSelected == prevRowSelected))
+							{
+								System.out.println("DOUBLE CLICK");
+								numClick = 0;
+							}
+							
+							if(numClick == 2)
+							{
+								System.out.println("Resetting the counter");
+								numClick = 0;
+							}
+							
+							
+						}
+					});
+
 
 					scrollPane1.setViewportView(orderStatusTable);
 					
