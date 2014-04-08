@@ -75,6 +75,7 @@ public class SupermarketSys {
 	DefaultListModel orderListModel;
 	private Object[][] itemsList;
 	private String supplierName;
+	private int supplier_id;
 
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
 			"Quantity", "Unit Price ($)", "Unit", "Total" };
@@ -593,10 +594,12 @@ public class SupermarketSys {
 
 				supplierName = (String) comboBox.getSelectedItem();
 
+				
 				System.out.println("SUPPLIER INDEX: "
 						+ comboBox.getSelectedIndex());
 				itemsList = connect.getItemListForSupplier((comboBox
 						.getSelectedIndex()+1));
+				supplier_id = comboBox.getSelectedIndex()+1;
 				itemsListModel = new DefaultTableModel(itemsList,
 						itemsColumnNames) {
 					Class[] columnTypes = new Class[] { String.class,
@@ -793,7 +796,7 @@ public class SupermarketSys {
 					btnNewButton_1.setEnabled(true);
 					// add the new order in the database
 					connect.addToOrderHistory(supplierName, grandTotal,
-							"Submitted");
+							"Submitted", supermarket_id, supplier_id);
 
 					// refresh the orderListTable
 					Object[][] orderList = connect.getOrderList(supermarket_id);
