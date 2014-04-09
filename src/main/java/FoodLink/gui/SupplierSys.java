@@ -454,6 +454,9 @@ private JTable table_2;
 		table2 = new JTable(orderModel);
 		
 		scrollPane_3.setViewportView(table2);
+		
+		
+		
 		/*
 		final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
 		
