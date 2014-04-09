@@ -877,6 +877,75 @@ public class database {
 		
 	}
 	
+	//gets all info except grand total
+	public Object[][] getOrderInformation(int invoiceNumber)
+	{
+		String command = "select * from items where invoice_number = " + invoiceNumber;
+		ArrayList<Object []> itemsList = new ArrayList<Object []>() ;
+		
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     int counter = 0;
+		     while(rs.next())
+		     	{
+		    	 	ArrayList<String> tempItems = new ArrayList<String>();
+			        //get item number
+			       	String item_number = rs.getString("item_number");
+			       	tempItems.add(item_number);
+			       	System.out.println("Item number: " + item_number);
+			       	//get item name
+			       	String name = rs.getString("name");
+			       	tempItems.add(name);
+			       	System.out.println("Name: " + name);
+			       	//get item type
+			       	String item_type = rs.getString("item_type");
+			       	tempItems.add(item_type);
+		        	System.out.println("Item Type: " + item_type);
+			       	//get quantity
+		        	String quantity = rs.getString("quantity");
+		        	tempItems.add(quantity);
+			       	//get price
+		        	String unit_price = rs.getString("unit_price");
+		        	tempItems.add(unit_price);
+		        	System.out.println("Unit Price: " + unit_price);
+		           	//get price
+		        	String unit = rs.getString("unit");
+		        	tempItems.add(unit);
+		        	System.out.println("Unit: " + unit);
+			        //get total
+			       	String total = rs.getString("total");
+			       	tempItems.add(total);
+			       	System.out.println("total: " + total);
+		        	
+		        	itemsList.add(tempItems.toArray());
+		     	}
+		}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< itemsList.size(); i++){
+			System.out.println(itemsList.get(i));
+			
+		}
+
+		Object[][] returnArray = new Object[0][0];
+		if (itemsList.size() > 0) {
+			returnArray = new Object[itemsList.size()] [itemsList.get(0).length];
+			
+			for (int i = 0; i < itemsList.size(); i++) {
+				returnArray[i] = itemsList.get(i);
+			}
+		
+		}
+		
+		return returnArray;
+	}
+	
 	public void addToOrderHistory(String supplierName, Double grandTotal, String orderStatus){
 		java.util.Date date= new java.util.Date();
 		

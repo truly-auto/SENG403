@@ -26,8 +26,8 @@ public class ViewInvoice {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//change invoice number and supplier id
-					ViewInvoice window = new ViewInvoice(1, 1);
+					//change invoice number
+					ViewInvoice window = new ViewInvoice(1);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,14 +39,14 @@ public class ViewInvoice {
 	/**
 	 * Create the application.
 	 */
-	public ViewInvoice(int invoiceNumber, int supplier_id) {
-		initialize(invoiceNumber, supplier_id);
+	public ViewInvoice(int invoiceNumber) {
+		initialize(invoiceNumber);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(int invoiceNumber, int suppplier_id) {
+	private void initialize(int invoiceNumber) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,9 +65,9 @@ public class ViewInvoice {
 		gbc_scrollPane.gridy = 0;
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		
-		Object[][] orderList = connect.getOrderListSupplier(invoiceNumber, supplier_id);
-		final String[] columnTitle = new String[] { "Invoice Number", "Supermarket", "Total Cost($)",
-				"Date/Time Created", "Status" };
+		Object[][] orderList = connect.getOrderInformation(invoiceNumber);
+		final String[] columnTitle= new String[]{"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
+
 
 		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnTitle){
 			boolean[] columnEditables = new boolean[] {
