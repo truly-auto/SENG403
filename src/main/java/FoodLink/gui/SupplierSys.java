@@ -78,14 +78,12 @@ public class SupplierSys {
 	private String selectedUser= null;
 	private int row;
 	private boolean manager = true;
-	
-
-private JTable table_1;
-private JTable inventoryTable;
-private JTable userTable;
-private final JScrollPane scrollPane_2 = new JScrollPane();	
-private JTable commentsTable;
-	/**
+	private JTable table_1;
+	private JTable inventoryTable;
+	private JTable userTable;
+	private final JScrollPane scrollPane_2 = new JScrollPane();	
+	private JTable commentsTable;
+		/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -264,6 +262,7 @@ private JTable commentsTable;
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
+		//
 		final Object[][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
@@ -465,8 +464,7 @@ private JTable commentsTable;
 		final Object[][] order2 = new Object[][]{
 				{data[0][0], data[0][1], 20, data[0][4], 20 * Double.parseDouble((String) data[0][4])},
 				{data[1][0], data[1][1], 12, data[1][4], 12 * Double.parseDouble((String) data[1][4])},
-				{data[3][0], data[3][1], 4, data[3][4], 4 * Double.parseDouble((String) data[3][4])},
-				{data[4][0], data[4][1], 8, data[4][4], 8 * Double.parseDouble((String) data[4][4])},
+				{data[3][0], data[3][1], 4, data[3][4], 4 * Double.parseDouble((String) data[3][4])}
 		};
 		
 		listOrders.add(order1);
@@ -600,6 +598,7 @@ private JTable commentsTable;
 						//window.frame.setVisible(true);
 						window.setVisible(true);
 						user = window.getResult();
+						connect.manageSupplierUsers(user, supplier_id, true);
 						window.setVisible(false);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -613,26 +612,27 @@ private JTable commentsTable;
 						}
 					
 					}
-			});
-			
-			button_2.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("about to delete this row.."+ selectedUser);
-					String [] user = {selectedUser};
-					//passing the user name, the supplier_id and false to trigger the delete query
-					connect.manageSupplierUsers(user, supplier_id, false);
-					setTable(users, supplier_id);
-				}
-	
-			
-			});	
+				});
+				
+				button_2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						System.out.println("about to delete this row.."+ selectedUser);
+						String [] user = {selectedUser};
+						//passing the user name, the supplier_id and false to trigger the delete query
+						connect.manageSupplierUsers(user, supplier_id, false);
+						setTable(users, supplier_id);
+					}
 		
-	}
+				
+				});	
+		
 		}
+	}
 
 
 	protected void setTable(String [] users, int supplier_id) {
 		//use this one when testing
+		//
 		final Object[][] userData = connect.getUser(supplier_id, false);
 				
 		//use this one when building

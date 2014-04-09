@@ -633,6 +633,28 @@ public class database {
 		
 	}
 	
+	public void manageSupermarketUsers(String[] user, int id, boolean add) {
+		String command;
+		
+		if (add==true)
+			{command = "INSERT INTO store_users (username, password, store_id, manager) VALUES "
+				+ "('"+user[0]+"', '"+ user[1]+"', "+ id +", '" + user[2] + "')";
+			}
+		else {command = "DELETE FROM store_users WHERE username = '"+ user[0]+"'";
+			}
+		
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add or delete Succesful");
+		
+	}
 	public void manageItems(String[] item, int id, boolean add) {
 		String command;
 		

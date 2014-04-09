@@ -32,18 +32,16 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Order;
-
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
@@ -95,7 +93,11 @@ public class SupermarketSys {
 	
 	private Order currentOrder;
 	
-	
+	//variables for managers to add and remove users
+	private String selectedUser= null;
+	private JTable userTable;
+	private final JScrollPane scrollPane_2 = new JScrollPane();	
+	//--
 	
 	private String selectedRow= null;
 	private int row;
@@ -785,8 +787,99 @@ public class SupermarketSys {
 			//cant automate orders
 			btnNewButton_2.setVisible(false);
 		}
+		//code to allow managers to add and remove users
+		if(manager){	
+			JToolBar toolBar = new JToolBar();
+			mainTabbedPane.addTab("Users", null, toolBar, null);
+			
+			JPanel panel_1 = new JPanel();
+			toolBar.add(panel_1);
+			
+			Button button_2 = new Button("Delete User");
+			panel_1.add(button_2);
+			
+			Button button = new Button("Add User");
+			panel_1.add(button);
+			
+			toolBar.add(scrollPane_2);
+			
+			final String[] users = {"User name", "Privileges"};
+		
+			setTable(users, supermarket_id);
+			
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String [] user = null;
+					try {
+						AddUser window = new AddUser(supermarket_id);
+						/**
+						 * Poorly coded to avoid having to refactor this whole class for now
+						 * (Instead of turning into a JDialog, making JDialog inherit conentpane of frame)
+						 */
+						window.setContentPane(window.frame.getContentPane());
+						window.setSize(new Dimension(500, 300));
+						
+						window.setModalityType(ModalityType.APPLICATION_MODAL);	
+						//window.frame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+						//window.frame.setVisible(true);
+						window.setVisible(true);
+						user = window.getResult();
+						connect.manageSupermarketUsers(user, supermarket_id, true);
+						window.setVisible(false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					
+					
+					if(user[0]!=null)	
+						{//resetting the table
+							setTable(users, supermarket_id);
+						}
+					
+					}
+				});
+				
+				button_2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						System.out.println("about to delete this row.."+ selectedUser);
+						String [] user = {selectedUser};
+						//passing the user name, the supermarket_id and false to trigger the delete query
+						connect.manageSupermarketUsers(user, supermarket_id, false);
+						setTable(users, supermarket_id);
+					}
+		
+				
+				});	
+		
+		}
 		// CODES FOR NEW ORDER PAGE
 
+	}
+
+	protected void setTable(String[] users, int supermarket_id) {
+		//use this one when testing
+				//
+				final Object[][] userData = connect.getUser(supermarket_id, true);
+						
+				//use this one when building
+				//final Object [][] userData = {{"Josh", "true" },{"Tom", "false" },{"Jayceon", "true" },{"J-Mello", "false" } };
+						
+				userTable = new JTable(userData, users);
+				userTable.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent mevt) {
+						java.awt.Point point = mevt.getPoint();
+						row =userTable.rowAtPoint(point);
+						selectedUser=(String)userTable.getValueAt(row, 0);
+						System.out.println(selectedUser);
+						
+						
+					}
+				});
+				scrollPane_2.setViewportView(userTable);
+				
+		
 	}
 
 	public JComboBox<String> getComboBox() {
