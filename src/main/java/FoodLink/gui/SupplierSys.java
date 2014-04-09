@@ -11,8 +11,10 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dialog.ModalityType;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -56,10 +58,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import javax.swing.JToolBar;
+
 import java.awt.Button;
 import java.awt.Panel;
+
 import javax.swing.JSplitPane;
+
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class SupplierSys {
 
@@ -111,6 +118,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		System.out.println("this is .." + supplier_id);
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
+		//frame.setSize(new Dimension(1000,1000));
 		frame.setTitle("FoodLink");
 		//frame.setBounds(100, 100, 608, 300);
 		frame.setBounds(100, 100, 640, 420);
@@ -134,7 +142,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		banner.setBackground(green);
 		frame.getContentPane().add(banner);
 		frame.setBackground(green);
-		
+		frame.setSize(new Dimension(1000,700));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -332,6 +340,10 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}		
+				
+				
+				
+				
 				
 				if(item!=null)	
 					{connect.manageItems(item, supplier_id, true);
@@ -557,9 +569,19 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 					String [] user = null;
 					try {
 						AddUser window = new AddUser(supplier_id);
+						/**
+						 * Poorly coded to avoid having to refactor this whole class for now
+						 * (Instead of turning into a JDialog, making JDialog inherit conentpane of frame)
+						 */
+						window.setContentPane(window.frame.getContentPane());
+						window.setSize(new Dimension(500, 300));
+						
 						window.setModalityType(ModalityType.APPLICATION_MODAL);	
-						window.frame.setVisible(true);
+						//window.frame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+						//window.frame.setVisible(true);
+						window.setVisible(true);
 						user = window.getResult();
+						window.setVisible(false);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -568,7 +590,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 					
 					if(user[0]!=null)	
 						{//resetting the table
-						setTable(users, supplier_id);
+							setTable(users, supplier_id);
 						}
 					
 					}
