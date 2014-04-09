@@ -33,66 +33,7 @@ public class database {
         }
 		
 	}
-	/*
-	public Object [] [] getInvoices(int id){
-		ArrayList<ArrayList<String>> invoice = new ArrayList<ArrayList<String>>();
-		String command = "select * from order_history where store_id = " + id;
-		
-		//===
-		try {
-		     statement.execute(command);
-		     ResultSet rs = statement.getResultSet();
-		     while(rs.next()){
-		    	 ArrayList <String> currentInvoice = new ArrayList <String> (); 
-		    	 //Retrieve by column name
-		    	 int number = rs.getInt("invoice_number");
-			      System.out.println(number);
-			        currentInvoice.add(Integer.toString(number)); 
 
-			    String supplier = rs.getString("supplier");
-			    System.out.println(supplier);
-			    currentInvoice.add(supplier);     
-			        
-		        int total_cost = rs.getInt("total_cost");
-		        System.out.println(total_cost);
-		        currentInvoice.add(Integer.toString(total_cost));  
-		     	
-		        String date_time_created = rs.getString("date_time_created");
-		        System.out.println(date_time_created);
-		        currentInvoice.add(date_time_created);  
-	  
-		        String status = rs.getString("status");
-		        System.out.println(status);
-		        currentInvoice.add(status); 
-		     
-		        invoice.add(currentInvoice);
-		     	}
-		      rs.close();
-		    }
-		catch (SQLException e) {
-		     e.fillInStackTrace();
-		     System.out.println("Error executing: " + command);
-		     System.out.println(e);;
-		    }
-		
-		//===
-
-		for (int i = 0; i< invoice.size(); i++){
-			System.out.println(invoice.get(i));
-			
-		}
-		
-		Object [] [] invoiceArray =  new Object [invoice.size()] [];
-		
-		for (int i = 0; i< invoice.size(); i++){
-			ArrayList <String> row =  invoice.get(i);
-			invoiceArray[i]= row.toArray(new String [row.size()]);
-			
-			
-		}
-		return invoiceArray;
-	}
-	*/
 	public void getSupplier(){
 		String command = "select * from supplier";
 		
@@ -158,6 +99,10 @@ public class database {
 		     System.out.println(e);;
 		    }
 		
+	}
+	
+	public void addComment(String comment, int store_id, int supplier_id){
+		//TODO insert comment to database
 	}
 	
 	public Object [] [] getInventory(int id){
@@ -264,9 +209,65 @@ public class database {
 		    }
 		
 		//===
+		
 		return supplier;
 	}
 	
+	//getting supplier and supermarket users from database (id, if supermarket)
+	public Object [] [] getUser(int id, boolean supermarket){
+		String command ="";
+		if (supermarket)
+			{command = "select * from store_users where store_id = " +id;
+			}
+		else{
+			command = "select * from supplier_users where supplier_id = " +id;}
+		ArrayList<ArrayList<String>> userArrayList = new ArrayList<ArrayList<String>>();
+		//===
+		try {
+			statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		    	 ArrayList <String> currentUser = new ArrayList <String> ();  
+		    	 //Retrieve by column name
+		        String username = rs.getString("username");
+		        currentUser.add(username);  
+		     	
+		        
+		        String manager = rs.getString("manager");
+		        if(manager.equals("true"))
+		        		{manager="Administrative User";}
+		        else
+		        	{manager="Limited User";}
+		        currentUser.add(manager);
+		        
+		     	userArrayList.add(currentUser);   }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		//===
+		
+		for (int i = 0; i< userArrayList.size(); i++){
+			System.out.println(userArrayList.get(i));
+			
+		}
+		
+		Object [] [] userArray =  new Object [userArrayList.size()] [];
+		
+		for (int i = 0; i< userArrayList.size(); i++){
+			ArrayList <String> row =  userArrayList.get(i);
+			userArray[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		
+		return userArray;
+	}
+
 	public String [] getSupplierNames()
 	{
 		String command = "select name from supplier";
@@ -483,7 +484,7 @@ public class database {
 		return returnArray;
 	}
 		     
-
+	//invoice list for supermarket
 	public Object[][] getOrderList(int id)
 	{
 		String command = "select invoice_number, supplier, total_cost, date_time_created, status from order_history where store_id = " + id;
@@ -546,12 +547,78 @@ public class database {
 
 	}
 	
+	//get orders for supplier from different supermarkets
+	public Object[][] getOrderListSupplier(int id)
+	{
+		String command = "select invoice_number, supermarket, total_cost, date_time_created, status from order_history where supplier_id = " + id;
+		ArrayList<ArrayList<String>> orders = new ArrayList<ArrayList<String>>();
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next())
+		     	{
+		    	 	ArrayList <String> currOrder = new ArrayList <String> ();
+			        //get item number
+			       	String invoice_number = rs.getString("invoice_number");
+			       	currOrder.add(invoice_number);
+			       	System.out.println("Invoice number: " + invoice_number);
+			       	//get supplier name
+			       	String supermarket = rs.getString("supermarket");
+			       	currOrder.add(supermarket);
+			       	System.out.println("Supermarket: " + supermarket);
+			       	//get item name
+			       	String total_cost = rs.getString("total_cost");
+			       	currOrder.add(total_cost);
+			       	System.out.println("Total cost: " + total_cost);
+			       	//get item type
+			       	String date_time_created = rs.getString("date_time_created");
+			       	currOrder.add(date_time_created);
+		        	System.out.println("Date/Time Created: " + date_time_created);
+			       	//get quantity
+			       	String status = rs.getString("status");
+			       	currOrder.add(status);
+		        	System.out.println("Status: " + status);
+			       
+			        orders.add(currOrder);
+			     }
+			 rs.close();
+
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< orders.size(); i++){
+			System.out.println(orders.get(i));
+			
+		}
+		
+		Object [] [] orderList =  new Object [orders.size()] [];
+		
+		for (int i = 0; i< orders.size(); i++){
+			ArrayList <String> row =  orders.get(i);
+			orderList[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return orderList;
+
+	}
 	
 	
-	
-	public void addItem(String[] item, int id) {
-		String command = "INSERT INTO items (name, item_type, supplier_id, quantity, unit_price , unit) VALUES "
-				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+Double.parseDouble(item[3])+" ,' "+ item[4]+"')";
+	public void manageSupplierUsers(String[] user, int id, boolean add) {
+		String command;
+		
+		if (add==true)
+			{command = "INSERT INTO supplier_users (username, password, supplier_id, manager) VALUES "
+				+ "('"+user[0]+"', '"+ user[1]+"', "+ id +", '" + user[2] + "')";
+			}
+		else {command = "DELETE FROM supplier_users WHERE username = '"+ user[0]+"'";
+			}
 		
 		try {
 		     statement.execute(command);
@@ -562,13 +629,40 @@ public class database {
 		     System.out.println(e);
 		     System.exit(0);
 		    }
-		System.out.println("Add Succesful");
+		System.out.println("Add or delete Succesful");
+		
+	}
+	
+	public void manageItems(String[] item, int id, boolean add) {
+		String command;
+		
+		if (add==true)
+			{command = "INSERT INTO items (name, item_type, supplier_id, quantity, unit_price , unit) VALUES "
+				+ "('"+item[0]+"', '"+ item[1]+"', "+ id +", " + Integer.parseInt(item[2])+", "+Double.parseDouble(item[3])+" ,' "+ item[4]+"')";
+			}
+		else {command = "DELETE FROM items WHERE item_number = "+ id;
+			}
+		
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add or delete Succesful");
 		
 	}
 
 
 	public void modifyItem(String[] item, int itemNum) {
-	
+		System.out.println(item[0]);
+		System.out.println(item[1]);
+		System.out.println(item[2]);
+		System.out.println(item[3]);
+		System.out.println(item[4]);
 		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = '"+ item[3]+ "' + unit = '" +item[4]+"' "
 				+ "WHERE item_number="+  itemNum;
 		try {
@@ -812,7 +906,7 @@ public class database {
 	{
 		String command = "SELECT MAX(INVOICE_NUMBER) FROM ORDER_HISTORY";
 		
-		int invoiceNum = -1;
+		int orderNum = -1;
 		
 		try {
 		     statement.execute(command);
@@ -820,10 +914,11 @@ public class database {
 		     
 		     while(rs.next())
 		     	{
-			         invoiceNum = rs.getInt(1);
+			         int invoiceNum = rs.getInt(1);
 			         System.out.println("The last INVOICE_NUMBER: " + invoiceNum);
 			     }
 		    
+		     
 			}
 		catch (SQLException e) {
 		     e.fillInStackTrace();
@@ -832,10 +927,58 @@ public class database {
 		
 		
 		}
-		return invoiceNum;
+		return orderNum;
 	}
 	
-	
+	//Get the list of comments for a supplier
+	public Object[][] getSuplierComments (int supplier_id)
+	{
+		String command = "select id, comment, store_id, supplier_id from supplier_comments where supplier_id = " + supplier_id;
+		ArrayList<ArrayList<String>> comments = new ArrayList<ArrayList<String>>();
+		try {
+			statement.execute(command);
+			ResultSet rs = statement.getResultSet();
+			while(rs.next())
+			{
+				ArrayList <String> currComment = new ArrayList <String> ();
+				//get item number
+				String id = rs.getString("id");
+				currComment.add(id);
+				System.out.println("ID: " + id);
+				//get supplier name
+				String comment = rs.getString("comment");
+				currComment.add(comment);
+				System.out.println("Comment: " + comment);
+
+				comments.add(currComment);
+			}
+			rs.close();
+
+
+
+		}
+		catch (SQLException e) {
+			e.fillInStackTrace();
+			System.out.println("Error executing: " + command);
+			System.out.println(e);;
+
+		}
+
+		for (int i = 0; i< comments.size(); i++){
+			System.out.println(comments.get(i));
+
+		}
+
+		Object [] [] commentsList =  new Object [comments.size()] [];
+
+		for (int i = 0; i< comments.size(); i++){
+			ArrayList <String> row =  comments.get(i);
+			commentsList[i]= row.toArray(new String [row.size()]);
+
+
+		}
+		return commentsList;
+	}
 	
 }
 

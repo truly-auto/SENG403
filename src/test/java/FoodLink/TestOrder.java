@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class testOrder {
+public class TestOrder {
 	private static final double DELTA = 1e-15;
 	/**
 	 * Add more item than supplier has and ensure that it gives proper error code -1
@@ -59,6 +59,20 @@ public class testOrder {
 		o.updateOrder(1, 1, 1);	// 1 Cinamon bb pies = 40*1
 		o.updateOrder(0, 1, 2); // 0 of something else = 0
 		assertEquals(o.getCost(), (double)48, DELTA);  
+		
+	}
+	
+	@Test (expected = ArrayIndexOutOfBoundsException.class)
+	public void testItemIndex() {
+		
+		Item i = new Item("beans", 1, -1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testItemPrice() {
+		
+		Item i = new Item("beans", -1, 1);
 		
 	}
 }

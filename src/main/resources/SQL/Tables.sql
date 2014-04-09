@@ -71,7 +71,13 @@ CREATE TABLE supplier_users (
 	
 --Create Order table
 CREATE TABLE order_history(
+<<<<<<< HEAD
 	invoice_number int NOT NULL generated always as identity,
+||||||| merged common ancestors
+	invoice_number int,
+=======
+	invoice_number int not null generated always as identity,
+>>>>>>> cf28b1072af6235f7ba832ca9085df37b0267742
 	supplier varchar(255),
 	total_cost decimal,
 	date_time_created varchar (255),
@@ -328,3 +334,10 @@ VALUES ('Prince_Doe','password',2, 'false');
 --Add some supermarket items
 INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit, supplier_item_number)
 VALUES ('grapes', 'fruits', 1, 5000, 2000, 'lb', 2);
+
+--Add some comments
+INSERT INTO supplier_comments (comment, store_id, supplier_id)
+VALUES ('This place Rocks!', 1, 1);
+
+INSERT INTO supplier_comments (comment, store_id, supplier_id)
+VALUES ('Unhappy Comment :(', 2, 1);
