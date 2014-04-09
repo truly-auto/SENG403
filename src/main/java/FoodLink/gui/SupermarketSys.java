@@ -534,8 +534,9 @@ public class SupermarketSys {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
 							// add the new order in the database
-							connect.addToOrderHistory(supplierName, grandTotal,
-									"Submitted", supermarket_id, supplier_id);
+							connect.addToOrderHistory(supplierName, grandTotal, "Submitted", supermarket_id, supplier_id);
+							int lastIndex = connect.getLastElementInOrderHistory();
+							JOptionPane.showMessageDialog(frame,"Your order has been successfully submitted. \nYour Invoice Number is " + lastIndex);
 
 							// refresh the orderListTable
 							Object[][] orderList = connect.getOrderList(supermarket_id);
@@ -649,7 +650,6 @@ public class SupermarketSys {
 								}
 								
 								//grandTotal;
-								int lastIndex = connect.getLastElementInOrderHistory();
 								connect.addOrderInformation(lastIndex, itemName, item_type, quantity, unit_price, unit, total, grandTotal);
 								
 								
