@@ -71,13 +71,7 @@ CREATE TABLE supplier_users (
 	
 --Create Order table
 CREATE TABLE order_history(
-<<<<<<< HEAD
 	invoice_number int NOT NULL generated always as identity,
-||||||| merged common ancestors
-	invoice_number int,
-=======
-	invoice_number int not null generated always as identity,
->>>>>>> cf28b1072af6235f7ba832ca9085df37b0267742
 	supplier varchar(255),
 	total_cost decimal,
 	date_time_created varchar (255),
