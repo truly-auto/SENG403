@@ -478,6 +478,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();private JTable table_
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				try{
 				//if(selectedRow!=null){
 					//get that supermarket list
 					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow));
@@ -485,6 +486,10 @@ private final JScrollPane scrollPane_2 = new JScrollPane();private JTable table_
 					//invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
 					//invoiceWindow.setVisible(true);
 				//}
+				}
+				catch(Exception e){
+					//
+				}
 				
 			}
 		});

@@ -859,9 +859,34 @@ public class database {
 		return itemsList.toArray(new Integer[itemsList.size()]);
 	}
 	
-	public void addOrderInformation(String name, String phone, String address, String city, String email ){
-		String command = "INSERT INTO supplier (name, phoneNumber, address, city, email) VALUES "
-				+ "("+name+","+ phone+ ","+address+","+ city+ "," + email+")";
+	public void addOrderInformation(int invoice_number, String name, String item_type, double quantity, double unit_price, String unit, double total, double grandTotal){
+		String command = "INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal) VALUES "
+				+ "("+ invoice_number + "," + "'" + name+ "'" + ","+ "'" + item_type + "'" + "," + quantity +","+ unit_price + "," + "'" + unit + "'" + "," + total + "," + grandTotal + ")";
+		
+
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("Add item informatio succesful");
+		
+	}
+	
+	public void addToOrderHistory(String supplierName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
+		java.util.Date date= new java.util.Date();
+		
+		//printed time may vary from the table time by a few milliseconds 
+		System.out.println("Current timestamp added: " + new Timestamp(date.getTime()));
+		
+		
+		String current_timestamp = "" +  new Timestamp(date.getTime());
+		String command = "INSERT INTO order_history (supplier, total_cost, date_time_created, status, store_id, supplier_id) VALUES "
+				+ "(" + "'" + supplierName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id + ")";
 		
 
 		try {
@@ -876,6 +901,7 @@ public class database {
 		System.out.println("Add Succesful");
 		
 	}
+	
 	
 	//gets all info except grand total
 	public Object[][] getOrderInformation(int invoiceNumber)
