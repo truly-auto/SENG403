@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 
+import java.awt.Component;
 import java.awt.Dialog.ModalityType;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -38,14 +39,12 @@ import javax.swing.SwingUtilities;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Order;
-
 import FoodLink.database;
 
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TableModelEvent;
@@ -223,9 +222,9 @@ public class SupermarketSys {
 		JPanel orderTab = new JPanel();
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
-		gbl_orderTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_orderTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_orderTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
+		gbl_orderTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, Double.MIN_VALUE };
 		gbl_orderTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0,
 				1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
@@ -233,6 +232,26 @@ public class SupermarketSys {
 
 		final String[] columnNameInvoice = { "Invoice Number", "Supplier",
 				"Total Cost($)", "Date/Time Created", "Status" };
+		
+		final GradientButton reviewOrderButton = new GradientButton("Review Order");
+		reviewOrderButton.setEnabled(false);
+		reviewOrderButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Clicked the Review Order Button");
+				ReviewOrderPage reviewPage = new ReviewOrderPage();
+				reviewPage.setVisible(true);
+//				JFrame reviewOrderFrame = new JFrame ("MyPanel");
+//	            reviewOrderFrame.setDefaultCloseOperation (reviewOrderFrame.EXIT_ON_CLOSE);
+//	            reviewOrderFrame.pack();
+//	            reviewOrderFrame.setVisible (true);
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_3.gridx = 1;
+		gbc_btnNewButton_3.gridy = 0;
+		orderTab.add(reviewOrderButton, gbc_btnNewButton_3);
 
 		JLabel lblNewLabel = new JLabel("Order Status");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -245,7 +264,7 @@ public class SupermarketSys {
 		final JScrollPane scrollPane1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
 		gbc_scrollPane1.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane1.gridwidth = 2;
+		gbc_scrollPane1.gridwidth = 3;
 		gbc_scrollPane1.gridheight = 7;
 		gbc_scrollPane1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane1.gridx = 0;
@@ -263,12 +282,13 @@ public class SupermarketSys {
 				return columnEditables[column];
 			}
 		};
-		;
+		
 		orderStatusTable = new JTable(orderModel);
 		orderStatusTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("CLICKING THE TABLE");
+				System.out.println("CLICKING TABLE");
+				reviewOrderButton.setEnabled(true);
 			}
 		});
 
@@ -552,38 +572,6 @@ public class SupermarketSys {
 							};
 							;
 							orderStatusTable = new JTable(orderModel);
-							//always makes the table clickable 
-							
-							orderStatusTable.addMouseListener(new MouseAdapter() {
-								@Override
-								public void mouseClicked(MouseEvent e)
-								{
-									numClick++; 
-									System.out.println("CLICKING THE TABLE: " + numClick);
-									
-									rowSelected = orderStatusTable.getSelectedRow();
-									System.out.println("ROW NUMBER SELECTED: " + rowSelected);
-									
-									if(numClick == 1)
-									{
-										prevRowSelected = rowSelected;
-									}
-									
-									if((numClick == 2) && (rowSelected == prevRowSelected))
-									{
-										System.out.println("DOUBLE CLICK");
-										numClick = 0;
-									}
-									
-									if(numClick == 2)
-									{
-										System.out.println("Resetting the counter");
-										numClick = 0;
-									}
-									
-									
-								}
-							});
 
 
 							scrollPane1.setViewportView(orderStatusTable);
@@ -656,7 +644,7 @@ public class SupermarketSys {
 							}
 						}
 					}
-				}); //end of the new order code
+				}); //end of the new order code inside the actionListener
 
 			}// end of the new Order Tab code
 		});
@@ -676,7 +664,7 @@ public class SupermarketSys {
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 1;
+		gbc_btnNewButton_2.gridx = 2;
 		gbc_btnNewButton_2.gridy = 0;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 
@@ -685,7 +673,7 @@ public class SupermarketSys {
 		gbc_list.insets = new Insets(0, 0, 5, 5);
 		gbc_list.anchor = GridBagConstraints.NORTH;
 		gbc_list.gridheight = 4;
-		gbc_list.gridwidth = 5;
+		gbc_list.gridwidth = 6;
 		gbc_list.fill = GridBagConstraints.HORIZONTAL;
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 6;
@@ -951,4 +939,5 @@ public class SupermarketSys {
             super.paintComponent(g);
         }
 	}
+
 }
