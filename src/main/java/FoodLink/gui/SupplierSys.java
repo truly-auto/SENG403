@@ -259,15 +259,14 @@ public class SupplierSys {
 		
 		
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price", "Units"};
-		
+
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
 		//
-		final Object[][] data = connect.getInventory(supplier_id);
+		final Object [][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
 		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "100 lb"},{"2","apples", "fruits", "5000", "2000", "200 lb"},{"3","grapes", "fruits", "5000", "2000", "40 lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
-		
 		
 		final JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
@@ -441,8 +440,13 @@ public class SupplierSys {
 		supermarketTab.add(supermarketScroller, gbc_supermarketScroller);
 		
 		String[] commentColumnNames = {"name", "comment"};
-		commentsTable = new JTable(connect.getSuplierComments(supplier_id), commentColumnNames);
-		//commentsTable = connect.getSuplierComments(supplier_id)
+		
+		//When building the gui
+		Object[][] commentData = {{"This", "Is a comment"}};
+		//When running the program
+		//Object[][] commentData = connect.getSuplierComments(supplier_id);
+		
+		commentsTable = new JTable(commentData, commentColumnNames);
 		supermarketScroller.setViewportView(commentsTable);
 		
 		JPanel accountTab = new JPanel();
@@ -644,7 +648,7 @@ public class SupplierSys {
 			public void mouseClicked(MouseEvent mevt) {
 				java.awt.Point point = mevt.getPoint();
 				row =userTable.rowAtPoint(point);
-				selectedUser=(String)userTable.getValueAt(row, 0);
+				selecedUser=(String)userTable.getValueAt(row, 0);
 				System.out.println(selectedUser);
 				
 				
