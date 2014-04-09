@@ -765,9 +765,9 @@ public class database {
 		return itemsList.toArray(new Integer[itemsList.size()]);
 	}
 	
-	public void addOrderInformation(String name, String phone, String address, String city, String email ){
-		String command = "INSERT INTO supplier (name, phoneNumber, address, city, email) VALUES "
-				+ "("+name+","+ phone+ ","+address+","+ city+ "," + email+")";
+	public void addOrderInformation(int invoice_number, String name, String item_type, double quantity, double unit_price, String unit, double total, double grandTotal){
+		String command = "INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal) VALUES "
+				+ "("+ invoice_number + "," + "'" + name+ "'" + ","+ "'" + item_type + "'" + "," + quantity +","+ unit_price + "," + "'" + unit + "'" + "," + total + "," + grandTotal + ")";
 		
 
 		try {
@@ -779,7 +779,7 @@ public class database {
 		     System.out.println(e);
 		     System.exit(0);
 		    }
-		System.out.println("Add Succesful");
+		System.out.println("Add item informatio succesful");
 		
 	}
 	
@@ -812,7 +812,7 @@ public class database {
 	{
 		String command = "SELECT MAX(INVOICE_NUMBER) FROM ORDER_HISTORY";
 		
-		int orderNum = -1;
+		int invoiceNum = -1;
 		
 		try {
 		     statement.execute(command);
@@ -820,7 +820,7 @@ public class database {
 		     
 		     while(rs.next())
 		     	{
-			         int invoiceNum = rs.getInt(1);
+			         invoiceNum = rs.getInt(1);
 			         System.out.println("The last INVOICE_NUMBER: " + invoiceNum);
 			     }
 		    
@@ -832,7 +832,7 @@ public class database {
 		
 		
 		}
-		return orderNum;
+		return invoiceNum;
 	}
 	
 	

@@ -37,12 +37,9 @@ import javax.swing.DefaultComboBoxModel;
 
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Driver;
 import FoodLink.Inventory;
-
 import FoodLink.Order;
-
 import FoodLink.database;
 
 import javax.swing.event.CellEditorListener;
@@ -98,6 +95,7 @@ public class SupermarketSys {
 
 	private String selectedRow = null;
 	private int row;
+	private JTable orderInformationTable;
 
 	/**
 	 * Launch the application.
@@ -786,6 +784,55 @@ public class SupermarketSys {
 		gbc_submitNewOrderButton.gridx = 16;
 		gbc_submitNewOrderButton.gridy = 11;
 		newOrder.add(submitNewOrderButton, gbc_submitNewOrderButton);
+		
+		
+		//VIEWING THE ORDER INFORMATION 
+		JPanel panel = new JPanel();
+		mainTabbedPane.addTab("Order Information", null, panel, null);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{251, 117, 0};
+		gbl_panel.rowHeights = new int[]{29, 0, 0};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		JButton closeOrderInforButton = new JButton("Close");
+		GridBagConstraints gbc_closeOrderInforButton = new GridBagConstraints();
+		gbc_closeOrderInforButton.insets = new Insets(0, 0, 5, 5);
+		gbc_closeOrderInforButton.anchor = GridBagConstraints.NORTHWEST;
+		gbc_closeOrderInforButton.gridx = 0;
+		gbc_closeOrderInforButton.gridy = 0;
+		panel.add(closeOrderInforButton, gbc_closeOrderInforButton);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+		gbc_scrollPane_2.gridwidth = 2;
+		gbc_scrollPane_2.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_2.gridx = 0;
+		gbc_scrollPane_2.gridy = 1;
+		panel.add(scrollPane_2, gbc_scrollPane_2);
+		
+		orderInformationTable = new JTable();
+		orderInformationTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		orderInformationTable.setEnabled(false);
+		scrollPane_2.setViewportView(orderInformationTable);
+		//end of order information code
+		
+		
 		submitNewOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -860,12 +907,12 @@ public class SupermarketSys {
 					int lastIndex = connect.getLastElementInOrderHistory();
 					
 					//link the items to the order number in the database
-
 					int totalCol = table_4.getColumnCount();
 					int totalRow = table_4.getRowCount();
 					
 					System.out.println("COL: " + totalCol + " ROW: " + totalRow);
-					for (int col = 0; col < totalCol; col++)
+					
+					for (int row = 0; row < totalRow; row++)
 					{
 						//COLUMN
 //						  invoice_number int NOT NULL generated always as identity, = lastIndex 
@@ -876,18 +923,57 @@ public class SupermarketSys {
 //						  unit varchar(32), = unit | 6
 //						  total decimal, = total | 7
 //						  grandTotal decimal, = grandTotal
-						
-						for (int row = 0; row < totalRow; row++)
+						String itemName = (String) table_4.getValueAt(row, 1);
+						System.out.println("itemName: " + itemName);
+						String item_type = (String) table_4.getValueAt(row, 2);
+						int quantity;
+						try
 						{
-							String itemName;
-							String itemType;
-							int quantity; 
-							double unitPrice;
-							String unit;
-							double total;
+							BigDecimal quants= new BigDecimal("" + table_4.getValueAt(row, 3));
+							String quantityString = quants.toString();
+							
+							if(quantityString.equals(""))
+							{
+								quantity = 0;
+							}
+							
+							else
+								quantity = Integer.parseInt(quantityString);
 						}
 						
+						catch (Exception e)
+						{
+							System.out.println("Setting quantity to 0");
+							quantity = 0;
+						}
+							
+						
+						
+						
+						double unit_price = Double.parseDouble((String) table_4.getValueAt(row, 4));
+						String unit = (String) table_4.getValueAt(row, 5);
+						double total;
+						try
+						{
+							BigDecimal totalCopy = new BigDecimal("" + table_4.getValueAt(row, 6));
+							String totalString = totalCopy.toString();
+							total = Double.parseDouble(totalString);
+						}
+						catch (Exception e)
+						{
+							System.out.println("Setting total to 0");
+							total = 0;
+						}
+						
+						//grandTotal;
+						
+						connect.addOrderInformation(lastIndex, itemName, item_type, quantity, unit_price, unit, total, grandTotal);
+						
+						
 					}
+
+
+
 					
 				}
 			}

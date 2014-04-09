@@ -85,7 +85,7 @@ CREATE TABLE order_history(
 	
 --Create Items table 
 CREATE TABLE order_items_list (
-  invoice_number int,
+  invoice_number int NOT NULL,
   name varchar(32),
   item_type varchar(32),
   quantity int,
