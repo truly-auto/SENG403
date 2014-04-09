@@ -1,9 +1,11 @@
 package FoodLink.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -29,6 +31,8 @@ import javax.swing.border.MatteBorder;
 import FoodLink.database;
 
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ReviewOrderPage extends JFrame {
 
@@ -47,8 +51,9 @@ public class ReviewOrderPage extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param grandTotal1 
 	 */
-	public ReviewOrderPage(int invoiceNum, String supplierName, String dateTime, String status) {
+	public ReviewOrderPage(int invoiceNum, String supplierName, String dateTime, String status, String grandTotal1, final int selectedRow, final JTable orderItem) {
 		
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
@@ -96,6 +101,7 @@ public class ReviewOrderPage extends JFrame {
 		
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
+		textField_1.setText(Integer.toString(invoiceNum));
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
@@ -114,6 +120,7 @@ public class ReviewOrderPage extends JFrame {
 		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
+		textField_3.setText(dateTime);
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.gridwidth = 7;
 		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
@@ -133,6 +140,7 @@ public class ReviewOrderPage extends JFrame {
 		
 		textField_4 = new JTextField();
 		textField_4.setEditable(false);
+		textField_4.setText(status);
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
 		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
@@ -140,6 +148,31 @@ public class ReviewOrderPage extends JFrame {
 		gbc_textField_4.gridy = 1;
 		contentPane.add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Complete Order");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Object frame = null;
+				int n = JOptionPane.showConfirmDialog((Component) frame,
+						"Are you sure you want to mark this order COMPLETE?",
+						"Complete Order", JOptionPane.YES_NO_OPTION);
+				
+				if (n == 0) {
+					System.out.println("MARK ORDER COMPLETE ORDER");
+					System.out.println("selectedRow: " + selectedRow);
+					orderItem.setValueAt("Complete", selectedRow, 4);
+					textField_4.setText("Completed");
+				}
+
+				
+			}
+		});
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.gridx = 10;
+		gbc_btnNewButton.gridy = 1;
+		contentPane.add(btnNewButton, gbc_btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -183,6 +216,7 @@ public class ReviewOrderPage extends JFrame {
 		
 		textField_2 = new JTextField();
 		textField_2.setEditable(false);
+		textField_2.setText(grandTotal1);
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
@@ -190,12 +224,6 @@ public class ReviewOrderPage extends JFrame {
 		gbc_textField_2.gridy = 14;
 		contentPane.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Complete Order");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridx = 10;
-		gbc_btnNewButton.gridy = 15;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
 		
 
 	}

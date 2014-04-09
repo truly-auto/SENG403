@@ -80,6 +80,7 @@ public class SupermarketSys {
 	private int numClick = 0;
 	private int rowSelected = -1;
 	private int prevRowSelected = -1;
+	public int isMarkComplete = 0;
 
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
 			"Quantity", "Unit Price ($)", "Unit", "Total" };
@@ -247,9 +248,15 @@ public class SupermarketSys {
 				
 				String supplierName = (String) orderStatusTable.getValueAt(row, 1);
 				String dateTime = (String) orderStatusTable.getValueAt(row, 3);
+				String grandTotal1 = (String) orderStatusTable.getValueAt(row, 2);
 				String status = (String) orderStatusTable.getValueAt(row, 4);
 				
-				ReviewOrderPage reviewPage = new ReviewOrderPage(invoiceNum, supplierName, dateTime, status);
+				ReviewOrderPage reviewPage = new ReviewOrderPage(invoiceNum, supplierName, dateTime, status, grandTotal1, row, orderStatusTable);
+//				if (isMarkComplete == 1)
+//				{
+//					System.out.println("SETTING IT TO COMPLETE");
+//					orderStatusTable.setValueAt("Complete", row, 4);
+//				}
 				reviewPage.setVisible(true);		
 			}
 		});
@@ -396,12 +403,7 @@ public class SupermarketSys {
 										// ensures that only when updates to quantity
 										// warrant a change to order
 										if (e.getColumn() == 3) {
-											if (currentOrder.updateOrder(Integer
-													.parseInt(table_4.getValueAt(
-															e.getFirstRow(), 3)
-															.toString()), comboBox
-													.getSelectedIndex(), e
-													.getFirstRow()) == -1) {
+											if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1) {
 												JOptionPane
 														.showMessageDialog(
 																frame,
