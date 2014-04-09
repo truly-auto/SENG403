@@ -677,9 +677,7 @@ public class database {
 		System.out.println("Add or delete Succesful");
 		
 	}
-
-
-	public void modifyItem(String[] item, int itemNum) {
+		public void modifyItem(String[] item, int itemNum) {
 		System.out.println(item[0]);
 		System.out.println(item[1]);
 		System.out.println(item[2]);
@@ -779,6 +777,24 @@ public class database {
 		}
 		System.out.println("Mod Succesful");
 	}
+
+	public void deleteInvetory(int id) {
+		String command = "DELETE FROM supermarket_inventory  WHERE inventory_number = "+ id;
+			
+		
+		try {
+		     statement.execute(command);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		System.out.println("delete Succesful");
+		
+	}
+
 
 	public Object[][] getSupermarketInventory(int id) {
 

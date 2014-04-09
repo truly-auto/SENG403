@@ -92,6 +92,7 @@ public class SupermarketSys {
 	private double grandTotal = 0;
 	
 	private Order currentOrder;
+	private final JScrollPane scrollPane = new JScrollPane();
 	
 	//variables for managers to add and remove users
 	private String selectedUser= null;
@@ -543,45 +544,47 @@ public class SupermarketSys {
 		gbc_list.gridy = 6;
 		orderTab.add(list, gbc_list);
 
-		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};
 		
-		//this one will access data from the the database but will cause the code not to work in design mode
-		//use this one when testing
-		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
-		//use this one when building
-		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
-		
-
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
-		gbl_inventoryTab.columnWidths = new int[] {0, 0, 30, 0};
+		gbl_inventoryTab.columnWidths = new int[] {0, 0, 0, 30, 0};
 		gbl_inventoryTab.rowHeights = new int[] { 0, 0, 0 };
-		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_inventoryTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		inventoryTab.setLayout(gbl_inventoryTab);
+		
+		
 
-		final JScrollPane scrollPane = new JScrollPane();
+		
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.gridwidth = 5;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		inventoryTab.add(scrollPane, gbc_scrollPane);
 		
-		table = new JTable(data, columnNames);
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent mevt) {
-				java.awt.Point point = mevt.getPoint();
-				row =table.rowAtPoint(point);
-				selectedRow=(String) table.getValueAt(row, 0);
-				System.out.println(selectedRow);
+		setInvetoryTable(supermarket_id);
+
+		
+		JButton btnDeleteItem = new JButton("Delete Item");
+		btnDeleteItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("about to delete .. " + selectedRow);
+				connect.deleteInvetory(Integer.parseInt(selectedRow));
+				//reset table and add action listener
+				setInvetoryTable(supermarket_id);
+
+				
+				
 			}
 		});
-		
-		
+		GridBagConstraints gbc_btnDeleteItem = new GridBagConstraints();
+		gbc_btnDeleteItem.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDeleteItem.gridx = 1;
+		gbc_btnDeleteItem.gridy = 0;
+		inventoryTab.add(btnDeleteItem, gbc_btnDeleteItem);
 		
 		scrollPane.setViewportView(table);
 		
@@ -625,14 +628,12 @@ public class SupermarketSys {
 		JButton refreshInventoryButton = new JButton("Refresh");
 		refreshInventoryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
-				table = new JTable(data2, columnNames);
-				scrollPane.setViewportView(table);
+				setInvetoryTable(supermarket_id);
 			}
 		});
 		GridBagConstraints gbc_refreshInventoryButton = new GridBagConstraints();
 		gbc_refreshInventoryButton.insets = new Insets(0, 0, 5, 5);
-		gbc_refreshInventoryButton.gridx = 1;
+		gbc_refreshInventoryButton.gridx = 2;
 		gbc_refreshInventoryButton.gridy = 0;
 		inventoryTab.add(refreshInventoryButton, gbc_refreshInventoryButton);
 		
@@ -650,15 +651,13 @@ public class SupermarketSys {
 						inventory.editItem(item, Integer.parseInt(selectedRow));
 						//connect.modifySupermarketItem(item, Integer.parseInt(selectedRow));
 					}
-					Object [] [] data2 = connect.getSupermarketInventory(supermarket_id);
-					table = new JTable(data2, columnNames);
-					scrollPane.setViewportView(table);
+					setInvetoryTable(supermarket_id);
 				}
 			}
 		});
 		GridBagConstraints gbc_saveChanges = new GridBagConstraints();
 		gbc_saveChanges.insets = new Insets(0, 0, 5, 5);
-		gbc_saveChanges.gridx = 2;
+		gbc_saveChanges.gridx = 3;
 		gbc_saveChanges.gridy = 0;
 		inventoryTab.add(saveChanges, gbc_saveChanges);
 
@@ -786,6 +785,13 @@ public class SupermarketSys {
 			btnNewButton_1.setVisible(false);
 			//cant automate orders
 			btnNewButton_2.setVisible(false);
+			//can't delete
+			btnDeleteItem.setVisible(false); 
+			//cant make changes
+			saveChanges.setVisible(false);
+			//can't make automated orders
+			btnNewButton_2.setVisible(false); 
+			btnAutomatedOrdering.setVisible(false); 
 		}
 		//code to allow managers to add and remove users
 		if(manager){	
@@ -855,6 +861,31 @@ public class SupermarketSys {
 		}
 		// CODES FOR NEW ORDER PAGE
 
+	}
+
+	private void setInvetoryTable(int supermarket_id) {
+		
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};
+		
+		//this one will access data from the the database but will cause the code not to work in design mode
+		//use this one when testing
+		//
+		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+				
+		//use this one when building
+		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		table = new JTable(data, columnNames);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mevt) {
+				java.awt.Point point = mevt.getPoint();
+				row =table.rowAtPoint(point);
+				selectedRow=(String) table.getValueAt(row, 0);
+				System.out.println(selectedRow);
+			}
+		});	
+		scrollPane.setViewportView(table);
+		
 	}
 
 	protected void setTable(String[] users, int supermarket_id) {
