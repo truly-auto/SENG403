@@ -11,8 +11,10 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dialog.ModalityType;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -56,10 +58,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import javax.swing.JToolBar;
+
 import java.awt.Button;
 import java.awt.Panel;
+
 import javax.swing.JSplitPane;
+
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class SupplierSys {
 
@@ -77,6 +84,7 @@ private JTable table_1;
 private JTable inventoryTable;
 private JTable userTable;
 private final JScrollPane scrollPane_2 = new JScrollPane();	
+private JTable commentsTable;
 	/**
 	 * Launch the application.
 	 */
@@ -111,6 +119,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		System.out.println("this is .." + supplier_id);
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
+		//frame.setSize(new Dimension(1000,1000));
 		frame.setTitle("FoodLink");
 		//frame.setBounds(100, 100, 608, 300);
 		frame.setBounds(100, 100, 640, 420);
@@ -134,7 +143,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		banner.setBackground(green);
 		frame.getContentPane().add(banner);
 		frame.setBackground(green);
-		
+		frame.setSize(new Dimension(1000,700));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -333,6 +342,10 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 					e1.printStackTrace();
 				}		
 				
+				
+				
+				
+				
 				if(item!=null)	
 					{connect.manageItems(item, supplier_id, true);
 					Object [] [] data2 = connect.getInventory(supplier_id);
@@ -414,6 +427,24 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);
+		GridBagLayout gbl_supermarketTab = new GridBagLayout();
+		gbl_supermarketTab.columnWidths = new int[]{0, 0};
+		gbl_supermarketTab.rowHeights = new int[]{0, 0};
+		gbl_supermarketTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_supermarketTab.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		supermarketTab.setLayout(gbl_supermarketTab);
+		
+		JScrollPane supermarketScroller = new JScrollPane();
+		GridBagConstraints gbc_supermarketScroller = new GridBagConstraints();
+		gbc_supermarketScroller.fill = GridBagConstraints.BOTH;
+		gbc_supermarketScroller.gridx = 0;
+		gbc_supermarketScroller.gridy = 0;
+		supermarketTab.add(supermarketScroller, gbc_supermarketScroller);
+		
+		String[] commentColumnNames = {"name", "comment"};
+		commentsTable = new JTable(connect.getSuplierComments(supplier_id), commentColumnNames);
+		//commentsTable = connect.getSuplierComments(supplier_id)
+		supermarketScroller.setViewportView(commentsTable);
 		
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
@@ -557,9 +588,19 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 					String [] user = null;
 					try {
 						AddUser window = new AddUser(supplier_id);
+						/**
+						 * Poorly coded to avoid having to refactor this whole class for now
+						 * (Instead of turning into a JDialog, making JDialog inherit conentpane of frame)
+						 */
+						window.setContentPane(window.frame.getContentPane());
+						window.setSize(new Dimension(500, 300));
+						
 						window.setModalityType(ModalityType.APPLICATION_MODAL);	
-						window.frame.setVisible(true);
+						//window.frame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+						//window.frame.setVisible(true);
+						window.setVisible(true);
 						user = window.getResult();
+						window.setVisible(false);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -568,7 +609,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 					
 					if(user[0]!=null)	
 						{//resetting the table
-						setTable(users, supplier_id);
+							setTable(users, supplier_id);
 						}
 					
 					}
