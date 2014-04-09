@@ -906,7 +906,7 @@ public class database {
 	{
 		String command = "SELECT MAX(INVOICE_NUMBER) FROM ORDER_HISTORY";
 		
-		int orderNum = -1;
+		int invoiceNum = -1;
 		
 		try {
 		     statement.execute(command);
@@ -914,7 +914,7 @@ public class database {
 		     
 		     while(rs.next())
 		     	{
-			         int invoiceNum = rs.getInt(1);
+			         invoiceNum = rs.getInt(1);
 			         System.out.println("The last INVOICE_NUMBER: " + invoiceNum);
 			     }
 		    
@@ -927,7 +927,7 @@ public class database {
 		
 		
 		}
-		return orderNum;
+		return invoiceNum;
 	}
 	
 	//Get the list of comments for a supplier
