@@ -17,6 +17,7 @@ public class ViewInvoice {
 	private JFrame frame;
 	private JTable table;
 	private database connect = new database();
+	private JTable orderTable;
 
 	/**
 	 * Launch the application.
@@ -89,26 +90,7 @@ public class ViewInvoice {
 		frame.getContentPane().add(btnPrintInvoice, gbc_btnPrintInvoice);
 
 		/*
-		 * btnPrintInvoice.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent arg0) { if (selectedRow != null) {
-		 * System.out.println("Open invoice of this row: " + selectedRow);
-		 * connect.manageItems(null, Integer.parseInt(selectedRow), false); //
-		 * getting data from the database Object[][] data2 =
-		 * connect.getInventory(supplier_id); // creating new table with the new
-		 * data from the database inventoryTable = new JTable(data2,
-		 * columnNames); // adding action listener on the new table
-		 * inventoryTable.addMouseListener(new MouseAdapter() {
-		 * 
-		 * @Override public void mouseClicked(MouseEvent mevt) { java.awt.Point
-		 * point = mevt.getPoint(); row = inventoryTable.rowAtPoint(point);
-		 * selectedRow = (String) inventoryTable.getValueAt( row, 0);
-		 * System.out.println(selectedRow);
-		 * 
-		 * } }); scrollPane_1.setViewportView(inventoryTable);
-		 * 
-		 * } else { System.out.println("selctedRow is null"); }
-		 * 
-		 * } }); //gem jcbSupermarkets.addActionListener(new ActionListener() {
+		 * //gem jcbSupermarkets.addActionListener(new ActionListener() {
 		 * 
 		 * @SuppressWarnings("serial")
 		 * 
