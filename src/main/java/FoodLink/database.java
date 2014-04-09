@@ -933,7 +933,7 @@ public class database {
 	//Get the list of comments for a supplier
 	public Object[][] getSuplierComments (int supplier_id)
 	{
-		String command = "select id, comment, store_id, supplier_id from supplier_comments where supplier_id = " + supplier_id;
+		String command = "select id, comment, market.name from supplier_comments join supermarket as market on supplier_comments.store_id = market.store_id where supplier_id = " + supplier_id;
 		ArrayList<ArrayList<String>> comments = new ArrayList<ArrayList<String>>();
 		try {
 			statement.execute(command);
@@ -941,15 +941,22 @@ public class database {
 			while(rs.next())
 			{
 				ArrayList <String> currComment = new ArrayList <String> ();
-				//get item number
-				String id = rs.getString("id");
-				currComment.add(id);
-				System.out.println("ID: " + id);
-				//get supplier name
+				
+				//get supermarket name
+				String name = rs.getString("name");
+				currComment.add(name);
+				System.out.println("Supermarket name: " + name);
+				
+				//get comment
 				String comment = rs.getString("comment");
 				currComment.add(comment);
 				System.out.println("Comment: " + comment);
-
+				
+				//get comment ID
+				String id = rs.getString("id");
+				currComment.add(id);
+				System.out.println("ID: " + id);
+				
 				comments.add(currComment);
 			}
 			rs.close();

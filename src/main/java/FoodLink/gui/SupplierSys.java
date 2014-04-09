@@ -77,6 +77,7 @@ private JTable table_1;
 private JTable inventoryTable;
 private JTable userTable;
 private final JScrollPane scrollPane_2 = new JScrollPane();	
+private JTable commentsTable;
 	/**
 	 * Launch the application.
 	 */
@@ -414,6 +415,24 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		
 		JPanel supermarketTab = new JPanel();
 		mainTabbedPane.addTab("Supermarket", null, supermarketTab, null);
+		GridBagLayout gbl_supermarketTab = new GridBagLayout();
+		gbl_supermarketTab.columnWidths = new int[]{0, 0};
+		gbl_supermarketTab.rowHeights = new int[]{0, 0};
+		gbl_supermarketTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_supermarketTab.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		supermarketTab.setLayout(gbl_supermarketTab);
+		
+		JScrollPane supermarketScroller = new JScrollPane();
+		GridBagConstraints gbc_supermarketScroller = new GridBagConstraints();
+		gbc_supermarketScroller.fill = GridBagConstraints.BOTH;
+		gbc_supermarketScroller.gridx = 0;
+		gbc_supermarketScroller.gridy = 0;
+		supermarketTab.add(supermarketScroller, gbc_supermarketScroller);
+		
+		String[] commentColumnNames = {"name", "comment"};
+		commentsTable = new JTable(connect.getSuplierComments(supplier_id), commentColumnNames);
+		//commentsTable = connect.getSuplierComments(supplier_id)
+		supermarketScroller.setViewportView(commentsTable);
 		
 		JPanel accountTab = new JPanel();
 		mainTabbedPane.addTab("Account", null, accountTab, null);
