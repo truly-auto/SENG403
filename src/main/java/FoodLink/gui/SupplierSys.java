@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Dialog.ModalityType;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -32,6 +33,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 import FoodLink.database;
 
@@ -79,8 +81,7 @@ public class SupplierSys {
 private JTable table_1;
 private JTable inventoryTable;
 private JTable userTable;
-private final JScrollPane scrollPane_2 = new JScrollPane();	
-private JTable table_2;
+private final JScrollPane scrollPane_2 = new JScrollPane();private JTable table_3;
 	/**
 	 * Launch the application.
 	 */
@@ -426,18 +427,17 @@ private JTable table_2;
 		mainTabbedPane.addTab("Invoices",null, jpInvoices, null);
 		GridBagLayout gbl_jpInvoices = new GridBagLayout();
 		gbl_jpInvoices.columnWidths = new int[]{0, 0};
-		gbl_jpInvoices.rowHeights = new int[]{0, 0};
+		gbl_jpInvoices.rowHeights = new int[]{0, 0, 0};
 		gbl_jpInvoices.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_jpInvoices.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_jpInvoices.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		jpInvoices.setLayout(gbl_jpInvoices);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
 		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_3.gridx = 0;
-		gbc_scrollPane_3.gridy = 0;
+		gbc_scrollPane_3.gridy = 1;
 		jpInvoices.add(scrollPane_3, gbc_scrollPane_3);
-		
 
 		Object[][] orderList = connect.getOrderListSupplier(supplier_id);
 		final String[] columnTitle = new String[] { "Invoice Number", "Supermarket", "Total Cost($)",
@@ -451,31 +451,43 @@ private JTable table_2;
 					return columnEditables[column];
 				}
 			};;
-		table2 = new JTable(orderModel);
+		table_3 = new JTable(orderModel);
 		
-		scrollPane_3.setViewportView(table2);
+		scrollPane_3.setViewportView(table_3);
 		
+		table_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mevt) {
+				java.awt.Point point = mevt.getPoint();
+				row =table_3.rowAtPoint(point);
+				selectedRow=(String) table_3.getValueAt(row, 0);
+				System.out.println(selectedRow);
+				
+				
+			}
+		});
 		
+		JButton btnNewButton_4 = new JButton("View Invoice");
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton_4.gridx = 0;
+		gbc_btnNewButton_4.gridy = 0;
+		jpInvoices.add(btnNewButton_4, gbc_btnNewButton_4);
 		
-		/*
-		final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
-		
-		final Object[][] order1 = new Object[][]{
-				{data[0][0], data[0][1], 2, data[0][4], 2 * Double.parseDouble((String) data[0][4])},
-				{data[1][0], data[1][1], 2, data[1][4], 2 * Double.parseDouble((String) data[1][4])}
-		};
-		
-		
-		final Object[][] order2 = new Object[][]{
-				{data[0][0], data[0][1], 20, data[0][4], 20 * Double.parseDouble((String) data[0][4])},
-				{data[1][0], data[1][1], 12, data[1][4], 12 * Double.parseDouble((String) data[1][4])},
-				{data[3][0], data[3][1], 4, data[3][4], 4 * Double.parseDouble((String) data[3][4])},
-				{data[4][0], data[4][1], 8, data[4][4], 8 * Double.parseDouble((String) data[4][4])},
-		};
-		
-		listOrders.add(order1);
-		listOrders.add(order2);*/
-		
+		btnNewButton_4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//if(selectedRow!=null){
+					//get that supermarket list
+					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow), supplier_id);
+					//invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
+					//invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
+					//invoiceWindow.setVisible(true);
+				//}
+				
+			}
+		});
 		/*final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
 
