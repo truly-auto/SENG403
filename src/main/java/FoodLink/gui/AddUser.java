@@ -36,6 +36,7 @@ public class AddUser extends JDialog {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -48,7 +49,7 @@ public class AddUser extends JDialog {
 				System.out.println("done");
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
@@ -66,6 +67,9 @@ public class AddUser extends JDialog {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 	
+		
+		
+		
 		textField = new JTextField();
 		textField.setBounds(184, 44, 117, 20);
 		frame.getContentPane().add(textField);
@@ -138,6 +142,7 @@ public class AddUser extends JDialog {
 						user[2]="false";
 					
 					connect.manageSupplierUsers(user, id, true);
+					
 					close();
 				
 				}
@@ -152,7 +157,9 @@ public class AddUser extends JDialog {
 	
 	//method to close the window
 	protected void close() {
+		
 		frame.dispose();
+		this.setVisible(false);
 	}
 //method to check valididty of user names
 	private boolean validUsername (String user){
