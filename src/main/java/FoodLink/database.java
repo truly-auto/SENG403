@@ -987,5 +987,73 @@ public class database {
 		return commentsList;
 	}
 	
+	//retrieve data for a specific invoice_number
+	public Object[][] getOrderItems(int invoice_number)
+	{
+		String command = "select name, item_type, quantity, unit_price, unit, total from order_items_list where invoice_number = " + invoice_number;
+		ArrayList<ArrayList<String>> orderItemsList = new ArrayList<ArrayList<String>>();
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next())
+		     	{
+		    	 	ArrayList <String> currOrder = new ArrayList <String> ();
+			       	//get item name
+			       	String name = rs.getString("name");
+			       	currOrder.add(name);
+			       	System.out.println("Supplier: " + name);
+			       	//get item type
+			       	String item_type = rs.getString("item_type");
+			       	currOrder.add(item_type);
+			       	System.out.println("Total cost: " + item_type);
+			       	//get quantity
+			       	String quantity = rs.getString("quantity");
+			       	currOrder.add(quantity);
+		        	System.out.println("Date/Time Created: " + quantity);
+		        	//get unit price
+			       	String unit_price = rs.getString("unit_price");
+			       	currOrder.add(unit_price);
+		        	System.out.println("Date/Time Created: " + unit_price);
+		        	//get unit price
+			       	String unit = rs.getString("unit");
+			       	currOrder.add(unit);
+		        	System.out.println("Date/Time Created: " + unit);
+		        	//get total
+			       	String total = rs.getString("total");
+			       	currOrder.add(total);
+		        	System.out.println("Date/Time Created: " + total);
+			       
+			        orderItemsList.add(currOrder);
+			     }
+			 rs.close();
+
+		    	 
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< orderItemsList.size(); i++){
+			System.out.println(orderItemsList.get(i));
+			
+		}
+		
+		Object [] [] orderList =  new Object [orderItemsList.size()] [];
+		
+		for (int i = 0; i< orderItemsList.size(); i++){
+			ArrayList <String> row =  orderItemsList.get(i);
+			orderList[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return orderList;
+
+	}
+	
+	
 }
 

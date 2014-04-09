@@ -239,12 +239,18 @@ public class SupermarketSys {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Clicked the Review Order Button");
-				ReviewOrderPage reviewPage = new ReviewOrderPage();
-				reviewPage.setVisible(true);
-//				JFrame reviewOrderFrame = new JFrame ("MyPanel");
-//	            reviewOrderFrame.setDefaultCloseOperation (reviewOrderFrame.EXIT_ON_CLOSE);
-//	            reviewOrderFrame.pack();
-//	            reviewOrderFrame.setVisible (true);
+				
+				int row = orderStatusTable.getSelectedRow();
+				
+				int invoiceNum = Integer.parseInt((String) orderStatusTable.getValueAt(row, 0));
+				System.out.println("The invoice number passed is: " + invoiceNum);
+				
+				String supplierName = (String) orderStatusTable.getValueAt(row, 1);
+				String dateTime = (String) orderStatusTable.getValueAt(row, 3);
+				String status = (String) orderStatusTable.getValueAt(row, 4);
+				
+				ReviewOrderPage reviewPage = new ReviewOrderPage(invoiceNum, supplierName, dateTime, status);
+				reviewPage.setVisible(true);		
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
