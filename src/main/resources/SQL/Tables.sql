@@ -73,10 +73,12 @@ CREATE TABLE supplier_users (
 CREATE TABLE order_history(
 	invoice_number int not null generated always as identity,
 	supplier varchar(255),
+	supermarket varchar(255), 
 	total_cost decimal,
 	date_time_created varchar (255),
 	status varchar(32),
 	store_id int,
+	supplier_id int,
 	PRIMARY KEY (invoice_number),
 	FOREIGN KEY (store_id) references Supermarket(store_id)
 	);
@@ -114,7 +116,6 @@ CREATE TABLE supplier_comments(
 	FOREIGN KEY (store_id) references Supermarket(store_id),
 	FOREIGN KEY (supplier_id) references Supplier(supplier_id)
 	);
-
 
 	
 --adding some sample stores
@@ -198,9 +199,6 @@ VALUES ('Eggplant','Vegetable',2, 2000, 10, '20LBS');
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Onion','Vegetable',2, 3000, 7.50, '20LBS');
-
-INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
-VALUES ('Spinach','Vegetable',2, 2000, 8, '20LBS');
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Spinach','Vegetable',2, 2000, 8, '20LBS');

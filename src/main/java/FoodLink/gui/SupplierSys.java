@@ -80,6 +80,7 @@ private JTable table_1;
 private JTable inventoryTable;
 private JTable userTable;
 private final JScrollPane scrollPane_2 = new JScrollPane();	
+private JTable table_2;
 	/**
 	 * Launch the application.
 	 */
@@ -258,10 +259,10 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		//final Object[][] data = connect.getInventory(supplier_id);
+		final Object[][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
-		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "100 lb"},{"2","apples", "fruits", "5000", "2000", "200 lb"},{"3","grapes", "fruits", "5000", "2000", "40 lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "100 lb"},{"2","apples", "fruits", "5000", "2000", "200 lb"},{"3","grapes", "fruits", "5000", "2000", "40 lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 		
 		final JScrollPane scrollPane_1 = new JScrollPane();
@@ -394,8 +395,6 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 						});
 						scrollPane_1.setViewportView(inventoryTable);}
 					
-					
-					
 				}
 			}
 		});
@@ -423,20 +422,24 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		
 		
 		/*Invoice tab*/	
-		JPanel jpInvoices = new JPanel(new BorderLayout());
+		JPanel jpInvoices = new JPanel();
 		mainTabbedPane.addTab("Invoices",null, jpInvoices, null);
+		GridBagLayout gbl_jpInvoices = new GridBagLayout();
+		gbl_jpInvoices.columnWidths = new int[]{0, 0};
+		gbl_jpInvoices.rowHeights = new int[]{0, 0};
+		gbl_jpInvoices.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_jpInvoices.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		jpInvoices.setLayout(gbl_jpInvoices);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
+		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_3.gridx = 0;
+		gbc_scrollPane_3.gridy = 0;
+		jpInvoices.add(scrollPane_3, gbc_scrollPane_3);
+		
 
-		final JScrollPane scrollPane1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
-		gbc_scrollPane1.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane1.gridwidth = 2;
-		gbc_scrollPane1.gridheight = 7;
-		gbc_scrollPane1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane1.gridx = 0;
-		gbc_scrollPane1.gridy = 2;
-		orderTab.add(scrollPane1, gbc_scrollPane1);
-
-		Object[][] orderList = connect.getOrderList(supplier_id);
+		Object[][] orderList = connect.getOrderListSupplier(supplier_id);
 		final String[] columnTitle = new String[] { "Invoice Number", "Supermarket", "Total Cost($)",
 				"Date/Time Created", "Status" };
 
@@ -449,10 +452,8 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 				}
 			};;
 		table2 = new JTable(orderModel);
-
 		
-		
-		scrollPane1.setViewportView(table2);
+		scrollPane_3.setViewportView(table2);
 		/*
 		final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
 		
@@ -544,7 +545,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 						} else{
 							JOptionPane.showMessageDialog(frame, "Operating System not supported for printing");
 						}						
-					*/	/*THE FOLLOWING LINE PRINTS OFF THE TABLE DIRECTLY*/
+						/*THE FOLLOWING LINE PRINTS OFF THE TABLE DIRECTLY*/
 						//jtInvoice.print(JTable.PrintMode.NORMAL);
 					/*}
 					else{
@@ -640,9 +641,9 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 				
 			}
 		});
-		scrollPane_2.setViewportView(userTable);
+		scrollPane_2.setViewportView(userTable);*/
 		
-	}*/
+	}
 
 
 	private static final class GradientButton extends JButton{
