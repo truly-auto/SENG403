@@ -56,9 +56,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import javax.swing.JToolBar;
+
 import java.awt.Button;
 import java.awt.Panel;
+
 import javax.swing.JSplitPane;
 
 public class SupplierSys {
@@ -72,7 +75,7 @@ public class SupplierSys {
 	private int row;
 	private boolean manager = true;
 	
-
+	private JTable table2;
 private JTable table_1;
 private JTable inventoryTable;
 private JTable userTable;
@@ -255,10 +258,10 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		final Object[][] data = connect.getInventory(supplier_id);
+		//final Object[][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
-		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "100 lb"},{"2","apples", "fruits", "5000", "2000", "200 lb"},{"3","grapes", "fruits", "5000", "2000", "40 lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "100 lb"},{"2","apples", "fruits", "5000", "2000", "200 lb"},{"3","grapes", "fruits", "5000", "2000", "40 lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 		
 		final JScrollPane scrollPane_1 = new JScrollPane();
@@ -422,7 +425,35 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		/*Invoice tab*/	
 		JPanel jpInvoices = new JPanel(new BorderLayout());
 		mainTabbedPane.addTab("Invoices",null, jpInvoices, null);
+
+		final JScrollPane scrollPane1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
+		gbc_scrollPane1.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane1.gridwidth = 2;
+		gbc_scrollPane1.gridheight = 7;
+		gbc_scrollPane1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane1.gridx = 0;
+		gbc_scrollPane1.gridy = 2;
+		orderTab.add(scrollPane1, gbc_scrollPane1);
+
+		Object[][] orderList = connect.getOrderList(supplier_id);
+		final String[] columnTitle = new String[] { "Invoice Number", "Supermarket", "Total Cost($)",
+				"Date/Time Created", "Status" };
+
+		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnTitle){
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};;
+		table2 = new JTable(orderModel);
+
 		
+		
+		scrollPane1.setViewportView(table2);
+		/*
 		final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
 		
 		final Object[][] order1 = new Object[][]{
@@ -439,9 +470,9 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		};
 		
 		listOrders.add(order1);
-		listOrders.add(order2);
+		listOrders.add(order2);*/
 		
-		final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
+		/*final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
 
 		jtInvoice.getTableHeader().setReorderingAllowed(false);
@@ -513,9 +544,9 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 						} else{
 							JOptionPane.showMessageDialog(frame, "Operating System not supported for printing");
 						}						
-						/*THE FOLLOWING LINE PRINTS OFF THE TABLE DIRECTLY*/
+					*/	/*THE FOLLOWING LINE PRINTS OFF THE TABLE DIRECTLY*/
 						//jtInvoice.print(JTable.PrintMode.NORMAL);
-					}
+					/*}
 					else{
 						JOptionPane.showMessageDialog(frame, "Please select an invoice to print");
 					}
@@ -524,8 +555,8 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 				}
 				
 			}
-		});
-		
+		});*/
+		/*
 		JScrollPane jspInvoice = new JScrollPane(jtInvoice);
 		jpInvoices.add(jcbSupermarkets, BorderLayout.NORTH);
 		jpInvoices.add(jspInvoice, BorderLayout.CENTER);
@@ -611,7 +642,7 @@ private final JScrollPane scrollPane_2 = new JScrollPane();
 		});
 		scrollPane_2.setViewportView(userTable);
 		
-	}
+	}*/
 
 
 	private static final class GradientButton extends JButton{
