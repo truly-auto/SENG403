@@ -79,12 +79,10 @@ public class SupplierSys {
 	private int row;
 	private boolean manager = true;
 	
-
-private JTable table_1;
-private JTable inventoryTable;
-private JTable userTable;
-private final JScrollPane scrollPane_2 = new JScrollPane();	
-private JTable commentsTable;
+	private JTable inventoryTable;
+	private JTable userTable;
+	private final JScrollPane scrollPane_2 = new JScrollPane();	
+	private JTable commentsTable;
 	/**
 	 * Launch the application.
 	 */

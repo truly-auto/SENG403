@@ -69,7 +69,6 @@ public class SupermarketSys {
 
 	public JFrame frame;
 
-	private JTable orderStatusTable;
 	private JTable table1;
 	private JTable table;
 	private JComboBox<String> comboBox;
@@ -86,16 +85,12 @@ public class SupermarketSys {
 	private database connect = new database();
 	DefaultListModel<String> itemsListModel1;
 	private JTable table_4;
-	private JTextField grandTotalField;
 	private JTextField textField;
-	private int tabNumber = 0;
 	private JTable inventoryTable;
 	
 	private double grandTotal = 0;
 	
 	private Order currentOrder;
-	
-	
 	
 	private String selectedRow= null;
 	private int row;
