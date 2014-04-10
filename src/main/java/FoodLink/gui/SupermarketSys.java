@@ -950,13 +950,6 @@ public class SupermarketSys {
 		gbc_supplierDropdown.gridy = 0;
 		supplierCommentsTab.add(supplierDropdown, gbc_supplierDropdown);
 		
-		JButton btnNewButton_5 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
-		gbc_btnNewButton_5.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_5.gridx = 1;
-		gbc_btnNewButton_5.gridy = 0;
-		supplierCommentsTab.add(btnNewButton_5, gbc_btnNewButton_5);
-		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
 		gbc_scrollPane_3.gridwidth = 4;
