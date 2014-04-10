@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class databaseTest {
+public class databaseTest extends DatabaseTestHelper {
 	
 	/* TODO A big todo for the database tests is to have the database be empty when generated and
 	 * add all entries for testing in the relevant tests
@@ -16,19 +16,37 @@ public class databaseTest {
 	@Before
 	public void setup() {
 		data = new database();
+		this.clearDatabase();
 	}
 	
 	@Test
 	public void testGetInventory() {
+		
+		String command = "INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL) VALUES "
+				+ "('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com')";
+		int newID = this.insertAndReturnID(command, "supplier_id");
+		
+		String[] item = {"papples", "fruits", "5000", "2000", "lb", String.valueOf(newID)};
+		data.manageItems(item, newID, true);
+		data.manageItems(item, newID, true);
+		data.manageItems(item, newID, true);
+		data.manageItems(item, newID, true);
+		data.manageItems(item, newID, true);
+		data.manageItems(item, newID, true);
+		
 		//This is not an effective test, needs revision
-		Object[][] inventory = data.getInventory(1);
+		Object[][] inventory = data.getInventory(newID);
 		
 		assertEquals("Expected 6 items", 6, inventory.length);
 	}
 
 	@Test
 	public void testGetSpecSupplier() {
-		String[] dbSupplier = data.getSpecSupplier(1);
+		String command = "INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL) VALUES "
+				+ "('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com')";
+		int newID = this.insertAndReturnID(command, "supplier_id");
+		
+		String[] dbSupplier = data.getSpecSupplier(newID);
 		String[] desiredSupplier = {"ACE Bakery","1-800-443-7929","1 Hafis Rd.","Toronto","www.acebakery.com"};
 		assertArrayEquals("Supplier different from expected",desiredSupplier, dbSupplier);
 	}
@@ -42,8 +60,12 @@ public class databaseTest {
 	
 	@Test
 	public void testAddSupermarketItem() {
-		String[] item = {"papples", "fruits", "5000", "2000", "lb", "1"};
-		data.addSupermarketItem(item, 1);
+		String command = "INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL) VALUES "
+				+ "('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com')";
+		int newID = this.insertAndReturnID(command, "store_id");
+		
+		String[] item = {"papples", "fruits", "5000", "2000", "lb", String.valueOf(newID)};
+		data.addSupermarketItem(item, newID);
 		
 		//if we get here then everything is fine
 		assertTrue(true);
@@ -60,8 +82,17 @@ public class databaseTest {
 	
 	@Test
 	public void testGetSupermarketInventory() {
-		//This is not an effective test, needs revision
-		Object[][] inventory = data.getSupermarketInventory(1);
+		
+		String command = "INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL) VALUES "
+				+ "('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com')";
+		int newID = this.insertAndReturnID(command, "store_id");
+		
+		String[] item = {"papples", "fruits", "5000", "2000", "lb", String.valueOf(newID)};
+		data.addSupermarketItem(item, newID);
+		data.addSupermarketItem(item, newID);
+		
+		
+		Object[][] inventory = data.getSupermarketInventory(newID);
 		
 		assertEquals("Expected 2 items", 2, inventory.length);
 	}
