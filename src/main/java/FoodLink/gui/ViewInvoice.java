@@ -12,25 +12,23 @@ import javax.swing.JTable;
 
 import FoodLink.database;
 
+import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.table.DefaultTableModel;
 
 public class ViewInvoice extends JDialog {
 	private JTable table;
-<<<<<<< HEAD
-	private database connect = new database ();
-=======
+
 	private database connect = new database();
 	private JTable orderTable;
 
->>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-<<<<<<< HEAD
 		try {
 			ViewInvoice dialog = new ViewInvoice(1);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -38,7 +36,7 @@ public class ViewInvoice extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-=======
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -50,7 +48,7 @@ public class ViewInvoice extends JDialog {
 				}
 			}
 		});
->>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+
 	}
 
 	/**
@@ -59,7 +57,6 @@ public class ViewInvoice extends JDialog {
 	public ViewInvoice(int invoiceNumber) {
 		setBounds(100, 100, 450, 300);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-<<<<<<< HEAD
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
@@ -97,7 +94,6 @@ public class ViewInvoice extends JDialog {
 			gbc_btnPrintInvoice.gridy = 1;
 			getContentPane().add(btnPrintInvoice, gbc_btnPrintInvoice);
 		}
-=======
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
@@ -265,7 +261,6 @@ public class ViewInvoice extends JDialog {
 		 * } }); scrollPane_2.setViewportView(userTable);
 		 */
 
->>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
 	}
 
 }
