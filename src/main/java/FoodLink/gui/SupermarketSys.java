@@ -74,6 +74,7 @@ public class SupermarketSys {
 	DefaultListModel<String> orderListModel;
 	private Object[][] itemsList;
 	private Object[][] commentsList;
+	private String [] supermarket;
 	private String supplierName;
 
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
@@ -135,6 +136,7 @@ public class SupermarketSys {
 	 */
 	@SuppressWarnings("serial")
 	private void initialize(final int supermarket_id, final boolean manager) {
+		supermarket = connect.getSupermarketName(supermarket_id);
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
 		frame.setTitle("FoodLink");
@@ -172,6 +174,15 @@ public class SupermarketSys {
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
+		JLabel lblNewLabel_1 = new JLabel(supermarket[0]);
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 40));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 3;
+		gbc_lblNewLabel_1.gridy = 0;
+		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);		
+		
 		GradientButton btnNewButton = new GradientButton("Log Out");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
