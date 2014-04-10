@@ -786,7 +786,8 @@ public class SupermarketSys {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Supplier Comments"));
+				mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Supplier Comments"));				
+				
 				
 			}
 		});
