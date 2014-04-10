@@ -295,16 +295,16 @@ public class ViewInvoice extends JFrame {
 								"MMM. d, yyyy", java.util.Locale.ENGLISH);
 						
 						// Display supplier info and supermarket info
-						out.write(supplierInfo[0] + "\t\t\t"
+						out.write(supplierInfo[0] + "\t\t\t\t\t"
 								+ supermarketInfo[0] + "\n");
-						out.write(supplierInfo[1] + "\t\t\t"
+						out.write(supplierInfo[1] + "\t\t\t\t\t"
 								+ supermarketInfo[1] + "\n");
-						out.write(supplierInfo[2] + "\t\t\t" + supermarketInfo[2]
+						out.write(supplierInfo[2] + "\t\t\t\t\t" + supermarketInfo[2]
 								+ "\n");
 						out.write(supplierInfo[3]
-								+ "\t\t\t"
+								+ "\t\t\t\t\t"
 								+ supermarketInfo[3]
-								+ "\n\t\t\t"
+								+ "\n\t\t\t\t\t"
 								+ sdf.format(java.util.Calendar.getInstance()
 										.getTime()) + "\n");
 						out.write("\n\n");
