@@ -650,7 +650,7 @@ public class SupplierSys {
 			public void mouseClicked(MouseEvent mevt) {
 				java.awt.Point point = mevt.getPoint();
 				row =userTable.rowAtPoint(point);
-				selecedUser=(String)userTable.getValueAt(row, 0);
+				selectedUser=(String)userTable.getValueAt(row, 0);
 				System.out.println(selectedUser);
 				
 				
