@@ -123,7 +123,7 @@ public class database {
 		}
 	}
 	
-	public Object [] [] getInventory(int id){ 
+	public Object [] [] getInventory(int id){
 		ArrayList<ArrayList<String>> inventory = new ArrayList<ArrayList<String>>();
 		String command = "select * from items where supplier_id = " +id;
 		
@@ -229,6 +229,50 @@ public class database {
 		//===
 		
 		return supplier;
+	}
+	
+	public String [] getSpecSupermarket(int id){
+		String command = "select * from supermarket where store_id = " +id;
+		String [] supermarket = new String [5]; 
+		//===
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next()){
+		    	//ArrayList <String> currentItem = new ArrayList <String> (); 
+		    	 //Retrieve by column name
+		        String name = rs.getString("name");
+		        System.out.println(name);
+		        supermarket[0]=name;  
+		     	
+		        String number = rs.getString("phonenumber");
+		        System.out.println(number);
+		        supermarket[1]=number;  
+		     	
+		        String add = rs.getString("address");
+		        System.out.println(add);
+		        supermarket[2]=add;  
+		     	
+		        String city = rs.getString("city");
+		        System.out.println(city);
+		        supermarket[3]=city;  
+		     	
+		        String email = rs.getString("email");
+		        System.out.println(email);
+		        supermarket[4]=email;  
+		     	
+		        }
+		      rs.close();
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		    }
+		
+		//===
+		
+		return supermarket;
 	}
 	
 	//getting supplier and supermarket users from database (id, if supermarket)
@@ -568,7 +612,7 @@ public class database {
 	//get orders for supplier from different supermarkets
 	public Object[][] getOrderListSupplier(int id)
 	{
-		String command = "select invoice_number, supermarket, total_cost, date_time_created, status from order_history where supplier_id = " + id;
+		String command = "select invoice_number, supermarket, total_cost, date_time_created, status, store_id from order_history where supplier_id = " + id;
 		ArrayList<ArrayList<String>> orders = new ArrayList<ArrayList<String>>();
 		try {
 		     statement.execute(command);
@@ -596,6 +640,10 @@ public class database {
 			       	String status = rs.getString("status");
 			       	currOrder.add(status);
 		        	System.out.println("Status: " + status);
+		        	
+		        	String store_id = rs.getString("store_id");
+		        	currOrder.add(store_id);
+		        	System.out.println("Store id: " + store_id);
 			       
 			        orders.add(currOrder);
 			     }
@@ -695,7 +743,9 @@ public class database {
 		System.out.println("Add or delete Succesful");
 		
 	}
-		public void modifyItem(String[] item, int itemNum) {
+
+
+	public void modifyItem(String[] item, int itemNum) {
 		System.out.println(item[0]);
 		System.out.println(item[1]);
 		System.out.println(item[2]);

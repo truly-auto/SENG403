@@ -352,8 +352,7 @@ VALUES ('Josh_Senior','password',2, 'true');
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('Josh_Doe','password',2, 'false');
 
---adding some store usersgood
-
+--adding some store users
 
 INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID, MANAGER)
 VALUES ('Jane_Doe','password',1, 'true');	
