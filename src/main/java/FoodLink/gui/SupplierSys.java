@@ -16,6 +16,7 @@ import java.awt.Dialog.ModalityType;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -116,11 +117,11 @@ public class SupplierSys {
 		supplier = connect.getSpecSupplier(supplier_id);
 		System.out.println("this is .." + supplier_id);
 		frame = new JFrame();
-		LookAndFeel lookAndFeel = new LookAndFeel(frame);
-		//frame.setSize(new Dimension(1000,1000));
-		frame.setTitle("FoodLink");
-		//frame.setBounds(100, 100, 608, 300);
-		frame.setBounds(100, 100, 640, 420);
+		LookAndFeel lookAndFeel = new LookAndFeel(frame);	
+		frame.setTitle("FoodLink");		
+		frame.setLocation(100, 100);
+		frame.setSize(new Dimension(1000,600));
+	    frame.setExtendedState(Frame.MAXIMIZED_BOTH); //MT: Sets frame to open to maximized 
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -141,7 +142,7 @@ public class SupplierSys {
 		banner.setBackground(green);
 		frame.getContentPane().add(banner);
 		frame.setBackground(green);
-		frame.setSize(new Dimension(1000,700));
+		//frame.setSize(new Dimension(1000,700));
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

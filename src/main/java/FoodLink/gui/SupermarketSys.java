@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -139,14 +141,15 @@ public class SupermarketSys {
 		supermarket = connect.getSupermarketName(supermarket_id);
 		frame = new JFrame();
 		LookAndFeel lookAndFeel = new LookAndFeel(frame);
-		frame.setTitle("FoodLink");
-		frame.setBounds(100, 100, 640, 420);
+		frame.setTitle("FoodLink");		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Color grey = new Color(153, 153, 153);
 		Color green = new Color(182, 215, 168);
 		frame.getContentPane().setBackground(green);
-		Dimension d = new Dimension(1000,700);
-		frame.setSize(d);
+		frame.setLocation(100, 100);
+		frame.setSize(new Dimension(1000,600));
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH); //MT: Sets frame to open to maximized
+		
 		BufferedImage Logo = null;
 		JPanel banner = new JPanel();
 		try 
