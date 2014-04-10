@@ -102,7 +102,18 @@ public class database {
 	}
 	
 	public void addComment(String comment, int store_id, int supplier_id){
-		//TODO insert comment to database
+		String command = "INSERT INTO supplier_comments (comment, store_id, supplier_id) VALUES "
+				+ "("+comment+ "," + store_id +"," + supplier_id +")";
+		
+		try{
+			statement.execute(command);
+			
+		}
+		catch (SQLException e) {
+			e.fillInStackTrace();
+			System.out.println("Error executing: " + command);
+			System.out.println(e);;
+		}
 	}
 	
 	public Object [] [] getInventory(int id){
