@@ -867,13 +867,14 @@ public class SupermarketSys {
 		
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};
 		
+		//@Production <--Nice tag to search for when swapping this code before running code
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		//
 		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 				
 		//use this one when building
 		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		
 		table = new JTable(data, columnNames);
 		table.addMouseListener(new MouseAdapter() {
 			@Override

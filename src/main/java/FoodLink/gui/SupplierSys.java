@@ -259,10 +259,10 @@ public class SupplierSys {
 		
 		
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price", "Units"};
-
+		
+		//@Production <--Nice tag to search for when swapping this code before running code
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		//
 		final Object [][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
@@ -441,6 +441,7 @@ public class SupplierSys {
 		
 		String[] commentColumnNames = {"name", "comment"};
 		
+		//@Production <--Nice tag to search for when swapping this code before running code
 		//When building the gui
 		Object[][] commentData = {{"This", "Is a comment"}};
 		//When running the program
@@ -635,8 +636,9 @@ public class SupplierSys {
 
 
 	protected void setTable(String [] users, int supplier_id) {
+		
+		//@Production <--Nice tag to search for when swapping this code before running code
 		//use this one when testing
-		//
 		final Object[][] userData = connect.getUser(supplier_id, false);
 				
 		//use this one when building
