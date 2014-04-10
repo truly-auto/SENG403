@@ -78,12 +78,12 @@ public class SupplierSys {
 	private String selectedUser= null;
 	private int row;
 	private boolean manager = true;
-	
+	private JTable table_1;
 	private JTable inventoryTable;
 	private JTable userTable;
 	private final JScrollPane scrollPane_2 = new JScrollPane();	
 	private JTable commentsTable;
-	/**
+		/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -260,13 +260,13 @@ public class SupplierSys {
 		
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price", "Units"};
 		
+		//@Production <--Nice tag to search for when swapping this code before running code
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		final Object[][] data = connect.getInventory(supplier_id);
+		final Object [][] data = connect.getInventory(supplier_id);
 		
 		//use this one when building
 		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "100 lb"},{"2","apples", "fruits", "5000", "2000", "200 lb"},{"3","grapes", "fruits", "5000", "2000", "40 lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
-		
 		
 		final JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
@@ -440,8 +440,14 @@ public class SupplierSys {
 		supermarketTab.add(supermarketScroller, gbc_supermarketScroller);
 		
 		String[] commentColumnNames = {"name", "comment"};
-		commentsTable = new JTable(connect.getSuplierComments(supplier_id), commentColumnNames);
-		//commentsTable = connect.getSuplierComments(supplier_id)
+		
+		//@Production <--Nice tag to search for when swapping this code before running code
+		//When building the gui
+		Object[][] commentData = {{"This", "Is a comment"}};
+		//When running the program
+		//Object[][] commentData = connect.getSuplierComments(supplier_id);
+		
+		commentsTable = new JTable(commentData, commentColumnNames);
 		supermarketScroller.setViewportView(commentsTable);
 		
 		JPanel accountTab = new JPanel();
@@ -463,8 +469,7 @@ public class SupplierSys {
 		final Object[][] order2 = new Object[][]{
 				{data[0][0], data[0][1], 20, data[0][4], 20 * Double.parseDouble((String) data[0][4])},
 				{data[1][0], data[1][1], 12, data[1][4], 12 * Double.parseDouble((String) data[1][4])},
-				{data[3][0], data[3][1], 4, data[3][4], 4 * Double.parseDouble((String) data[3][4])},
-				{data[4][0], data[4][1], 8, data[4][4], 8 * Double.parseDouble((String) data[4][4])},
+				{data[3][0], data[3][1], 4, data[3][4], 4 * Double.parseDouble((String) data[3][4])}
 		};
 		
 		listOrders.add(order1);
@@ -598,6 +603,7 @@ public class SupplierSys {
 						//window.frame.setVisible(true);
 						window.setVisible(true);
 						user = window.getResult();
+						connect.manageSupplierUsers(user, supplier_id, true);
 						window.setVisible(false);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -611,25 +617,27 @@ public class SupplierSys {
 						}
 					
 					}
-			});
-			
-			button_2.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("about to delete this row.."+ selectedUser);
-					String [] user = {selectedUser};
-					//passing the user name, the supplier_id and false to trigger the delete query
-					connect.manageSupplierUsers(user, supplier_id, false);
-					setTable(users, supplier_id);
-				}
-	
-			
-			});	
+				});
+				
+				button_2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						System.out.println("about to delete this row.."+ selectedUser);
+						String [] user = {selectedUser};
+						//passing the user name, the supplier_id and false to trigger the delete query
+						connect.manageSupplierUsers(user, supplier_id, false);
+						setTable(users, supplier_id);
+					}
 		
-	}
+				
+				});	
+		
 		}
+	}
 
 
 	protected void setTable(String [] users, int supplier_id) {
+		
+		//@Production <--Nice tag to search for when swapping this code before running code
 		//use this one when testing
 		final Object[][] userData = connect.getUser(supplier_id, false);
 				
@@ -642,7 +650,7 @@ public class SupplierSys {
 			public void mouseClicked(MouseEvent mevt) {
 				java.awt.Point point = mevt.getPoint();
 				row =userTable.rowAtPoint(point);
-				selectedUser=(String)userTable.getValueAt(row, 0);
+				selecedUser=(String)userTable.getValueAt(row, 0);
 				System.out.println(selectedUser);
 				
 				

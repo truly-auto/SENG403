@@ -141,7 +141,7 @@ public class AddUser extends JDialog {
 					else
 						user[2]="false";
 					
-					connect.manageSupplierUsers(user, id, true);
+					
 					
 					close();
 				
