@@ -797,6 +797,19 @@ public class database {
 	}
 
 	public void deleteInvetory(int id) {
+		//delete any auto-orders first
+		String deleteThreshold = "DELETE FROM automatic_orders WHERE supermarket_item = " + id;
+		
+		try {
+		     statement.execute(deleteThreshold);
+		    }
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + deleteThreshold);
+		     System.out.println(e);
+		     System.exit(0);
+		    }
+		
 		String command = "DELETE FROM supermarket_inventory  WHERE inventory_number = "+ id;
 			
 		
