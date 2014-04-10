@@ -1054,6 +1054,29 @@ public class database {
 
 	}
 	
+	public void updateOrderStatus(String status, int invoice_number)
+	{
+		String command = "UPDATE order_history SET status = " + "'" + status + "'" + "WHERE invoice_number = " + invoice_number;
+		
+		try {
+		     statement.execute(command);
+//		     ResultSet rs = statement.getResultSet();
+//		     
+//		     while(rs.next())
+//		     	{
+//			         System.out.println("Changing status to COMPLETE of Invoice Number " + invoice_number);
+//			     }
+		    
+		     
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		
+		}
+	}
 	
 }
 

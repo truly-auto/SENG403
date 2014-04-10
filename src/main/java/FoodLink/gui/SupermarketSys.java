@@ -251,7 +251,7 @@ public class SupermarketSys {
 				String grandTotal1 = (String) orderStatusTable.getValueAt(row, 2);
 				String status = (String) orderStatusTable.getValueAt(row, 4);
 				
-				ReviewOrderPage reviewPage = new ReviewOrderPage(invoiceNum, supplierName, dateTime, status, grandTotal1, row, orderStatusTable);
+				ReviewOrderPage reviewPage = new ReviewOrderPage(invoiceNum, supplierName, dateTime, status, grandTotal1, row, orderStatusTable, supermarket_id);
 //				if (isMarkComplete == 1)
 //				{
 //					System.out.println("SETTING IT TO COMPLETE");

@@ -52,8 +52,9 @@ public class ReviewOrderPage extends JFrame {
 	/**
 	 * Create the frame.
 	 * @param grandTotal1 
+	 * @param supermarket_id 
 	 */
-	public ReviewOrderPage(int invoiceNum, String supplierName, String dateTime, String status, String grandTotal1, final int selectedRow, final JTable orderItem) {
+	public ReviewOrderPage(final int invoiceNum, String supplierName, String dateTime, final String status, String grandTotal1, final int selectedRow, final JTable orderItem, final int supermarket_id) {
 		
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
@@ -163,6 +164,23 @@ public class ReviewOrderPage extends JFrame {
 					System.out.println("selectedRow: " + selectedRow);
 					orderItem.setValueAt("Complete", selectedRow, 4);
 					textField_4.setText("Completed");
+					connect.updateOrderStatus("Complete", invoiceNum);
+					
+					//refresh the order status table
+					Object[][] orderList = connect.getOrderList(supermarket_id);
+
+					final String[] columnNameInvoice = { "Invoice Number", "Supplier",
+							"Total Cost($)", "Date/Time Created", "Status" };
+					
+					final DefaultTableModel orderModel = new DefaultTableModel(
+							orderList, columnNameInvoice) {
+						boolean[] columnEditables = new boolean[] { false,
+								false, false, false };
+
+						public boolean isCellEditable(int row, int column) {
+							return columnEditables[column];
+						}
+					};
 				}
 
 				
