@@ -82,6 +82,7 @@ public class SupplierSys {
 	private JTable userTable;
 	private final JScrollPane scrollPane_2 = new JScrollPane();
 	private JTable table_3;
+	private JTable orderStatusTable;
 
 	/**
 	 * Launch the application.
@@ -269,13 +270,14 @@ public class SupplierSys {
 		// this one will access data from the the database but will cause the
 		// code not to work in design mode
 		// use this one when testing
-		final Object[][] data = connect.getInventory(supplier_id);
+		// final Object[][] data = connect.getInventory(supplier_id);
 
 		// use this one when building
-		// final Object [][] data = {{"1","papples", "fruits", "5000", "2000",
-		// "100 lb"},{"2","apples", "fruits", "5000", "2000",
-		// "200 lb"},{"3","grapes", "fruits", "5000", "2000",
-		// "40 lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		final Object[][] data = {
+				{ "1", "papples", "fruits", "5000", "2000", "100 lb" },
+				{ "2", "apples", "fruits", "5000", "2000", "200 lb" },
+				{ "3", "grapes", "fruits", "5000", "2000", "40 lb" },
+				{ "4", "pears", "fruits", "5000", "2000", "lb" } };
 
 		final JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
@@ -457,6 +459,43 @@ public class SupplierSys {
 		gbc_scrollPane_3.gridy = 1;
 		jpInvoices.add(scrollPane_3, gbc_scrollPane_3);
 
+		final GradientButton btnViewInvoice = new GradientButton("View Order");
+		btnViewInvoice.setEnabled(false);
+		btnViewInvoice.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Clicked the View Order Button");
+
+				int row = orderStatusTable.getSelectedRow();
+
+				int invoiceNum = Integer.parseInt((String) orderStatusTable
+						.getValueAt(row, 0));
+				System.out.println("The invoice number passed is: "
+						+ invoiceNum);
+
+				String supermarketName = (String) orderStatusTable.getValueAt(
+						row, 1);
+				String dateTime = (String) orderStatusTable.getValueAt(row, 3);
+				String grandTotal1 = (String) orderStatusTable.getValueAt(row,
+						2);
+				String status = (String) orderStatusTable.getValueAt(row, 4);
+
+				ViewInvoice viewInvoice = new ViewInvoice(invoiceNum,
+						supermarketName, dateTime, status, grandTotal1, row,
+						orderStatusTable);
+				viewInvoice.setVisible(true);
+			}
+
+		});
+
+		JButton btnNewButton_4 = new JButton("View Invoice");
+		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
+		gbc_btnNewButton_4.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton_4.gridx = 0;
+		gbc_btnNewButton_4.gridy = 0;
+		jpInvoices.add(btnViewInvoice, gbc_btnNewButton_4);
+
 		Object[][] orderList = connect.getOrderListSupplier(supplier_id);
 		final String[] columnTitle = new String[] { "Invoice Number",
 				"Supermarket", "Total Cost($)", "Date/Time Created", "Status" };
@@ -471,47 +510,16 @@ public class SupplierSys {
 			}
 		};
 		;
-		table_3 = new JTable(orderModel);
-
-		scrollPane_3.setViewportView(table_3);
-
-		table_3.addMouseListener(new MouseAdapter() {
+		orderStatusTable = new JTable(orderModel);
+		orderStatusTable.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent mevt) {
-				java.awt.Point point = mevt.getPoint();
-				row = table_3.rowAtPoint(point);
-				selectedRow = (String) table_3.getValueAt(row, 0);
-				System.out.println(selectedRow);
-
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Clicking Table");
+				btnViewInvoice.setEnabled(true);
 			}
 		});
 
-		JButton btnNewButton_4 = new JButton("View Invoice");
-		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_4.gridx = 0;
-		gbc_btnNewButton_4.gridy = 0;
-		jpInvoices.add(btnNewButton_4, gbc_btnNewButton_4);
-
-		btnNewButton_4.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					// if(selectedRow!=null){
-					// get that supermarket list
-					ViewInvoice invoiceWindow = new ViewInvoice(Integer
-							.parseInt(selectedRow));
-					// invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
-					// invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
-					// invoiceWindow.setVisible(true);
-					// }
-				} catch (Exception e) {
-					//
-				}
-
-			}
-		});
+		scrollPane_3.setViewportView(orderStatusTable);
 
 	}
 
