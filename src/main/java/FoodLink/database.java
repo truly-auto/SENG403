@@ -9,7 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 
 public class database {
@@ -102,8 +105,12 @@ public class database {
 	}
 	
 	public void addComment(String comment, int store_id, int supplier_id){
-		String command = "INSERT INTO supplier_comments (comment, store_id, supplier_id) VALUES "
-				+ "('"+comment+ "'," + store_id +"," + supplier_id +")";
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+		String creationDate = sdf.format(Calendar.getInstance().getTime());
+		
+		String command = "INSERT INTO supplier_comments (comment, created, store_id, supplier_id) VALUES "
+				+ "('"+comment+ "', '" + creationDate + "', " + store_id +", " + supplier_id +")";
 		
 		try{
 			statement.execute(command);
@@ -116,7 +123,7 @@ public class database {
 		}
 	}
 	
-	public Object [] [] getInventory(int id){
+	public Object [] [] getInventory(int id){ 
 		ArrayList<ArrayList<String>> inventory = new ArrayList<ArrayList<String>>();
 		String command = "select * from items where supplier_id = " +id;
 		
@@ -982,7 +989,7 @@ public class database {
 	//Get the list of comments for a supplier
 	public Object[][] getSuplierComments (int supplier_id)
 	{
-		String command = "select id, comment, market.name from supplier_comments join supermarket as market on supplier_comments.store_id = market.store_id where supplier_id = " + supplier_id + "order by id desc";
+		String command = "select id, comment, market.name, created from supplier_comments join supermarket as market on supplier_comments.store_id = market.store_id where supplier_id = " + supplier_id + "order by created desc";
 		ArrayList<ArrayList<String>> comments = new ArrayList<ArrayList<String>>();
 		try {
 			statement.execute(command);
@@ -1000,6 +1007,10 @@ public class database {
 				String comment = rs.getString("comment");
 				currComment.add(comment);
 				System.out.println("Comment: " + comment);
+				
+				String createdDate = rs.getString("created");
+				currComment.add(createdDate);
+				System.out.println("Date Created: " + createdDate);
 				
 				//get comment ID
 				String id = rs.getString("id");

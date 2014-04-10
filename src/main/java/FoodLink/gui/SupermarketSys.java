@@ -915,7 +915,7 @@ public class SupermarketSys {
 		gbl_supplierCommentsTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		supplierCommentsTab.setLayout(gbl_supplierCommentsTab);
 		
-		final String[] commentsTableColumnNames = {"Name", "Comment"};
+		final String[] commentsTableColumnNames = {"Name", "Comment", "Date [yy-mm-dd]"};
 		supplierNames = connect.getSupplierNames();
 		
 		final JComboBox<String> supplierDropdown = new JComboBox();
@@ -926,13 +926,13 @@ public class SupermarketSys {
 				 commentsList = connect.getSuplierComments(supplierDropdown.getSelectedIndex()+1);
 				 commentsListModel = new DefaultTableModel(commentsList, commentsTableColumnNames){
 						Class[] columnTypes = new Class[] {
-								String.class, String.class
+								String.class, String.class, String.class
 							};
 							public Class getColumnClass(int columnIndex) {
 								return columnTypes[columnIndex];
 							}
 							boolean[] columnEditables = new boolean[] {
-								false, false
+								false, false, false
 							};
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];

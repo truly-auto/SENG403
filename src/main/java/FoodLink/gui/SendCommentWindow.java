@@ -73,9 +73,7 @@ public class SendCommentWindow extends JDialog implements ActionListener{
 		if(e.getActionCommand().equalsIgnoreCase("send")){
 			if(!jtaComments.getText().trim().isEmpty()){		
 				
-				SimpleDateFormat sdf = new SimpleDateFormat("[MMM dd, yyyy]", Locale.ENGLISH);
-				
-				comment = jtaComments.getText() + "   " + sdf.format(Calendar.getInstance().getTime());;
+				comment = jtaComments.getText();
 				
 				JOptionPane.showMessageDialog(this, "Comment sent");
 				choice = true;

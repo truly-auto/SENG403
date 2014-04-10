@@ -108,6 +108,7 @@ CREATE TABLE automatic_orders(
 CREATE TABLE supplier_comments(
 	id int not null generated always as identity,
 	comment varchar(1000),
+	created date,
 	store_id int,
 	supplier_id int,
 	PRIMARY KEY (id),
@@ -327,8 +328,8 @@ INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantit
 VALUES ('grapes', 'fruits', 1, 5000, 2000, 'lb', 2);
 
 --Add some comments
-INSERT INTO supplier_comments (comment, store_id, supplier_id)
-VALUES ('This place Rocks!', 1, 1);
+INSERT INTO supplier_comments (comment, created, store_id, supplier_id)
+VALUES ('This place Rocks!', '01/01/3000', 1, 1);
 
-INSERT INTO supplier_comments (comment, store_id, supplier_id)
-VALUES ('Unhappy Comment :(', 2, 1);
+INSERT INTO supplier_comments (comment, created, store_id, supplier_id)
+VALUES ('Unhappy Comment :(', '01/01/1901', 2, 1);

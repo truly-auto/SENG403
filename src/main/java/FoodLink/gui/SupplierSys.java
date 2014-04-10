@@ -435,11 +435,11 @@ public class SupplierSys {
 		gbc_supermarketScroller.gridy = 0;
 		supermarketTab.add(supermarketScroller, gbc_supermarketScroller);
 		
-		String[] commentColumnNames = {"name", "comment"};
+		String[] commentColumnNames = {"name", "comment", "date [yy-mm-dd]"};
 		
 		//@Production <--Nice tag to search for when swapping this code before running code
 		//When building the gui
-		Object[][] commentData = {{"This", "Is a comment"}};
+		Object[][] commentData = {{"This", "Is a comment", "1991-01-02"}};
 		//When running the program
 		//Object[][] commentData = connect.getSuplierComments(supplier_id);
 		
