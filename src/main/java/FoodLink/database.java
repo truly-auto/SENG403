@@ -902,106 +902,11 @@ public class database {
 		
 	}
 	
-	
-	//gets all info except grand total
-	public Object[][] getOrderInformation(int invoiceNumber)
-	{
-		String command = "select * from items where invoice_number = " + invoiceNumber;
-		ArrayList<Object []> itemsList = new ArrayList<Object []>() ;
-		
-		try {
-		     statement.execute(command);
-		     ResultSet rs = statement.getResultSet();
-		     int counter = 0;
-		     while(rs.next())
-		     	{
-		    	 	ArrayList<String> tempItems = new ArrayList<String>();
-			        //get item number
-			       	String item_number = rs.getString("item_number");
-			       	tempItems.add(item_number);
-			       	System.out.println("Item number: " + item_number);
-			       	//get item name
-			       	String name = rs.getString("name");
-			       	tempItems.add(name);
-			       	System.out.println("Name: " + name);
-			       	//get item type
-			       	String item_type = rs.getString("item_type");
-			       	tempItems.add(item_type);
-		        	System.out.println("Item Type: " + item_type);
-			       	//get quantity
-		        	String quantity = rs.getString("quantity");
-		        	tempItems.add(quantity);
-			       	//get price
-		        	String unit_price = rs.getString("unit_price");
-		        	tempItems.add(unit_price);
-		        	System.out.println("Unit Price: " + unit_price);
-		           	//get price
-		        	String unit = rs.getString("unit");
-		        	tempItems.add(unit);
-		        	System.out.println("Unit: " + unit);
-			        //get total
-			       	String total = rs.getString("total");
-			       	tempItems.add(total);
-			       	System.out.println("total: " + total);
-		        	
-		        	itemsList.add(tempItems.toArray());
-		     	}
-		}
-		catch (SQLException e) {
-		     e.fillInStackTrace();
-		     System.out.println("Error executing: " + command);
-		     System.out.println(e);;
-		
-		}
-
-		for (int i = 0; i< itemsList.size(); i++){
-			System.out.println(itemsList.get(i));
-			
-		}
-
-		Object[][] returnArray = new Object[0][0];
-		if (itemsList.size() > 0) {
-			returnArray = new Object[itemsList.size()] [itemsList.get(0).length];
-			
-			for (int i = 0; i < itemsList.size(); i++) {
-				returnArray[i] = itemsList.get(i);
-			}
-		
-		}
-		
-		return returnArray;
-	}
-	
-	public void addToOrderHistory(String supplierName, Double grandTotal, String orderStatus){
-		java.util.Date date= new java.util.Date();
-		
-		//printed time may vary from the table time by a few milliseconds 
-		System.out.println("Current timestamp added: " + new Timestamp(date.getTime()));
-		
-		
-		String current_timestamp = "" +  new Timestamp(date.getTime());
-		String command = "INSERT INTO order_history (supplier, total_cost, date_time_created, status) VALUES "
-				+ "(" + "'" + supplierName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" +")";
-		
-
-		try {
-		     statement.execute(command);
-		    }
-		catch (SQLException e) {
-		     e.fillInStackTrace();
-		     System.out.println("Error executing: " + command);
-		     System.out.println(e);
-		     System.exit(0);
-		    }
-		System.out.println("Add Succesful");
-		
-	}
-	
 	public int getLastElementInOrderHistory()
 	{
 		String command = "SELECT MAX(INVOICE_NUMBER) FROM ORDER_HISTORY";
 		
-		int orderNum = -1;
+		int invoiceNum = -1;
 		
 		try {
 		     statement.execute(command);
@@ -1009,7 +914,7 @@ public class database {
 		     
 		     while(rs.next())
 		     	{
-			         int invoiceNum = rs.getInt(1);
+			         invoiceNum = rs.getInt(1);
 			         System.out.println("The last INVOICE_NUMBER: " + invoiceNum);
 			     }
 		    
@@ -1022,13 +927,13 @@ public class database {
 		
 		
 		}
-		return orderNum;
+		return invoiceNum;
 	}
 	
 	//Get the list of comments for a supplier
 	public Object[][] getSuplierComments (int supplier_id)
 	{
-		String command = "select id, comment, store_id, supplier_id from supplier_comments where supplier_id = " + supplier_id;
+		String command = "select id, comment, market.name from supplier_comments join supermarket as market on supplier_comments.store_id = market.store_id where supplier_id = " + supplier_id;
 		ArrayList<ArrayList<String>> comments = new ArrayList<ArrayList<String>>();
 		try {
 			statement.execute(command);
@@ -1036,15 +941,22 @@ public class database {
 			while(rs.next())
 			{
 				ArrayList <String> currComment = new ArrayList <String> ();
-				//get item number
-				String id = rs.getString("id");
-				currComment.add(id);
-				System.out.println("ID: " + id);
-				//get supplier name
+				
+				//get supermarket name
+				String name = rs.getString("name");
+				currComment.add(name);
+				System.out.println("Supermarket name: " + name);
+				
+				//get comment
 				String comment = rs.getString("comment");
 				currComment.add(comment);
 				System.out.println("Comment: " + comment);
-
+				
+				//get comment ID
+				String id = rs.getString("id");
+				currComment.add(id);
+				System.out.println("ID: " + id);
+				
 				comments.add(currComment);
 			}
 			rs.close();
@@ -1074,6 +986,7 @@ public class database {
 		}
 		return commentsList;
 	}
+	
 	//retrieve data for a specific invoice_number
 	public Object[][] getOrderItems(int invoice_number)
 	{
@@ -1140,5 +1053,7 @@ public class database {
 		return orderList;
 
 	}
+	
+	
 }
 
