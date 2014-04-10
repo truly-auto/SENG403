@@ -563,7 +563,10 @@ public class SupermarketSys {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
 							// add the new order in the database
-							connect.addToOrderHistory(supplierName, grandTotal, "Submitted", supermarket_id, supplier_id);
+							String supermarketName = connect.getStoreName(supermarket_id);
+							System.out.println("SupermarketNAME: " + supermarketName);
+							
+							connect.addToOrderHistory(supplierName, supermarketName, grandTotal, "Submitted", supermarket_id, supplier_id);
 							int lastIndex = connect.getLastElementInOrderHistory();
 							JOptionPane.showMessageDialog(frame,"Your order has been successfully submitted. \nYour Invoice Number is " + lastIndex);
 

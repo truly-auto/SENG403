@@ -26,7 +26,7 @@ CREATE TABLE Supplier
 --Create Items table 
 CREATE TABLE items (
   item_number int NOT NULL generated always as identity,
-  name varchar(32),
+  name varchar(255),
   item_type varchar(32),
   supplier_id int,
   quantity int,
@@ -73,6 +73,7 @@ CREATE TABLE supplier_users (
 CREATE TABLE order_history(
 	invoice_number int NOT NULL generated always as identity,
 	supplier varchar(255),
+	supermarket varchar(255),
 	total_cost decimal,
 	date_time_created varchar (255),
 	status varchar(32),
@@ -86,7 +87,7 @@ CREATE TABLE order_history(
 --Create Items table 
 CREATE TABLE order_items_list (
   invoice_number int NOT NULL,
-  name varchar(32),
+  name varchar(255),
   item_type varchar(32),
   quantity int,
   unit_price decimal,
@@ -325,10 +326,10 @@ INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Twist','Fungicides',5, 550, 8, '20LBS');
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
-VALUES ('Yasmin','Women's Healthcare',5, 550, 8, '20LBS');
+VALUES ('Yasmin','Womens Healthcare',5, 550, 8, '20LBS');
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
-VALUES ('Acclaim Polyol','Coatings, Adhessives, Precialties',5, 550, 8, '20LBS');
+VALUES ('Acclaim Polyol','Specialties',5, 550, 8, '20LBS');
 
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Aleve','Analgesics',5, 550, 8, '20LBS');
