@@ -307,7 +307,7 @@ public class ViewInvoice extends JFrame {
 						}
 
 						out.write("\n");
-						out.write("\t\t\t\t\t\tTOTAL:\t" + total + "\n");
+						out.write("\t\t\t\t\tTOTAL:\t" + total + "\n");
 						out.close();
 
 						String osname = System.getProperty("os.name")
