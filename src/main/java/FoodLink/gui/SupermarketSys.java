@@ -67,7 +67,6 @@ public class SupermarketSys {
 
 	public JFrame frame;
 
-	private JTable orderStatusTable;
 	private JTable table1;
 	private JTable table;
 	private JComboBox<String> comboBox;
@@ -86,9 +85,7 @@ public class SupermarketSys {
 	private database connect = new database();
 	DefaultListModel<String> itemsListModel1;
 	private JTable table_4;
-	private JTextField grandTotalField;
 	private JTextField textField;
-	private int tabNumber = 0;
 	private JTable inventoryTable;
 	
 	private double grandTotal = 0;
@@ -101,6 +98,7 @@ public class SupermarketSys {
 	private JTable userTable;
 	private final JScrollPane scrollPane_2 = new JScrollPane();	
 	//--
+
 	
 	private String selectedRow= null;
 	private int row;
@@ -758,10 +756,18 @@ public class SupermarketSys {
 		GradientButton btnComment = new GradientButton("Send Comment");
 		GridBagConstraints gbc_btnComment = new GridBagConstraints();
 		gbc_btnComment.anchor = GridBagConstraints.WEST;
-		gbc_btnComment.insets = new Insets(0, 0, 0, 0);
-		gbc_btnComment.gridx = 0;
-		gbc_btnComment.gridy = 6;
+		gbc_btnComment.insets = new Insets(5, 5, 5, 5);
+		gbc_btnComment.gridx = 1;
+		gbc_btnComment.gridy = 7;
 		supermarketTab.add(btnComment, gbc_btnComment);
+		
+		GradientButton btnViewComment = new GradientButton("View Comment");
+		GridBagConstraints gbc_btnViewComment = new GridBagConstraints();
+		gbc_btnViewComment.anchor = GridBagConstraints.WEST;
+		gbc_btnViewComment.insets = new Insets(5, 5, 5, 5);
+		gbc_btnViewComment.gridx = 2;
+		gbc_btnViewComment.gridy = 7;
+		supermarketTab.add(btnViewComment, gbc_btnViewComment);
 		
 		btnComment.addActionListener(new ActionListener() {
 			
