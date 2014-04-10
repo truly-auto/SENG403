@@ -372,7 +372,7 @@ VALUES ('grapes', 'fruits', 1, 5000, 2000, 'lb', 2);
 
 --Add some comments
 INSERT INTO supplier_comments (comment, created, store_id, supplier_id)
-VALUES ('This place Rocks!', '01/01/3000', 1, 1);
+VALUES ('This place Rocks!', '01/01/3000', 1, 2);
 
 INSERT INTO supplier_comments (comment, created, store_id, supplier_id)
-VALUES ('Unhappy Comment :(', '01/01/1901', 2, 1);
+VALUES ('Unhappy Comment :(', '01/01/1901', 2, 2);
