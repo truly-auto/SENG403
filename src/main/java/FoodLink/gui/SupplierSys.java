@@ -482,9 +482,9 @@ private final JScrollPane scrollPane_2 = new JScrollPane();private JTable table_
 				//if(selectedRow!=null){
 					//get that supermarket list
 					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow));
-					//invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
-					//invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
-					//invoiceWindow.setVisible(true);
+					invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
+					invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
+					invoiceWindow.setVisible(true);
 				//}
 				}
 				catch(Exception e){

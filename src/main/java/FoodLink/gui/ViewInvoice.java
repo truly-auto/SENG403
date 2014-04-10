@@ -1,93 +1,81 @@
 package FoodLink.gui;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JScrollPane;
-import java.awt.GridBagConstraints;
-import javax.swing.JTable;
 import javax.swing.JButton;
-import java.awt.Insets;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import FoodLink.database;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import javax.swing.table.DefaultTableModel;
 
-public class ViewInvoice {
-
-	private JFrame frame;
+public class ViewInvoice extends JDialog {
 	private JTable table;
-	private database connect = new database();
-
-	
+	private database connect = new database ();
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					//change invoice number
-					ViewInvoice window = new ViewInvoice(1);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			ViewInvoice dialog = new ViewInvoice(1);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Create the application.
+	 * Create the dialog.
 	 */
 	public ViewInvoice(int invoiceNumber) {
-		initialize(invoiceNumber);
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize(int invoiceNumber) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 0;
-		frame.getContentPane().add(scrollPane, gbc_scrollPane);
-		
-		Object[][] orderList = connect.getOrderInformation(invoiceNumber);
-		final String[] columnTitle= new String[]{"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
+		getContentPane().setLayout(gridBagLayout);
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+			gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+			gbc_scrollPane.fill = GridBagConstraints.BOTH;
+			gbc_scrollPane.gridx = 0;
+			gbc_scrollPane.gridy = 0;
+			getContentPane().add(scrollPane, gbc_scrollPane);
+			{
+				final String[] columnTitle = new String[] { "Item Number", "Name", "Item Type",
+						"Quantity", "Unit Price ($)", "Unit", "Total" };
+				Object[][] orderList = connect.getOrderInformation(invoiceNumber);
 
-
-		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnTitle){
-			boolean[] columnEditables = new boolean[] {
-					false, false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			};;
-		
-		table = new JTable(orderModel);
-		scrollPane.setColumnHeaderView(table);
-		
-		JButton btnPrintInvoice = new JButton("Print Invoice");
-		GridBagConstraints gbc_btnPrintInvoice = new GridBagConstraints();
-		gbc_btnPrintInvoice.gridx = 0;
-		gbc_btnPrintInvoice.gridy = 1;
-		frame.getContentPane().add(btnPrintInvoice, gbc_btnPrintInvoice);
-		
-		
+				DefaultTableModel orderModel = new DefaultTableModel(orderList, columnTitle){
+					boolean[] columnEditables = new boolean[] {
+							false, false, false, false
+						};
+						public boolean isCellEditable(int row, int column) {
+							return columnEditables[column];
+						}
+					};;
+				table = new JTable(orderModel);
+				scrollPane.setColumnHeaderView(table);
+			}
+		}
+		{
+			JButton btnPrintInvoice = new JButton("Print Invoice");
+			GridBagConstraints gbc_btnPrintInvoice = new GridBagConstraints();
+			gbc_btnPrintInvoice.gridx = 0;
+			gbc_btnPrintInvoice.gridy = 1;
+			getContentPane().add(btnPrintInvoice, gbc_btnPrintInvoice);
+		}
 	}
 
 }
