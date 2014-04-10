@@ -753,10 +753,18 @@ public class SupermarketSys {
 		GradientButton btnComment = new GradientButton("Send Comment");
 		GridBagConstraints gbc_btnComment = new GridBagConstraints();
 		gbc_btnComment.anchor = GridBagConstraints.WEST;
-		gbc_btnComment.insets = new Insets(0, 0, 0, 0);
-		gbc_btnComment.gridx = 0;
-		gbc_btnComment.gridy = 6;
+		gbc_btnComment.insets = new Insets(5, 5, 5, 5);
+		gbc_btnComment.gridx = 1;
+		gbc_btnComment.gridy = 7;
 		supermarketTab.add(btnComment, gbc_btnComment);
+		
+		GradientButton btnViewComment = new GradientButton("View Comment");
+		GridBagConstraints gbc_btnViewComment = new GridBagConstraints();
+		gbc_btnViewComment.anchor = GridBagConstraints.WEST;
+		gbc_btnViewComment.insets = new Insets(5, 5, 5, 5);
+		gbc_btnViewComment.gridx = 2;
+		gbc_btnViewComment.gridy = 7;
+		supermarketTab.add(btnViewComment, gbc_btnViewComment);
 		
 		btnComment.addActionListener(new ActionListener() {
 			
