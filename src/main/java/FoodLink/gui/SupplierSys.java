@@ -379,8 +379,7 @@ public class SupplierSys {
 		gbc_btnNewButton_3.gridy = 0;
 		inventoryTab.add(btnNewButton_3, gbc_btnNewButton_3);
 
-		GradientButton btnSaveChanges = new GradientButton(
-				"Save Changes on Selected Row");
+		GradientButton btnSaveChanges = new GradientButton("Save Changes on Selected Row");
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedRow != null) {
@@ -497,40 +496,38 @@ public class SupplierSys {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-<<<<<<< HEAD
+
 				try{
 				//if(selectedRow!=null){
 					//get that supermarket list
 					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow));
-<<<<<<< HEAD
+
 					//invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
 					//invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
 					//invoiceWindow.setVisible(true);
-=======
+
 					invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
 					invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
 					invoiceWindow.setVisible(true);
->>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
+
 				//}
 				}
 				catch(Exception e){
-=======
+
 				try {
 					// if(selectedRow!=null){
 					// get that supermarket list
-					ViewInvoice invoiceWindow = new ViewInvoice(Integer
-							.parseInt(selectedRow));
+					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow));
 					// invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
 					// invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
 					// invoiceWindow.setVisible(true);
 					// }
-				} catch (Exception e) {
->>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+				} catch (Exception e1) {
 					//
 				}
 
 			}
-		});
+		}});
 
 	}
 
