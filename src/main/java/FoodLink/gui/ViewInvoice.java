@@ -1,9 +1,11 @@
 package FoodLink.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -29,6 +31,8 @@ import javax.swing.border.MatteBorder;
 import FoodLink.database;
 
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewInvoice extends JFrame {
 
@@ -48,10 +52,11 @@ public class ViewInvoice extends JFrame {
 	/**
 	 * Create the frame.
 	 * 
-	 * @param grandTotal
+	 * @param grandTotal1
 	 */
 	public ViewInvoice(int invoiceNum, String supermarketName, String dateTime,
-			String status, double grandTotal) {
+			String status, String grandTotal1, final int selectedRow,
+			final JTable orderItem) {
 
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
@@ -152,6 +157,30 @@ public class ViewInvoice extends JFrame {
 		contentPane.add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
 
+		JButton btnNewButton = new JButton("Shipped Order");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Object frame = null;
+				int n = JOptionPane.showConfirmDialog((Component) frame,
+						"Are you sure you want to mark this order as SHIPPED?",
+						"Shipped Order", JOptionPane.YES_NO_OPTION);
+
+				if (n == 0) {
+					System.out.println("MARK ORDER AS SHIPPED");
+					System.out.println("selectedRow: " + selectedRow);
+					orderItem.setValueAt("Shipped", selectedRow, 4);
+					textField_4.setText("Shipped");
+				}
+
+			}
+		});
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.gridx = 10;
+		gbc_btnNewButton.gridy = 1;
+		contentPane.add(btnNewButton, gbc_btnNewButton);
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 11;
@@ -191,7 +220,7 @@ public class ViewInvoice extends JFrame {
 
 		textField_2 = new JTextField();
 		textField_2.setEditable(false);
-		textField_2.setText(Double.toString(grandTotal));
+		textField_2.setText(grandTotal1);
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
@@ -199,12 +228,6 @@ public class ViewInvoice extends JFrame {
 		gbc_textField_2.gridy = 14;
 		contentPane.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
-
-		JButton btnNewButton = new JButton("Complete Order");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridx = 10;
-		gbc_btnNewButton.gridy = 15;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
 
 	}
 
