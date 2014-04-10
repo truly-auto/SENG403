@@ -751,7 +751,7 @@ public class database {
 		System.out.println(item[2]);
 		System.out.println(item[3]);
 		System.out.println(item[4]);
-		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = '"+ item[3]+ "' + unit = '" +item[4]+"' "
+		String command = "UPDATE items SET name = '" + item[0]+"', item_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = "+ Integer.parseInt(item[3])+ ", unit = '" +item[4]+"' "
 				+ "WHERE item_number="+  itemNum;
 		try {
 		     statement.execute(command);

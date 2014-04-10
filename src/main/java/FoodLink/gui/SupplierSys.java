@@ -380,7 +380,7 @@ public class SupplierSys {
 				if (selectedRow!=null){
 					System.out.println("About to save changes to this row " + selectedRow);
 					System.out.println("Is this the anser?? " + inventoryTable.getValueAt(row, 1));
-					String [] item={(String) inventoryTable.getValueAt(row, 1),(String) inventoryTable.getValueAt(row, 2), (String) inventoryTable.getValueAt(row, 3), (String) inventoryTable.getValueAt(row, 4)};
+					String [] item={(String) inventoryTable.getValueAt(row, 1),(String) inventoryTable.getValueAt(row, 2), (String) inventoryTable.getValueAt(row, 3), (String) inventoryTable.getValueAt(row, 4),(String) inventoryTable.getValueAt(row, 5)};
 	
 					
 					if(item!=null)	
