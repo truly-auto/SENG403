@@ -29,7 +29,7 @@ public class DatabaseTestHelper {
 		}
 
 	}
-	
+
 	/**
 	 * Method to nuke the database completely. Use before tests
 	 */
@@ -57,7 +57,7 @@ public class DatabaseTestHelper {
 			System.exit(0);
 		}
 	}
-	
+
 	public int insertAndReturnID(String command, String idColumn) {
 
 		ResultSet rs;
@@ -65,7 +65,7 @@ public class DatabaseTestHelper {
 		idColumn = idColumn.toUpperCase();
 
 		try {
-			PreparedStatement pstmt = conn.prepareStatement( command, new String[] {idColumn}); 
+			PreparedStatement pstmt = conn.prepareStatement(command, new String[] {idColumn}); 
 
 			pstmt.executeUpdate();
 
@@ -82,13 +82,13 @@ public class DatabaseTestHelper {
 
 		return id;
 	}
-	
+
 	public static void main(String[] args) {
 		DatabaseTestHelper db = new DatabaseTestHelper();
 		db.clearDatabase();
 		String command = "INSERT INTO SUPERMARKET (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL) VALUES "
 				+ "('Jane Tops','403-989-3214','1 14 ST NW.','Calgary','www.yellowpages.com/janetops')";
 		System.out.println(db.insertAndReturnID(command, "store_id"));
-		
+
 	}
 }

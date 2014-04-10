@@ -7,15 +7,12 @@ import org.junit.Test;
 
 public class databaseTest extends DatabaseTestHelper {
 	
-	/* TODO A big todo for the database tests is to have the database be empty when generated and
-	 * add all entries for testing in the relevant tests
-	 */
-	
 	database data;
 	
 	@Before
 	public void setup() {
 		data = new database();
+		//Clear the database, YAY!!
 		this.clearDatabase();
 	}
 	
@@ -73,8 +70,17 @@ public class databaseTest extends DatabaseTestHelper {
 	
 	@Test
 	public void testModifySupermarketItem() {
-		String[] item = {"edit", "edit", "1", "0", "0", "edit"};
-		data.modifySupermarketItem(item, 1);
+		
+		String command = "INSERT INTO SUPPLIER (NAME, PHONENUMBER, ADDRESS, CITY, EMAIL) VALUES "
+				+ "('ACE Bakery','1-800-443-7929','1 Hafis Rd.','Toronto','www.acebakery.com')";
+		int newID = this.insertAndReturnID(command, "supplier_id");
+		
+		command = "INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY,UNIT_PRICE, UNIT) VALUES " 
+				+ "('Beets','Vegetable'," + String.valueOf(newID) + ", 1050, 10, '20LBS')";
+		int itemID = this.insertAndReturnID(command, "item_number");
+		
+		String[] item = {"edit", "edit", String.valueOf(newID), "0", "0", "edit"};
+		data.modifySupermarketItem(item, itemID);
 		
 		//if we get here then everything is fine
 		assertTrue(true);
