@@ -443,6 +443,10 @@ public class SupplierSys {
 		mainTabbedPane.addTab("Account", null, accountTab, null);
 
 		/* Invoice tab */
+		
+		final Object[][] orderList = connect.getOrderListSupplier(supplier_id);
+		
+
 		JPanel jpInvoices = new JPanel();
 		mainTabbedPane.addTab("Invoices", null, jpInvoices, null);
 		GridBagLayout gbl_jpInvoices = new GridBagLayout();
@@ -473,15 +477,16 @@ public class SupplierSys {
 				System.out.println("The invoice number passed is: "
 						+ invoiceNum);
 
-				String supermarketName = (String) orderStatusTable.getValueAt(
-						row, 1);
+				String supermarketName = (String) orderStatusTable.getValueAt(row, 1);
 				String dateTime = (String) orderStatusTable.getValueAt(row, 3);
 				String grandTotal1 = (String) orderStatusTable.getValueAt(row,
 						2);
 				String status = (String) orderStatusTable.getValueAt(row, 4);
 
+				String store_id = (String)orderList[orderStatusTable.getSelectedRow()][5];
+				
 				ViewInvoice viewInvoice = new ViewInvoice(invoiceNum,
-						supermarketName, dateTime, status, grandTotal1, row,
+						supermarketName, store_id,supplier_id,dateTime, status, grandTotal1, row,
 						orderStatusTable);
 				viewInvoice.setVisible(true);
 			}
@@ -496,9 +501,9 @@ public class SupplierSys {
 		gbc_btnNewButton_4.gridy = 0;
 		jpInvoices.add(btnViewInvoice, gbc_btnNewButton_4);
 
-		Object[][] orderList = connect.getOrderListSupplier(supplier_id);
+		
 		final String[] columnTitle = new String[] { "Invoice Number",
-				"Supermarket", "Total Cost($)", "Date/Time Created", "Status" };
+				"Supermarket", "Total Cost($)", "Date/Time Created", "Status"};
 
 		DefaultTableModel orderModel = new DefaultTableModel(orderList,
 				columnTitle) {
