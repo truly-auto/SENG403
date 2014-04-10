@@ -30,7 +30,7 @@ import FoodLink.database;
 
 import java.awt.Font;
 
-public class ViewInvoice extends JFrame {
+public class ReviewOrderPage extends JFrame {
 
 	private JPanel contentPane;
 	private JTable reviewOrderTable;
@@ -49,7 +49,7 @@ public class ViewInvoice extends JFrame {
 	 * Create the frame.
 	 * @param grandTotal 
 	 */
-	public ViewInvoice(int invoiceNum, String supplierName, String dateTime, String status, double grandTotal) {
+	public ReviewOrderPage(int invoiceNum, String supplierName, String dateTime, String status, double grandTotal) {
 		
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
@@ -160,7 +160,7 @@ public class ViewInvoice extends JFrame {
 		reviewOrderTable.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
 		
 		//populate the table
-		Object [] [] orderItemsList = connect.getOrderInformation(invoiceNum);
+		Object [] [] orderItemsList = connect.getOrderItems(invoiceNum);
 		
 		reviewOrderTable.setModel(new DefaultTableModel(
 			orderItemsList,
@@ -206,7 +206,3 @@ public class ViewInvoice extends JFrame {
 	}
 
 }
-
-	//		Object[][] orderList = connect.getOrderInformation(invoiceNumber);
-//	final String[] columnTitle= new String[]{"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
-

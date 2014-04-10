@@ -491,7 +491,7 @@ public class SupplierSys {
 		gbc_btnNewButton_4.gridx = 0;
 		gbc_btnNewButton_4.gridy = 0;
 		jpInvoices.add(btnNewButton_4, gbc_btnNewButton_4);
-
+/*
 		btnNewButton_4.addActionListener(new ActionListener() {
 
 			@Override
@@ -513,21 +513,10 @@ public class SupplierSys {
 				//}
 				}
 				catch(Exception e){
-
-				try {
-					// if(selectedRow!=null){
-					// get that supermarket list
-					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow));
-					// invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
-					// invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
-					// invoiceWindow.setVisible(true);
-					// }
-				} catch (Exception e1) {
-					//
 				}
 
 			}
-		}});
+		});*/
 
 	}
 
