@@ -403,7 +403,8 @@ public class SupermarketSys {
 										// ensures that only when updates to quantity
 										// warrant a change to order
 										if (e.getColumn() == 3) {
-											if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1) {
+											if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1) 
+											{
 												JOptionPane
 														.showMessageDialog(
 																frame,
