@@ -93,7 +93,7 @@ public class ViewInvoice extends JFrame {
 
 		textField = new JTextField();
 		textField.setEditable(false);
-		textField.setText(supplierName);
+		textField.setText(supermarketName);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 7;
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
@@ -238,8 +238,7 @@ public class ViewInvoice extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-						File file = new File("invoice_"
-								+ jcbSupermarkets.getSelectedItem() + ".xls");
+						File file = new File("invoice_"	+ supermarketName + ".xls");
 						TableModel model = jtInvoice.getModel();
 						FileWriter out = new FileWriter(file);
 						SimpleDateFormat sdf = new SimpleDateFormat(
