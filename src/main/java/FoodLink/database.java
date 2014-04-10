@@ -878,7 +878,7 @@ public class database {
 		
 	}
 	
-	public void addToOrderHistory(String supplierName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
+	public void addToOrderHistory(String supplierName, String supermarketName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
 		java.util.Date date= new java.util.Date();
 		
 		//printed time may vary from the table time by a few milliseconds 
@@ -887,7 +887,7 @@ public class database {
 		
 		String current_timestamp = "" +  new Timestamp(date.getTime());
 		String command = "INSERT INTO order_history (supplier, supermarket, total_cost, date_time_created, status, store_id, supplier_id) VALUES "
-				+ "(" + "'" + supplierName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id  + ")";
+				+ "(" + "'" + supplierName + "," + supermarketName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id  + ")";
 		
 
 		try {
@@ -1054,7 +1054,6 @@ public class database {
 		return orderList;
 
 	}
-	
 	
 }
 
