@@ -103,7 +103,7 @@ public class database {
 	
 	public void addComment(String comment, int store_id, int supplier_id){
 		String command = "INSERT INTO supplier_comments (comment, store_id, supplier_id) VALUES "
-				+ "("+comment+ "," + store_id +"," + supplier_id +")";
+				+ "('"+comment+ "'," + store_id +"," + supplier_id +")";
 		
 		try{
 			statement.execute(command);

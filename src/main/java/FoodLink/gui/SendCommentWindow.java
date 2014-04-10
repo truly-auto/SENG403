@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,9 +25,9 @@ public class SendCommentWindow extends JDialog implements ActionListener{
 	private Boolean choice = false;
 	private String comment;
 	
-	private JLabel jlName;
+	private JLabel jlLabel;
 	
-	private JTextField jtfName;
+	//private JTextField jtfName;
 	private JTextArea jtaComments;
 	private JButton jbSend;
 	private JButton jbCancel;
@@ -38,8 +41,8 @@ public class SendCommentWindow extends JDialog implements ActionListener{
 		initializeComponents();
 		
 		JPanel jpNorth = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		jpNorth.add(jlName);
-		jpNorth.add(jtfName);
+		jpNorth.add(jlLabel);
+
 		
 		JPanel jpSouth = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		jpSouth.add(jbSend);
@@ -55,8 +58,8 @@ public class SendCommentWindow extends JDialog implements ActionListener{
 		choice = false;
 		comment = null;
 		
-		jlName = new JLabel("Your name: ");
-		jtfName = new JTextField(20);
+		jlLabel = new JLabel("Enter comments: ");
+		
 		
 		jtaComments = new JTextArea();
 		
@@ -70,9 +73,11 @@ public class SendCommentWindow extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equalsIgnoreCase("send")){
-			if(!jtfName.getText().trim().isEmpty() && !jtaComments.getText().trim().isEmpty()){		
+			if(!jtaComments.getText().trim().isEmpty()){		
 				
-				comment = jtfName.getText() + "\n\n" + jtaComments.getText();
+				SimpleDateFormat sdf = new SimpleDateFormat("[MMM dd, yyyy]", Locale.ENGLISH);
+				
+				comment = jtaComments.getText() + "   " + sdf.format(Calendar.getInstance().getTime());;
 				
 				JOptionPane.showMessageDialog(this, "Comment sent");
 				choice = true;

@@ -779,6 +779,15 @@ public class SupermarketSys {
 		gbc_btnViewComment.gridx = 2;
 		gbc_btnViewComment.gridy = 7;
 		supermarketTab.add(btnViewComment, gbc_btnViewComment);
+		btnViewComment.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainTabbedPane.setSelectedIndex(mainTabbedPane.indexOfTab("Supplier Comments"));
+				
+			}
+		});
+		
 		
 		btnComment.addActionListener(new ActionListener() {
 			
@@ -791,7 +800,10 @@ public class SupermarketSys {
 				commentWindow.setVisible(true);
 				
 				if(commentWindow.valid()){
-					connect.addComment(commentWindow.getComment(), comboBox.getSelectedIndex(), supermarket_id);
+					System.out.println("COMMENT:" + commentWindow.getComment());
+					System.out.println("TO: " + supplierSelector.getSelectedItem() + " (" + (supplierSelector.getSelectedIndex()+1) +")");
+					System.out.println("FROM: " + supermarket_id);
+					connect.addComment(commentWindow.getComment(),supermarket_id, supplierSelector.getSelectedIndex()+1);
 				}
 				
 			}
