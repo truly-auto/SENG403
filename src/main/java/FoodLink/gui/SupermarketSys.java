@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -145,10 +146,10 @@ public class SupermarketSys {
 		Color grey = new Color(153, 153, 153);
 		Color green = new Color(182, 215, 168);
 		frame.getContentPane().setBackground(green);
+		frame.setLocation(100, 100);
+		frame.setSize(new Dimension(1000,600));
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH); //MT: Sets frame to open to maximized
-		//frame.setBounds(100, 100, 640, 420);
-		//Dimension d = new Dimension(1000,700);
-		//frame.setSize(d);
+		
 		BufferedImage Logo = null;
 		JPanel banner = new JPanel();
 		try 

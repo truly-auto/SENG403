@@ -117,10 +117,10 @@ public class SupplierSys {
 		supplier = connect.getSpecSupplier(supplier_id);
 		System.out.println("this is .." + supplier_id);
 		frame = new JFrame();
-		LookAndFeel lookAndFeel = new LookAndFeel(frame);		
+		LookAndFeel lookAndFeel = new LookAndFeel(frame);	
 		frame.setTitle("FoodLink");		
-		//frame.setBounds(100, 100, 640, 420);
-		//frame.setSize(new Dimension(1000,1000));
+		frame.setLocation(100, 100);
+		frame.setSize(new Dimension(1000,600));
 	    frame.setExtendedState(Frame.MAXIMIZED_BOTH); //MT: Sets frame to open to maximized 
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
