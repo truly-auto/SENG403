@@ -926,7 +926,7 @@ public class database {
 		
 	}
 	
-	public void addToOrderHistory(String supplierName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
+	public void addToOrderHistory(String supplierName, String supermarketName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
 		java.util.Date date= new java.util.Date();
 		
 		//printed time may vary from the table time by a few milliseconds 
@@ -934,8 +934,8 @@ public class database {
 		
 		
 		String current_timestamp = "" +  new Timestamp(date.getTime());
-		String command = "INSERT INTO order_history (supplier, total_cost, date_time_created, status, store_id, supplier_id) VALUES "
-				+ "(" + "'" + supplierName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id + ")";
+		String command = "INSERT INTO order_history (supplier, supermarket, total_cost, date_time_created, status, store_id, supplier_id) VALUES "
+				+ "(" + "'" + supplierName + "," + supermarketName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id  + ")";
 		
 
 		try {
@@ -1102,7 +1102,26 @@ public class database {
 		return orderList;
 
 	}
-	
+	public String getStoreName(int id) { 
+		String command = "select name from supermarket where store_id = " + id; 
+		String name = null; 
+		try { 
+			statement.execute(command); 
+			ResultSet rs = statement.getResultSet(); 
+			while(rs.next()) { 
+				name = rs.getString("name"); 
+				//Display values System.out.print(" Supermarket name: " + name); 
+			}
+		} 
+			catch (SQLException e) { 
+				e.fillInStackTrace(); 
+				System.out.println("Error executing: " + command); 
+				System.out.println(e); 
+			} return name; 
+				
+			
+		
+	}
 	
 }
 

@@ -1,8 +1,10 @@
 package FoodLink.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog.ModalityType;
+import java.awt.Color;
 import java.awt.Component;
-import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -106,7 +108,7 @@ public class ViewInvoice extends JFrame {
 
 		textField = new JTextField();
 		textField.setEditable(false);
-		textField.setText(supplierName);
+		textField.setText(supermarketName);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 7;
 		gbc_textField.insets = new Insets(0, 0, 5, 5);

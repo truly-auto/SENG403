@@ -578,7 +578,7 @@ public class SupermarketSys {
 				gbc_submitNewOrderButton.gridx = 16;
 				gbc_submitNewOrderButton.gridy = 11;
 				newOrder.add(submitNewOrderButton, gbc_submitNewOrderButton);
-
+				
 				submitNewOrderButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
@@ -597,7 +597,8 @@ public class SupermarketSys {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
 							// add the new order in the database
-							connect.addToOrderHistory(supplierName, grandTotal,
+							String supermarketName = connect.getStoreName(supermarket_id);
+							connect.addToOrderHistory(supplierName, supermarketName, grandTotal,
 									"Submitted", supermarket_id, supplier_id);
 							int lastIndex = connect
 									.getLastElementInOrderHistory();
