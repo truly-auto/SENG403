@@ -1059,14 +1059,7 @@ public class database {
 		String command = "UPDATE order_history SET status = " + "'" + status + "'" + "WHERE invoice_number = " + invoice_number;
 		
 		try {
-		     statement.execute(command);
-//		     ResultSet rs = statement.getResultSet();
-//		     
-//		     while(rs.next())
-//		     	{
-//			         System.out.println("Changing status to COMPLETE of Invoice Number " + invoice_number);
-//			     }
-		    
+		     statement.execute(command);	    
 		     
 			}
 		catch (SQLException e) {
@@ -1076,6 +1069,32 @@ public class database {
 		
 		
 		}
+	}
+	
+	public String getStoreName(int id)
+	{
+		String command = "select name from supermarket where store_id = " + id;
+		String name = null;
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     
+		     while(rs.next())
+		     	{
+			         name = rs.getString("name");
+			         //Display values
+			         System.out.print(" Supermarket name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		
+		
+		}
+		return name;
+
 	}
 	
 }
