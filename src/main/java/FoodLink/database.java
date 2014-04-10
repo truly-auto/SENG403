@@ -971,7 +971,7 @@ public class database {
 	//Get the list of comments for a supplier
 	public Object[][] getSuplierComments (int supplier_id)
 	{
-		String command = "select id, comment, market.name from supplier_comments join supermarket as market on supplier_comments.store_id = market.store_id where supplier_id = " + supplier_id;
+		String command = "select id, comment, market.name from supplier_comments join supermarket as market on supplier_comments.store_id = market.store_id where supplier_id = " + supplier_id + "order by id desc";
 		ArrayList<ArrayList<String>> comments = new ArrayList<ArrayList<String>>();
 		try {
 			statement.execute(command);

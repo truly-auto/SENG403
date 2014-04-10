@@ -74,12 +74,14 @@ public class SupermarketSys {
 	private JComboBox<String> supplierSelector;
 	DefaultListModel<String> orderListModel;
 	private Object[][] itemsList;
+	private Object[][] commentsList;
 	private String supplierName;
 
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
 			"Quantity", "Unit Price ($)", "Unit", "Total" };
 
 	DefaultTableModel itemsListModel;
+	DefaultTableModel commentsListModel;
 
 	private database connect = new database();
 	DefaultListModel<String> itemsListModel1;
@@ -102,6 +104,7 @@ public class SupermarketSys {
 	
 	private String selectedRow= null;
 	private int row;
+	private JTable commentsTable;
 	
 	
 	
@@ -859,6 +862,67 @@ public class SupermarketSys {
 				});	
 		
 		}
+		
+		JPanel supplierCommentsTab = new JPanel();
+		mainTabbedPane.addTab("Supplier Comments", null, supplierCommentsTab, null);
+		GridBagLayout gbl_supplierCommentsTab = new GridBagLayout();
+		gbl_supplierCommentsTab.columnWidths = new int[] {803, 84, 0, 0};
+		gbl_supplierCommentsTab.rowHeights = new int[] {0, 0, 0, 0};
+		gbl_supplierCommentsTab.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_supplierCommentsTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		supplierCommentsTab.setLayout(gbl_supplierCommentsTab);
+		
+		final String[] commentsTableColumnNames = {"Name", "Comment"};
+		supplierNames = connect.getSupplierNames();
+		
+		final JComboBox<String> supplierDropdown = new JComboBox();
+		supplierDropdown.setModel(new DefaultComboBoxModel(supplierNames));
+		supplierDropdown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("SUPPLIER INDEX: " + (supplierDropdown.getSelectedIndex() + 1));
+				 commentsList = connect.getSuplierComments(supplierDropdown.getSelectedIndex()+1);
+				 commentsListModel = new DefaultTableModel(commentsList, commentsTableColumnNames){
+						Class[] columnTypes = new Class[] {
+								String.class, String.class
+							};
+							public Class getColumnClass(int columnIndex) {
+								return columnTypes[columnIndex];
+							}
+							boolean[] columnEditables = new boolean[] {
+								false, false
+							};
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						};
+					commentsTable.setModel(commentsListModel);
+			}
+		});
+		GridBagConstraints gbc_supplierDropdown = new GridBagConstraints();
+		gbc_supplierDropdown.insets = new Insets(0, 0, 5, 5);
+		gbc_supplierDropdown.fill = GridBagConstraints.HORIZONTAL;
+		gbc_supplierDropdown.gridx = 0;
+		gbc_supplierDropdown.gridy = 0;
+		supplierCommentsTab.add(supplierDropdown, gbc_supplierDropdown);
+		
+		JButton btnNewButton_5 = new JButton("New button");
+		GridBagConstraints gbc_btnNewButton_5 = new GridBagConstraints();
+		gbc_btnNewButton_5.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton_5.gridx = 1;
+		gbc_btnNewButton_5.gridy = 0;
+		supplierCommentsTab.add(btnNewButton_5, gbc_btnNewButton_5);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
+		gbc_scrollPane_3.gridwidth = 4;
+		gbc_scrollPane_3.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_3.gridx = 0;
+		gbc_scrollPane_3.gridy = 1;
+		supplierCommentsTab.add(scrollPane_3, gbc_scrollPane_3);
+		
+		commentsTable = new JTable();
+		scrollPane_3.setViewportView(commentsTable);
 		// CODES FOR NEW ORDER PAGE
 
 	}
@@ -890,28 +954,29 @@ public class SupermarketSys {
 	}
 
 	protected void setTable(String[] users, int supermarket_id) {
-		//use this one when testing
-				//
-				final Object[][] userData = connect.getUser(supermarket_id, true);
-						
-				//use this one when building
-				//final Object [][] userData = {{"Josh", "true" },{"Tom", "false" },{"Jayceon", "true" },{"J-Mello", "false" } };
-						
-				userTable = new JTable(userData, users);
-				userTable.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent mevt) {
-						java.awt.Point point = mevt.getPoint();
-						row =userTable.rowAtPoint(point);
-						selectedUser=(String)userTable.getValueAt(row, 0);
-						System.out.println(selectedUser);
-						
-						
-					}
-				});
-				scrollPane_2.setViewportView(userTable);
-				
 		
+		//@Production <--Nice tag to search for when swapping this code before running code
+		//use this one when testing
+		final Object[][] userData = connect.getUser(supermarket_id, true);
+
+		//use this one when building
+		//final Object [][] userData = {{"Josh", "true" },{"Tom", "false" },{"Jayceon", "true" },{"J-Mello", "false" } };
+
+		userTable = new JTable(userData, users);
+		userTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mevt) {
+				java.awt.Point point = mevt.getPoint();
+				row =userTable.rowAtPoint(point);
+				selectedUser=(String)userTable.getValueAt(row, 0);
+				System.out.println(selectedUser);
+
+
+			}
+		});
+		scrollPane_2.setViewportView(userTable);
+
+
 	}
 
 	public JComboBox<String> getComboBox() {
