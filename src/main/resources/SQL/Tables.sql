@@ -341,7 +341,7 @@ VALUES ('Elevit','Vitamins',5, 550, 8, '20LBS');
 
 --adding some default users	
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
-VALUES ('John_Doe','password',1, 'true');	
+VALUES ('John_Doe','password',3, 'true');	
 
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('June_Doe','password',1, 'false');
