@@ -83,6 +83,7 @@ public class SupplierSys {
 	private final JScrollPane scrollPane_2 = new JScrollPane();
 	private JTable table_3;
 	private JTable orderStatusTable;
+	private GradientButton btnViewInvoice = new GradientButton("View Order");
 
 	/**
 	 * Launch the application.
@@ -463,7 +464,6 @@ public class SupplierSys {
 		gbc_scrollPane_3.gridy = 1;
 		jpInvoices.add(scrollPane_3, gbc_scrollPane_3);
 
-		final GradientButton btnViewInvoice = new GradientButton("View Order");
 		btnViewInvoice.setEnabled(false);
 		btnViewInvoice.addMouseListener(new MouseAdapter() {
 			@Override

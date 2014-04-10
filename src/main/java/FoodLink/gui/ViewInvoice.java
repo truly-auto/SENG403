@@ -269,7 +269,7 @@ public class ViewInvoice extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-						File file = new File("invoice_"+ marketName + invoiceNum + ".xls");
+						File file = new File("invoice_" + invoiceNum + ".xls");
 						TableModel model = reviewOrderTable.getModel();
 						FileWriter out = new FileWriter(file);
 						SimpleDateFormat sdf = new SimpleDateFormat(
