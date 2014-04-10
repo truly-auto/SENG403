@@ -15,8 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 public class SendCommentWindow extends JDialog implements ActionListener{
 
 	private static final long serialVersionUID = -605941051526158691L;

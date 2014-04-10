@@ -40,14 +40,8 @@ import FoodLink.database;
 
 import java.awt.Font;
 
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-import java.awt.Choice;
-
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -63,11 +57,6 @@ import java.util.ArrayList;
 import javax.swing.JToolBar;
 
 import java.awt.Button;
-import java.awt.Panel;
-
-import javax.swing.JSplitPane;
-
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class SupplierSys {
 
