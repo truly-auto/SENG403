@@ -1,8 +1,10 @@
 package FoodLink.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog.ModalityType;
+import java.awt.Color;
 import java.awt.Component;
-import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -37,6 +39,10 @@ import FoodLink.database;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class ViewInvoice extends JFrame {
 
@@ -58,7 +64,7 @@ public class ViewInvoice extends JFrame {
 	 * 
 	 * @param grandTotal1
 	 */
-	public ViewInvoice(int invoiceNum, String supermarketName, String dateTime,
+	public ViewInvoice(int invoiceNum, final String supermarketName, String dateTime,
 			String status, String grandTotal1, final int selectedRow,
 			final JTable orderItem) {
 
@@ -233,13 +239,13 @@ public class ViewInvoice extends JFrame {
 		contentPane.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
 
-		GradientButton jbPrint = new GradientButton("Save invoice and Open");
-		jbPrint.addActionListener(new ActionListener() {
+		GradientButton jbPrint = new GradientButton("Save and open invoice");
+		/*jbPrint.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 						File file = new File("invoice_"	+ supermarketName + ".xls");
-						TableModel model = jtInvoice.getModel();
+						TableModel model = orderItem.getModel();
 						FileWriter out = new FileWriter(file);
 						SimpleDateFormat sdf = new SimpleDateFormat(
 								"MMM. d, yyyy", java.util.Locale.ENGLISH);
@@ -290,11 +296,11 @@ public class ViewInvoice extends JFrame {
 							JOptionPane
 									.showMessageDialog(frame,
 											"Operating System not supported for printing");
-						}
+						}*/
 						/* THE FOLLOWING LINE PRINTS OFF THE TABLE DIRECTLY */
 						// jtInvoice.print(JTable.PrintMode.NORMAL);
 
-					} else {
+				/*	} else {
 						JOptionPane.showMessageDialog(frame,
 								"Please select an invoice to print");
 					}
@@ -305,12 +311,12 @@ public class ViewInvoice extends JFrame {
 			}
 		});
 
-		JScrollPane jspInvoice = new JScrollPane(jtInvoice);
+		JScrollPane jspInvoice = new JScrollPane(orderItem);
 		jpInvoices.add(jcbSupermarkets, BorderLayout.NORTH);
 		jpInvoices.add(jspInvoice, BorderLayout.CENTER);
 		JPanel jpSouth = new JPanel(new FlowLayout());
 		jpSouth.add(jbPrint);
-		jpInvoices.add(jpSouth, BorderLayout.SOUTH);
+		jpInvoices.add(jpSouth, BorderLayout.SOUTH);*/
 
 	}
 
