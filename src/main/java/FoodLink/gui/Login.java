@@ -113,12 +113,18 @@ public class Login extends JFrame {
 		this.getContentPane().add(passwordField);
 		passwordField.setColumns(10);
 		
+		
 		// creating the label for invalid password
 		final JLabel lblInvalidPassword = new JLabel("Invalid password");
 		lblInvalidPassword.setBounds(233, 363, 110, 14);
 		this.getContentPane().add(lblInvalidPassword);
 		lblInvalidPassword.setVisible(false);
 		
+		//MT:Sets the order of focus when you press Tab
+		userField.setNextFocusableComponent(passwordField);
+		passwordField.setNextFocusableComponent(btnLogin);
+		btnLogin.setNextFocusableComponent(btnForgot);
+		btnForgot.setNextFocusableComponent(userField);
 		
 		//~~~~~~~~~~~~~~~~~~NO DIVISION~~~~~~~~~~~~~~~~~//
 		/*

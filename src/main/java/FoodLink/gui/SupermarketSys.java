@@ -283,7 +283,7 @@ public class SupermarketSys {
 				}
 			};;
 		table1 = new JTable(orderModel);
-
+		table1.getTableHeader().setReorderingAllowed(false);
 		
 		
 		scrollPane1.setViewportView(table1);
@@ -438,7 +438,7 @@ public class SupermarketSys {
 
 				table_4 = new JTable(new DefaultTableModel());
 
-
+				
 				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
 
 				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
@@ -452,6 +452,8 @@ public class SupermarketSys {
 
 				table_4 = new JTable(new DefaultTableModel());
 				table_4.setRowSelectionAllowed(false);
+				table_4.getTableHeader().setReorderingAllowed(false);
+
 				scrollPane_1.setViewportView(table_4);
 
 				JButton btnNewButton_4 = new JButton("Cancel Order");
@@ -633,6 +635,10 @@ public class SupermarketSys {
 				}
 			}
 		});
+		
+		table.getTableHeader().setReorderingAllowed(false);
+
+		
 		GridBagConstraints gbc_btnAutomatedOrdering = new GridBagConstraints();
 		gbc_btnAutomatedOrdering.anchor = GridBagConstraints.WEST;
 		gbc_btnAutomatedOrdering.insets = new Insets(0, 0, 5, 5);
@@ -720,6 +726,8 @@ public class SupermarketSys {
 							}
 						};
 				 inventoryTable.setModel(itemsListModel);
+				 inventoryTable.getTableHeader().setReorderingAllowed(false);
+
 			 }
 		};
 		supplierSelector.addActionListener(actionListener);
@@ -766,6 +774,8 @@ public class SupermarketSys {
 			}
 		});
 		scrollPane_1.setViewportView(inventoryTable);
+		inventoryTable.getTableHeader().setReorderingAllowed(false);
+
 
 		GradientButton btnComment = new GradientButton("Send Comment");
 		GridBagConstraints gbc_btnComment = new GridBagConstraints();
@@ -929,6 +939,8 @@ public class SupermarketSys {
 							}
 						};
 					commentsTable.setModel(commentsListModel);
+					commentsTable.getTableHeader().setReorderingAllowed(false);
+
 			}
 		});
 		GridBagConstraints gbc_supplierDropdown = new GridBagConstraints();
@@ -956,6 +968,8 @@ public class SupermarketSys {
 		
 		commentsTable = new JTable();
 		scrollPane_3.setViewportView(commentsTable);
+		commentsTable.getTableHeader().setReorderingAllowed(false);
+
 		// CODES FOR NEW ORDER PAGE
 
 	}
@@ -973,6 +987,7 @@ public class SupermarketSys {
 		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 		table = new JTable(data, columnNames);
+		table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {
@@ -996,6 +1011,7 @@ public class SupermarketSys {
 		//final Object [][] userData = {{"Josh", "true" },{"Tom", "false" },{"Jayceon", "true" },{"J-Mello", "false" } };
 
 		userTable = new JTable(userData, users);
+		userTable.getTableHeader().setReorderingAllowed(false);
 		userTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {

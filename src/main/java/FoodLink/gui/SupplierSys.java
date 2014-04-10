@@ -232,6 +232,8 @@ public class SupplierSys {
 		orderTab.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
+		table.getTableHeader().setReorderingAllowed(false);
+
 		scrollPane.setViewportView(table);
 		
 		JPanel inventoryTab = new JPanel();
@@ -267,6 +269,7 @@ public class SupplierSys {
 		inventoryTab.add(scrollPane_1, gbc_scrollPane_1);
 		
 		inventoryTable = new JTable(data, columnNames);
+		inventoryTable.getTableHeader().setReorderingAllowed(false);
 		inventoryTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {
@@ -291,6 +294,7 @@ public class SupplierSys {
 					Object [] [] data2 = connect.getInventory(supplier_id);
 					//creating new table with the new data from the database
 					inventoryTable = new JTable(data2, columnNames);
+					inventoryTable.getTableHeader().setReorderingAllowed(false);
 					//adding action listener on the new table 
 					inventoryTable.addMouseListener(new MouseAdapter() {
 						@Override
@@ -339,6 +343,7 @@ public class SupplierSys {
 					Object [] [] data2 = connect.getInventory(supplier_id);
 					//creating a new table with new information
 					inventoryTable = new JTable(data2, columnNames);
+					inventoryTable.getTableHeader().setReorderingAllowed(false);
 					//adding an action listener
 					inventoryTable.addMouseListener(new MouseAdapter() {
 						@Override
@@ -378,6 +383,7 @@ public class SupplierSys {
 						Object [] [] data2 = connect.getInventory(supplier_id);
 						//adding the information into a new table
 						inventoryTable = new JTable(data2, columnNames);
+						inventoryTable.getTableHeader().setReorderingAllowed(false);
 						//adding an action listener to the table
 						inventoryTable.addMouseListener(new MouseAdapter() {
 							@Override
@@ -438,6 +444,7 @@ public class SupplierSys {
 		//Object[][] commentData = connect.getSuplierComments(supplier_id);
 		
 		commentsTable = new JTable(commentData, commentColumnNames);
+		commentsTable.getTableHeader().setReorderingAllowed(false);
 		supermarketScroller.setViewportView(commentsTable);
 		
 		JPanel accountTab = new JPanel();
@@ -467,8 +474,8 @@ public class SupplierSys {
 		
 		final String[] title = new String[] {"Item ID", "Item", "quantity", "Price($)", "Total($)"};
 		final JTable jtInvoice = new JTable();
-
 		jtInvoice.getTableHeader().setReorderingAllowed(false);
+		
 		final JComboBox jcbSupermarkets = new JComboBox(new String[] {"supermarket1","supermarket2"});
 		jcbSupermarkets.setSelectedIndex(-1);
 
@@ -635,6 +642,7 @@ public class SupplierSys {
 		//final Object [][] userData = {{"Josh", "true" },{"Tom", "false" },{"Jayceon", "true" },{"J-Mello", "false" } };
 				
 		userTable = new JTable(userData, users);
+		userTable.getTableHeader().setReorderingAllowed(false);
 		userTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mevt) {
