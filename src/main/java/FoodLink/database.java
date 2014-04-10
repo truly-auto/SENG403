@@ -332,7 +332,7 @@ public class database {
 		catch (SQLException e) {
 		     e.fillInStackTrace();
 		     System.out.println("Error executing: " + command);
-		     System.out.println(e);;
+		     System.out.println(e);
 		
 		
 		}
@@ -928,9 +928,9 @@ public class database {
 		return itemsList.toArray(new Integer[itemsList.size()]);
 	}
 	
-	public void addOrderInformation(String name, String phone, String address, String city, String email ){
-		String command = "INSERT INTO supplier (name, phoneNumber, address, city, email) VALUES "
-				+ "("+name+","+ phone+ ","+address+","+ city+ "," + email+")";
+	public void addOrderInformation(int invoice_number, String name, String item_type, double quantity, double unit_price, String unit, double total, double grandTotal){
+		String command = "INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal) VALUES "
+				+ "("+ invoice_number + "," + "'" + name+ "'" + ","+ "'" + item_type + "'" + "," + quantity +","+ unit_price + "," + "'" + unit + "'" + "," + total + "," + grandTotal + ")";
 		
 
 		try {
@@ -942,11 +942,11 @@ public class database {
 		     System.out.println(e);
 		     System.exit(0);
 		    }
-		System.out.println("Add Succesful");
+		System.out.println("Add item informatio succesful");
 		
 	}
 	
-	public void addToOrderHistory(String supplierName, Double grandTotal, String orderStatus){
+	public void addToOrderHistory(String supplierName, String supermarketName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
 		java.util.Date date= new java.util.Date();
 		
 		//printed time may vary from the table time by a few milliseconds 
@@ -954,8 +954,8 @@ public class database {
 		
 		
 		String current_timestamp = "" +  new Timestamp(date.getTime());
-		String command = "INSERT INTO order_history (supplier, total_cost, date_time_created, status) VALUES "
-				+ "(" + "'" + supplierName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" +")";
+		String command = "INSERT INTO order_history (supplier, supermarket, total_cost, date_time_created, status, store_id, supplier_id) VALUES "
+				+ "(" + "'" + supplierName + "'" + "," +"'" + supermarketName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id + ")";
 		
 
 		try {
@@ -975,7 +975,7 @@ public class database {
 	{
 		String command = "SELECT MAX(INVOICE_NUMBER) FROM ORDER_HISTORY";
 		
-		int orderNum = -1;
+		int invoiceNum = -1;
 		
 		try {
 		     statement.execute(command);
@@ -983,7 +983,7 @@ public class database {
 		     
 		     while(rs.next())
 		     	{
-			         int invoiceNum = rs.getInt(1);
+			         invoiceNum = rs.getInt(1);
 			         System.out.println("The last INVOICE_NUMBER: " + invoiceNum);
 			     }
 		    
@@ -996,7 +996,7 @@ public class database {
 		
 		
 		}
-		return orderNum;
+		return invoiceNum;
 	}
 	
 	//Get the list of comments for a supplier
@@ -1058,6 +1058,116 @@ public class database {
 
 		}
 		return commentsList;
+	}
+	
+	//retrieve data for a specific invoice_number
+	public Object[][] getOrderItems(int invoice_number)
+	{
+		String command = "select name, item_type, quantity, unit_price, unit, total from order_items_list where invoice_number = " + invoice_number;
+		ArrayList<ArrayList<String>> orderItemsList = new ArrayList<ArrayList<String>>();
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     while(rs.next())
+		     	{
+		    	 	ArrayList <String> currOrder = new ArrayList <String> ();
+			       	//get item name
+			       	String name = rs.getString("name");
+			       	currOrder.add(name);
+			       	System.out.println("Supplier: " + name);
+			       	//get item type
+			       	String item_type = rs.getString("item_type");
+			       	currOrder.add(item_type);
+			       	System.out.println("Total cost: " + item_type);
+			       	//get quantity
+			       	String quantity = rs.getString("quantity");
+			       	currOrder.add(quantity);
+		        	System.out.println("Date/Time Created: " + quantity);
+		        	//get unit price
+			       	String unit_price = rs.getString("unit_price");
+			       	currOrder.add(unit_price);
+		        	System.out.println("Date/Time Created: " + unit_price);
+		        	//get unit price
+			       	String unit = rs.getString("unit");
+			       	currOrder.add(unit);
+		        	System.out.println("Date/Time Created: " + unit);
+		        	//get total
+			       	String total = rs.getString("total");
+			       	currOrder.add(total);
+		        	System.out.println("Date/Time Created: " + total);
+			       
+			        orderItemsList.add(currOrder);
+			     }
+			 rs.close();
+
+		    	 
+		    	 
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		}
+
+		for (int i = 0; i< orderItemsList.size(); i++){
+			System.out.println(orderItemsList.get(i));
+			
+		}
+		
+		Object [] [] orderList =  new Object [orderItemsList.size()] [];
+		
+		for (int i = 0; i< orderItemsList.size(); i++){
+			ArrayList <String> row =  orderItemsList.get(i);
+			orderList[i]= row.toArray(new String [row.size()]);
+			
+			
+		}
+		return orderList;
+
+	}
+	
+	public void updateOrderStatus(String status, int invoice_number)
+	{
+		String command = "UPDATE order_history SET status = " + "'" + status + "'" + "WHERE invoice_number = " + invoice_number;
+		
+		try {
+		     statement.execute(command);	    
+		     
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		
+		}
+	}
+	
+	public String getStoreName(int id)
+	{
+		String command = "select name from supermarket where store_id = " + id;
+		String name = null;
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     
+		     while(rs.next())
+		     	{
+			         name = rs.getString("name");
+			         //Display values
+			         System.out.print(" Supermarket name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		
+		
+		}
+		return name;
+
 	}
 	
 }

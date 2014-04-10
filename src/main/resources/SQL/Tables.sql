@@ -26,7 +26,7 @@ CREATE TABLE Supplier
 --Create Items table 
 CREATE TABLE items (
   item_number int NOT NULL generated always as identity,
-  name varchar(32),
+  name varchar(255),
   item_type varchar(32),
   supplier_id int,
   quantity int,
@@ -71,20 +71,23 @@ CREATE TABLE supplier_users (
 	
 --Create Order table
 CREATE TABLE order_history(
-	invoice_number int not null generated always as identity,
+	invoice_number int NOT NULL generated always as identity,
 	supplier varchar(255),
+	supermarket varchar(255),
 	total_cost decimal,
 	date_time_created varchar (255),
 	status varchar(32),
 	store_id int,
+	supplier_id int,
 	PRIMARY KEY (invoice_number),
-	FOREIGN KEY (store_id) references Supermarket(store_id)
+	FOREIGN KEY (store_id) references Supermarket(store_id),
+	FOREIGN KEY (supplier_id) references Supplier(supplier_id)
 	);
 	
 --Create Items table 
 CREATE TABLE order_items_list (
-  invoice_number int,
-  name varchar(32),
+  invoice_number int NOT NULL,
+  name varchar(255),
   item_type varchar(32),
   quantity int,
   unit_price decimal,
@@ -296,6 +299,46 @@ VALUES ('Mango Blitz','Donuts',3, 2000, 8, '20LBS');
 INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
 VALUES ('Donna Italiano','Donuts',3, 2000, 8, '20LBS');
 
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Unsalted Potato Chips','Potato Chips and Snack',4, 450, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Salted Potato Chips','Potato Chips and Snack',4, 500, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Rippled Potato Chips','Potato Chips and Snack',4, 400, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('BBQ Spiral Snacks in a Bag','Potato Chips and Snack',4, 600, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Garlic Onion Ring Snacks in a Bag','Potato Chips and Snack',4, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Garlic Onion Ring Snacks in a Bag','Potato Chips and Snack',5, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Decis','Insecticides',5, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Husar','Herbicides',5, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Twist','Fungicides',5, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Yasmin','Womens Healthcare',5, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Acclaim Polyol','Specialties',5, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Aleve','Analgesics',5, 550, 8, '20LBS');
+
+INSERT INTO ITEMS (NAME, ITEM_TYPE, SUPPLIER_ID, QUANTITY, UNIT_PRICE, UNIT)
+VALUES ('Elevit','Vitamins',5, 550, 8, '20LBS');
+
+
 --adding some default users	
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('John_Doe','password',1, 'true');	
@@ -309,7 +352,8 @@ VALUES ('Josh_Senior','password',2, 'true');
 INSERT INTO SUPPLIER_USERS (USERNAME, PASSWORD, SUPPLIER_ID, MANAGER)
 VALUES ('Josh_Doe','password',2, 'false');
 
---adding some store users
+--adding some store usersgood
+
 
 INSERT INTO STORE_USERS (USERNAME, PASSWORD, STORE_ID, MANAGER)
 VALUES ('Jane_Doe','password',1, 'true');	

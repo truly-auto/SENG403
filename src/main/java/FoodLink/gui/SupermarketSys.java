@@ -46,6 +46,7 @@ import FoodLink.Inventory;
 import FoodLink.Order;
 import FoodLink.database;
 
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TableModelEvent;
@@ -69,6 +70,7 @@ public class SupermarketSys {
 
 	public JFrame frame;
 
+	private JTable orderStatusTable;
 	private JTable table1;
 	private JTable table;
 	private JComboBox<String> comboBox;
@@ -78,6 +80,11 @@ public class SupermarketSys {
 	private Object[][] commentsList;
 	private String [] supermarket;
 	private String supplierName;
+	private int supplier_id;
+	private int numClick = 0;
+	private int rowSelected = -1;
+	private int prevRowSelected = -1;
+	public int isMarkComplete = 0;
 
 	private String[] itemsColumnNames = { "Item Number", "Name", "Item Type",
 			"Quantity", "Unit Price ($)", "Unit", "Total" };
@@ -88,7 +95,9 @@ public class SupermarketSys {
 	private database connect = new database();
 	DefaultListModel<String> itemsListModel1;
 	private JTable table_4;
+	private JTextField grandTotalField;
 	private JTextField textField;
+	private int tabNumber = 0;
 	private JTable inventoryTable;
 	
 	private double grandTotal = 0;
@@ -105,6 +114,7 @@ public class SupermarketSys {
 	
 	private String selectedRow= null;
 	private int row;
+	private JTable orderInformationTable;
 	private JTable commentsTable;
 	
 	
@@ -238,34 +248,61 @@ public class SupermarketSys {
 		JPanel orderTab = new JPanel();
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
-		gbl_orderTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_orderTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_orderTab.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_orderTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
+		gbl_orderTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, Double.MIN_VALUE };
 		gbl_orderTab.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0,
 				1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		orderTab.setLayout(gbl_orderTab);
 
-		String[] columnNameInvoice = { "Invoice Number", "Total Cost($)",
-				"Date/Time Created", "Status" };
-
-		Object[][] dataOrdering = {
-				{ "012345", "500.99", "03/10/2014", "Submitted" },
-				{ "123456", "567.33", "02/28/2014", "Shipped" },
-				{ "234567", "730.98", "02/16/2014", "Completed" } };
+		final String[] columnNameInvoice = { "Invoice Number", "Supplier",
+				"Total Cost($)", "Date/Time Created", "Status" };
 		
-				JLabel lblNewLabel = new JLabel("Order Status");
-				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-				gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_lblNewLabel.gridx = 0;
-				gbc_lblNewLabel.gridy = 1;
-				orderTab.add(lblNewLabel, gbc_lblNewLabel);
+		final GradientButton reviewOrderButton = new GradientButton("Review Order");
+		reviewOrderButton.setEnabled(false);
+		reviewOrderButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Clicked the Review Order Button");
+				
+				int row = orderStatusTable.getSelectedRow();
+				
+				int invoiceNum = Integer.parseInt((String) orderStatusTable.getValueAt(row, 0));
+				System.out.println("The invoice number passed is: " + invoiceNum);
+				
+				String supplierName = (String) orderStatusTable.getValueAt(row, 1);
+				String dateTime = (String) orderStatusTable.getValueAt(row, 3);
+				String grandTotal1 = (String) orderStatusTable.getValueAt(row, 2);
+				String status = (String) orderStatusTable.getValueAt(row, 4);
+				
+				ReviewOrderPage reviewPage = new ReviewOrderPage(invoiceNum, supplierName, dateTime, status, grandTotal1, row, orderStatusTable, supermarket_id);
+//				if (isMarkComplete == 1)
+//				{
+//					System.out.println("SETTING IT TO COMPLETE");
+//					orderStatusTable.setValueAt("Complete", row, 4);
+//				}
+				reviewPage.setVisible(true);		
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_3.gridx = 1;
+		gbc_btnNewButton_3.gridy = 0;
+		orderTab.add(reviewOrderButton, gbc_btnNewButton_3);
+
+		JLabel lblNewLabel = new JLabel("Order Status");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		orderTab.add(lblNewLabel, gbc_lblNewLabel);
 
 		final JScrollPane scrollPane1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane1 = new GridBagConstraints();
 		gbc_scrollPane1.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane1.gridwidth = 2;
+		gbc_scrollPane1.gridwidth = 3;
 		gbc_scrollPane1.gridheight = 7;
 		gbc_scrollPane1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane1.gridx = 0;
@@ -274,35 +311,35 @@ public class SupermarketSys {
 
 		Object[][] orderList = connect.getOrderList(supermarket_id);
 
-		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnNameInvoice){
-			boolean[] columnEditables = new boolean[] {
-					false, false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			};;
-		table1 = new JTable(orderModel);
-		table1.getTableHeader().setReorderingAllowed(false);
+		final DefaultTableModel orderModel = new DefaultTableModel(orderList,
+				columnNameInvoice) {
+			boolean[] columnEditables = new boolean[] { false, false, false,
+					false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		};
 		
-		
-		scrollPane1.setViewportView(table1);
-		
-		
+		orderStatusTable = new JTable(orderModel);
+		orderStatusTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("CLICKING TABLE");
+				reviewOrderButton.setEnabled(true);
+			}
+		});
+
+		orderStatusTable.getTableHeader().setReorderingAllowed(false);
+		scrollPane1.setViewportView(orderStatusTable);
+
 		final GradientButton btnNewButton_1 = new GradientButton("Create Order");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// When Create Order button is clicked the following codes will
 				// execute
 				
-				/**
-				 * HEREE!!!!!!!!!!!!!!
-				 */
-				//currentOrder = new Order();
-				//currentOrder.addItem();
-				
-				
-				
+				// CODES FOR NEW ORDER PAGE
 				// This codes will create a new tab called NEW ORDER
 				final JPanel newOrder = new JPanel();
 				// tabNumber++;
@@ -312,19 +349,18 @@ public class SupermarketSys {
 				mainTabbedPane.setBackgroundAt(4, new Color(0, 0, 0));
 				mainTabbedPane.setForegroundAt(4, new Color(255, 255, 255));
 				GridBagLayout gbl_newOrder = new GridBagLayout();
-				gbl_newOrder.columnWidths = new int[] { 0, 90, 0, 0, 0, 0, 0,
-						0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0 };
-				gbl_newOrder.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0,
-						0, 0, 0, 0, 0 };
-				gbl_newOrder.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0,
-						0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-						1.0, 1.0, 1.0, Double.MIN_VALUE };
-				gbl_newOrder.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0,
-						0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
-						Double.MIN_VALUE };
+				gbl_newOrder.columnWidths = new int[] { 0, 90, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 28, 0, 0, 0, 0, 0, 0, 0 };
+				gbl_newOrder.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0 };
+				gbl_newOrder.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 0.0,
+						0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0,
+						1.0, Double.MIN_VALUE };
+				gbl_newOrder.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, 0.0,
+						0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 				newOrder.setLayout(gbl_newOrder);
 
-				String[] supplierNames = connect.getSupplierNames();
+				String[] supplierNames1 = connect.getSupplierNames();
 
 				JLabel lblNewLabel_2 = new JLabel("Select Supplier:");
 				GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -336,7 +372,7 @@ public class SupermarketSys {
 				newOrder.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
 				comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(supplierNames));
+				comboBox.setModel(new DefaultComboBoxModel(supplierNames1));
 				GridBagConstraints gbc_comboBox = new GridBagConstraints();
 				gbc_comboBox.anchor = GridBagConstraints.WEST;
 				gbc_comboBox.gridwidth = 7;
@@ -345,16 +381,21 @@ public class SupermarketSys {
 				gbc_comboBox.gridy = 0;
 				newOrder.add(comboBox, gbc_comboBox);
 
-				ActionListener actionListener = new ActionListener() {
+				ActionListener actionListener1 = new ActionListener() {
 
 					public void actionPerformed(ActionEvent actionEvent) {
 						int index = mainTabbedPane.getSelectedIndex();
-						mainTabbedPane.setTitleAt(index, (String) comboBox.getSelectedItem());
-		            
+						mainTabbedPane.setTitleAt(index,
+								(String) comboBox.getSelectedItem());
+
+						supplierName = (String) comboBox.getSelectedItem();
+
+						
 						System.out.println("SUPPLIER INDEX: "
 								+ comboBox.getSelectedIndex());
-						itemsList = connect.getItemListForSupplier(comboBox
-								.getSelectedIndex());
+						itemsList = connect.getItemListForSupplier((comboBox
+								.getSelectedIndex()+1));
+						supplier_id = comboBox.getSelectedIndex()+1;
 						itemsListModel = new DefaultTableModel(itemsList,
 								itemsColumnNames) {
 							Class[] columnTypes = new Class[] { String.class,
@@ -365,96 +406,115 @@ public class SupermarketSys {
 								return columnTypes[columnIndex];
 							}
 
-							boolean[] columnEditables = new boolean[] { false,
-									false, false, true, false, false, false };
+							boolean[] columnEditables = new boolean[] { false, false,
+									false, true, false, false, false };
 
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];
 							}
 						};
 						table_4.setModel(itemsListModel);
-						table_4.getModel().addTableModelListener(new TableModelListener() {
-							  /**
+						table_4.getModel().addTableModelListener(
+								new TableModelListener() {
+									/**
 							   * 
 							   */
-						      public void tableChanged(TableModelEvent e) {
-						         // create order if customer has tried changing order UI
-						    	  if (currentOrder == null)
-						    	  {
-						    		  currentOrder = new Order();						    		  
-						    	  }
-						    	  
-						    	  // ensures that only when updates to quantity warrant a change to order
-						    	  if (e.getColumn() == 3)
-						    	  {
-						    		  if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1)
-						    		  {
-						    			  JOptionPane.showMessageDialog(frame, comboBox.getSelectedItem() + " does not have enough units of " + table_4.getValueAt(e.getFirstRow(), 1) + " to fulfil this order.");
-						    			  table_4.setValueAt(0, e.getFirstRow(), 3);	// override user's input and reset value too 0
-						    		  }
-						    		  else {
-						    			  
-						    		  
-							    		 // creates big decimals with updated values in order to multiply and set total which is of big decimal type
-							    		  BigDecimal b = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 3).toString());
-							    		  b.abs();
-							    		  BigDecimal c = new BigDecimal(table_4.getValueAt(e.getFirstRow(), 4).toString());
-							    		  c.abs();
-							    		  
-							    		  table_4.setValueAt(b.multiply(c), e.getFirstRow(), 6);
-							    		  grandTotal = 0;
-							    		  for (int i = 0; i < table_4.getRowCount(); i++) {
-								    		  if (table_4.getValueAt(i,6) != "")
-								    		  {
-								    			  
-								    			  grandTotal += Double.valueOf(table_4.getValueAt(i, 6).toString());
-								    			  System.out.println("gtotal: " + grandTotal);
-								    		  }//
-							    		  }
-							    		  
-							    		  textField.setText(Double.toString(grandTotal));
-						    		  }
-						    	  }
-						      }
-						});
+									public void tableChanged(TableModelEvent e) {
+										// create order if customer has tried changing
+										// order UI
+										if (currentOrder == null) {
+											currentOrder = new Order();
+										}
+
+										// ensures that only when updates to quantity
+										// warrant a change to order
+										if (e.getColumn() == 3) {
+											if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1) 
+											{
+												JOptionPane
+														.showMessageDialog(
+																frame,
+																comboBox.getSelectedItem()
+																		+ " does not have enough units of "
+																		+ table_4
+																				.getValueAt(
+																						e.getFirstRow(),
+																						1)
+																		+ " to fulfil this order.");
+												table_4.setValueAt(0, e.getFirstRow(),
+														3); // override user's input and
+															// reset value too 0
+											} else {
+
+												// creates big decimals with updated
+												// values in order to multiply and set
+												// total which is of big decimal type
+												BigDecimal b = new BigDecimal(table_4
+														.getValueAt(e.getFirstRow(), 3)
+														.toString());
+												b.abs();
+												BigDecimal c = new BigDecimal(table_4
+														.getValueAt(e.getFirstRow(), 4)
+														.toString());
+												c.abs();
+
+												table_4.setValueAt(b.multiply(c),
+														e.getFirstRow(), 6);
+												grandTotal = 0;
+												for (int i = 0; i < table_4
+														.getRowCount(); i++) {
+													if (table_4.getValueAt(i, 6) != "") {
+
+														grandTotal += Double
+																.valueOf(table_4
+																		.getValueAt(i,
+																				6)
+																		.toString());
+														System.out.println("gtotal: "
+																+ grandTotal);
+													}//
+												}
+
+												grandTotalField.setText(Double
+														.toString(grandTotal));
+											}
+										}
+									}
+								});
 					}
 				};
 
-				comboBox.addActionListener(actionListener);
+				comboBox.addActionListener(actionListener1);
 
-				JScrollPane scrollPane_1 = new JScrollPane();
-				GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-				gbc_scrollPane_1.gridheight = 8;
-				gbc_scrollPane_1.gridwidth = 18;
-				gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-				gbc_scrollPane_1.gridx = 0;
-				gbc_scrollPane_1.gridy = 1;
+				JScrollPane newOrderTabScrollPane = new JScrollPane();
+				GridBagConstraints scrollPaneGridBagLayout = new GridBagConstraints();
+				scrollPaneGridBagLayout.gridheight = 8;
+				scrollPaneGridBagLayout.gridwidth = 18;
+				scrollPaneGridBagLayout.insets = new Insets(0, 0, 5, 0);
+				scrollPaneGridBagLayout.fill = GridBagConstraints.BOTH;
+				scrollPaneGridBagLayout.gridx = 0;
+				scrollPaneGridBagLayout.gridy = 1;
 
-				newOrder.add(scrollPane_1, gbc_scrollPane_1);
+				newOrder.add(newOrderTabScrollPane, scrollPaneGridBagLayout);
 
-				itemsListModel = new DefaultTableModel(itemsList,
-						itemsColumnNames);
+				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
 
 				table_4 = new JTable(new DefaultTableModel());
 
-				
-				newOrder.add(scrollPane_1, gbc_scrollPane_1);	
+				newOrder.add(newOrderTabScrollPane, scrollPaneGridBagLayout);
 
 				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
-//				{
-//					boolean[] columnEditables = new boolean[] { false,
-//							false, false, false};
-//
-//					public boolean isCellEditable(int row, int column) {
-//						return columnEditables[column];
-//				}};
+				// {
+				// boolean[] columnEditables = new boolean[] { false,
+				// false, false, false};
+				//
+				// public boolean isCellEditable(int row, int column) {
+				// return columnEditables[column];
+				// }};
 
 				table_4 = new JTable(new DefaultTableModel());
 				table_4.setRowSelectionAllowed(false);
-				table_4.getTableHeader().setReorderingAllowed(false);
-
-				scrollPane_1.setViewportView(table_4);
+				newOrderTabScrollPane.setViewportView(table_4);
 
 				JButton btnNewButton_4 = new JButton("Cancel Order");
 				btnNewButton_4.addActionListener(new ActionListener() {
@@ -466,13 +526,14 @@ public class SupermarketSys {
 
 						System.out.println("ANSWER: " + n);
 
-						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						int index = mainTabbedPane.indexOfTab((String) comboBox
+								.getSelectedItem());
 						System.out.println("INDEX OF TAB: " + index);
 
 						if (index >= 0 && n == 0) {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
-							currentOrder = null;	// destroy order object
+							currentOrder = null; // destroy order object
 						}
 					}
 				});
@@ -484,18 +545,16 @@ public class SupermarketSys {
 				gbc_lblNewLabel_1.gridy = 9;
 				newOrder.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-				textField = new JTextField();
-				textField.setEditable(false);
-				GridBagConstraints gbc_textField = new GridBagConstraints();
-				gbc_textField.insets = new Insets(0, 0, 5, 5);
-				gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField.gridx = 16;
-				gbc_textField.gridy = 9;
-				newOrder.add(textField, gbc_textField);
-				textField.setColumns(10);
-				
-				
-				
+				grandTotalField = new JTextField();
+				grandTotalField.setEditable(false);
+				GridBagConstraints gbc_grandTotalField = new GridBagConstraints();
+				gbc_grandTotalField.insets = new Insets(0, 0, 5, 5);
+				gbc_grandTotalField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_grandTotalField.gridx = 16;
+				gbc_grandTotalField.gridy = 9;
+				newOrder.add(grandTotalField, gbc_grandTotalField);
+				grandTotalField.setColumns(10);
+
 				GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
 				gbc_btnNewButton_4.anchor = GridBagConstraints.EAST;
 				gbc_btnNewButton_4.insets = new Insets(0, 0, 0, 5);
@@ -503,14 +562,16 @@ public class SupermarketSys {
 				gbc_btnNewButton_4.gridy = 11;
 				newOrder.add(btnNewButton_4, gbc_btnNewButton_4);
 
-				GradientButton btnNewButton_3 = new GradientButton("Submit Order");
-				GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-				gbc_btnNewButton_3.anchor = GridBagConstraints.EAST;
-				gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
-				gbc_btnNewButton_3.gridx = 16;
-				gbc_btnNewButton_3.gridy = 11;
-				newOrder.add(btnNewButton_3, gbc_btnNewButton_3);
-				btnNewButton_3.addActionListener(new ActionListener() {
+				GradientButton submitNewOrderButton = new GradientButton("Submit Order");
+				GridBagConstraints gbc_submitNewOrderButton = new GridBagConstraints();
+				gbc_submitNewOrderButton.anchor = GridBagConstraints.EAST;
+				gbc_submitNewOrderButton.insets = new Insets(0, 0, 0, 5);
+				gbc_submitNewOrderButton.gridx = 16;
+				gbc_submitNewOrderButton.gridy = 11;
+				newOrder.add(submitNewOrderButton, gbc_submitNewOrderButton);
+				
+				
+				submitNewOrderButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
 						int n = JOptionPane.showConfirmDialog(frame,
@@ -519,16 +580,111 @@ public class SupermarketSys {
 
 						System.out.println("ANSWER: " + n);
 
-						int index = mainTabbedPane.indexOfTab((String) comboBox.getSelectedItem());
+						int index = mainTabbedPane.indexOfTab((String) comboBox
+								.getSelectedItem());
 						System.out.println("INDEX OF TAB: " + index);
-						
+
+						// if answer is yes
 						if (index >= 0 && n == 0) {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
+							// add the new order in the database
+							String supermarketName = connect.getStoreName(supermarket_id);
+							System.out.println("SupermarketNAME: " + supermarketName);
+							
+							connect.addToOrderHistory(supplierName, supermarketName, grandTotal, "Submitted", supermarket_id, supplier_id);
+							int lastIndex = connect.getLastElementInOrderHistory();
+							JOptionPane.showMessageDialog(frame,"Your order has been successfully submitted. \nYour Invoice Number is " + lastIndex);
+
+							// refresh the orderListTable
+							Object[][] orderList = connect.getOrderList(supermarket_id);
+
+							final DefaultTableModel orderModel = new DefaultTableModel(
+									orderList, columnNameInvoice) {
+								boolean[] columnEditables = new boolean[] { false,
+										false, false, false };
+
+								public boolean isCellEditable(int row, int column) {
+									return columnEditables[column];
+								}
+							};
+							;
+							orderStatusTable = new JTable(orderModel);
+
+
+							scrollPane1.setViewportView(orderStatusTable);
+							
+							
+							
+							//link the items to the order number in the database
+							int totalCol = table_4.getColumnCount();
+							int totalRow = table_4.getRowCount();
+							
+							System.out.println("COL: " + totalCol + " ROW: " + totalRow);
+							
+							for (int row = 0; row < totalRow; row++)
+							{
+								//COLUMN
+//								  invoice_number int NOT NULL generated always as identity, = lastIndex 
+//								  name varchar(32), = itemName | 2
+//								  item_type varchar(32), = itemType | 3
+//								  quantity int, = quantity | 4
+//								  unit_price decimal, = unitPrice | 5
+//								  unit varchar(32), = unit | 6
+//								  total decimal, = total | 7
+//								  grandTotal decimal, = grandTotal
+								String itemName = (String) table_4.getValueAt(row, 1);
+								System.out.println("itemName: " + itemName);
+								String item_type = (String) table_4.getValueAt(row, 2);
+								int quantity;
+								try
+								{
+									BigDecimal quants= new BigDecimal("" + table_4.getValueAt(row, 3));
+									String quantityString = quants.toString();
+									
+									if(quantityString.equals(""))
+									{
+										quantity = 0;
+									}
+									
+									else
+										quantity = Integer.parseInt(quantityString);
+								}
+								
+								catch (Exception e)
+								{
+									System.out.println("Setting quantity to 0");
+									quantity = 0;
+								}
+									
+								
+								
+								
+								double unit_price = Double.parseDouble((String) table_4.getValueAt(row, 4));
+								String unit = (String) table_4.getValueAt(row, 5);
+								double total;
+								try
+								{
+									BigDecimal totalCopy = new BigDecimal("" + table_4.getValueAt(row, 6));
+									String totalString = totalCopy.toString();
+									total = Double.parseDouble(totalString);
+								}
+								catch (Exception e)
+								{
+									System.out.println("Setting total to 0");
+									total = 0;
+								}
+								
+								//grandTotal;
+								connect.addOrderInformation(lastIndex, itemName, item_type, quantity, unit_price, unit, total, grandTotal);
+								
+								
+							}
 						}
 					}
-				});
-			}
+				}); //end of the new order code inside the actionListener
+
+			}// end of the new Order Tab code
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
@@ -546,7 +702,7 @@ public class SupermarketSys {
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 1;
+		gbc_btnNewButton_2.gridx = 2;
 		gbc_btnNewButton_2.gridy = 0;
 		orderTab.add(btnNewButton_2, gbc_btnNewButton_2);
 
@@ -555,14 +711,22 @@ public class SupermarketSys {
 		gbc_list.insets = new Insets(0, 0, 5, 5);
 		gbc_list.anchor = GridBagConstraints.NORTH;
 		gbc_list.gridheight = 4;
-		gbc_list.gridwidth = 5;
+		gbc_list.gridwidth = 6;
 		gbc_list.fill = GridBagConstraints.HORIZONTAL;
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 6;
 		orderTab.add(list, gbc_list);
 
+		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};
 		
+		//this one will access data from the the database but will cause the code not to work in design mode
+		//use this one when testing
+		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 		
+		//use this one when building
+		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		
+
 		JPanel inventoryTab = new JPanel();
 		mainTabbedPane.addTab("Inventory", null, inventoryTab, null);
 		GridBagLayout gbl_inventoryTab = new GridBagLayout();
@@ -571,12 +735,10 @@ public class SupermarketSys {
 		gbl_inventoryTab.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_inventoryTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		inventoryTab.setLayout(gbl_inventoryTab);
-		
-		
 
-		
+		final JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 5;
+		gbc_scrollPane.gridwidth = 4;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
@@ -726,8 +888,6 @@ public class SupermarketSys {
 							}
 						};
 				 inventoryTable.setModel(itemsListModel);
-				 inventoryTable.getTableHeader().setReorderingAllowed(false);
-
 			 }
 		};
 		supplierSelector.addActionListener(actionListener);
@@ -974,10 +1134,10 @@ public class SupermarketSys {
 		//@Production <--Nice tag to search for when swapping this code before running code
 		//this one will access data from the the database but will cause the code not to work in design mode
 		//use this one when testing
-		final Object[][] data = connect.getSupermarketInventory(supermarket_id);
+		//final Object[][] data = connect.getSupermarketInventory(supermarket_id);
 				
 		//use this one when building
-		//final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
+		final Object [][] data = {{"1","papples", "fruits", "5000", "2000", "lb"},{"2","apples", "fruits", "5000", "2000", "lb"},{"3","grapes", "fruits", "5000", "2000", "lb"},{"4","pears", "fruits", "5000", "2000", "lb"} };
 		
 		table = new JTable(data, columnNames);
 		table.getTableHeader().setReorderingAllowed(false);
