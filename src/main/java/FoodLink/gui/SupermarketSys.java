@@ -584,6 +584,13 @@ public class SupermarketSys {
 							};
 							;
 							orderStatusTable = new JTable(orderModel);
+							orderStatusTable.addMouseListener(new MouseAdapter() {
+								@Override
+								public void mouseClicked(MouseEvent e) {
+									System.out.println("CLICKING TABLE");
+									reviewOrderButton.setEnabled(true);
+								}
+							});
 
 
 							scrollPane1.setViewportView(orderStatusTable);
