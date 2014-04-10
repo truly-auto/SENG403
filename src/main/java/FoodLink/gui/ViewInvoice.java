@@ -1,40 +1,52 @@
 package FoodLink.gui;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JScrollPane;
-import java.awt.GridBagConstraints;
-import javax.swing.JTable;
 import javax.swing.JButton;
-import java.awt.Insets;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import FoodLink.database;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import javax.swing.table.DefaultTableModel;
 
-public class ViewInvoice {
-
-	private JFrame frame;
+public class ViewInvoice extends JDialog {
 	private JTable table;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
 	private database connect = new database ();
 =======
 	private database connect = new database();
 	private JTable orderTable;
 
 >>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+<<<<<<< HEAD
 =======
 	private database connect = new database();
 
 	
 >>>>>>> parent of a21184f... nope
+=======
+>>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
 		try {
 			ViewInvoice dialog = new ViewInvoice(1);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -61,31 +73,27 @@ public class ViewInvoice {
 			}
 		});
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
 =======
 >>>>>>> parent of a21184f... nope
+=======
+>>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+>>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
 	}
 
 	/**
-	 * Create the application.
+	 * Create the dialog.
 	 */
 	public ViewInvoice(int invoiceNumber) {
-		initialize(invoiceNumber);
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize(int invoiceNumber) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 <<<<<<< HEAD
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+<<<<<<< HEAD
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -100,6 +108,22 @@ public class ViewInvoice {
 		final String[] columnTitle= new String[]{"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
 
 <<<<<<< HEAD
+=======
+		getContentPane().setLayout(gridBagLayout);
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+			gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+			gbc_scrollPane.fill = GridBagConstraints.BOTH;
+			gbc_scrollPane.gridx = 0;
+			gbc_scrollPane.gridy = 0;
+			getContentPane().add(scrollPane, gbc_scrollPane);
+			{
+				final String[] columnTitle = new String[] { "Item Number", "Name", "Item Type",
+						"Quantity", "Unit Price ($)", "Unit", "Total" };
+				Object[][] orderList = connect.getOrderInformation(invoiceNumber);
+
+>>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
 				DefaultTableModel orderModel = new DefaultTableModel(orderList, columnTitle){
 					boolean[] columnEditables = new boolean[] {
 							false, false, false, false
@@ -304,10 +328,13 @@ public class ViewInvoice {
 		 */
 
 >>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+<<<<<<< HEAD
 =======
 		
 		
 >>>>>>> parent of a21184f... nope
+=======
+>>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
 	}
 
 }

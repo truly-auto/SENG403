@@ -502,9 +502,15 @@ public class SupplierSys {
 				//if(selectedRow!=null){
 					//get that supermarket list
 					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow));
+<<<<<<< HEAD
 					//invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
 					//invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
 					//invoiceWindow.setVisible(true);
+=======
+					invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
+					invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
+					invoiceWindow.setVisible(true);
+>>>>>>> f54737b08d1599046f1814a1f290a0e88938884d
 				//}
 				}
 				catch(Exception e){
