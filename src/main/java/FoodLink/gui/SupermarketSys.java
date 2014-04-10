@@ -601,7 +601,7 @@ public class SupermarketSys {
 							mainTabbedPane.remove(index);
 							btnNewButton_1.setEnabled(true);
 							// add the new order in the database
-							connect.addToOrderHistory(supplierName, supermarketName, grandTotal,
+							connect.addToOrderHistory(supplierName, grandTotal,
 									"Submitted", supermarket_id, supplier_id);
 							int lastIndex = connect
 									.getLastElementInOrderHistory();
