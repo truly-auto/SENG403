@@ -1,10 +1,7 @@
 package FoodLink.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dialog.ModalityType;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,9 +28,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JTextField;
 
-import java.awt.Color;
-
-import javax.swing.border.MatteBorder;
 
 import FoodLink.database;
 
@@ -51,7 +45,7 @@ public class ViewInvoice extends JFrame {
 	private JTable reviewOrderTable;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField jtfTotal;
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private int invoiceNum;
@@ -232,7 +226,8 @@ public class ViewInvoice extends JFrame {
 		reviewOrderTable = new JTable();
 		reviewOrderTable.setFillsViewportHeight(true);
 		reviewOrderTable.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
-
+		reviewOrderTable.getTableHeader().setReorderingAllowed(false);
+		
 		// populate the table
 		Object[][] orderItemsList = connect.getOrderItems(invoiceNum);
 
@@ -243,7 +238,7 @@ public class ViewInvoice extends JFrame {
 						"Unit Price ($)", "Unit", "Total" }) {
 			Class[] columnTypes = new Class[] { String.class, String.class,
 					String.class, String.class, String.class, String.class };
-
+			
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -258,16 +253,16 @@ public class ViewInvoice extends JFrame {
 		gbc_lblNewLabel_1.gridy = 14;
 		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setText(grandTotal1);
+		jtfTotal = new JTextField();
+		jtfTotal.setEditable(false);
+		jtfTotal.setText(grandTotal1);
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_2.gridx = 10;
 		gbc_textField_2.gridy = 14;
-		contentPane.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		contentPane.add(jtfTotal, gbc_textField_2);
+		jtfTotal.setColumns(10);
 
 		
 		/* Get supplier/supermarket info*/

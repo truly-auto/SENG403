@@ -516,6 +516,7 @@ public class SupplierSys {
 		};
 		;
 		orderStatusTable = new JTable(orderModel);
+		orderStatusTable.getTableHeader().setReorderingAllowed(false);
 		orderStatusTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
