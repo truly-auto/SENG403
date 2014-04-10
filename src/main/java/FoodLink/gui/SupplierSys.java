@@ -497,6 +497,18 @@ public class SupplierSys {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+<<<<<<< HEAD
+				try{
+				//if(selectedRow!=null){
+					//get that supermarket list
+					ViewInvoice invoiceWindow = new ViewInvoice(Integer.parseInt(selectedRow));
+					//invoiceWindow.setLocationRelativeTo((JFrame)SwingUtilities.getRoot((Component)arg0.getSource()));
+					//invoiceWindow.setModalityType(ModalityType.APPLICATION_MODAL);
+					//invoiceWindow.setVisible(true);
+				//}
+				}
+				catch(Exception e){
+=======
 				try {
 					// if(selectedRow!=null){
 					// get that supermarket list
@@ -507,6 +519,7 @@ public class SupplierSys {
 					// invoiceWindow.setVisible(true);
 					// }
 				} catch (Exception e) {
+>>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
 					//
 				}
 

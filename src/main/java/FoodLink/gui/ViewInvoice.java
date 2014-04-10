@@ -16,16 +16,43 @@ public class ViewInvoice {
 
 	private JFrame frame;
 	private JTable table;
+<<<<<<< HEAD
+<<<<<<< HEAD
+	private database connect = new database ();
+=======
+	private database connect = new database();
+	private JTable orderTable;
+
+>>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+=======
 	private database connect = new database();
 
+	
+>>>>>>> parent of a21184f... nope
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+		try {
+			ViewInvoice dialog = new ViewInvoice(1);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+=======
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					// change invoice number
+=======
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					//change invoice number
+>>>>>>> parent of a21184f... nope
 					ViewInvoice window = new ViewInvoice(1);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -33,6 +60,10 @@ public class ViewInvoice {
 				}
 			}
 		});
+<<<<<<< HEAD
+>>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+=======
+>>>>>>> parent of a21184f... nope
 	}
 
 	/**
@@ -50,6 +81,45 @@ public class ViewInvoice {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
+<<<<<<< HEAD
+		gridBagLayout.columnWidths = new int[]{0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		frame.getContentPane().setLayout(gridBagLayout);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		frame.getContentPane().add(scrollPane, gbc_scrollPane);
+		
+		Object[][] orderList = connect.getOrderInformation(invoiceNumber);
+		final String[] columnTitle= new String[]{"Item Number", "Name", "Item Type", "Quantity", "Unit Price ($)", "Unit", "Total"};
+
+<<<<<<< HEAD
+				DefaultTableModel orderModel = new DefaultTableModel(orderList, columnTitle){
+					boolean[] columnEditables = new boolean[] {
+							false, false, false, false
+						};
+						public boolean isCellEditable(int row, int column) {
+							return columnEditables[column];
+						}
+					};;
+				table = new JTable(orderModel);
+				scrollPane.setColumnHeaderView(table);
+			}
+		}
+		{
+			JButton btnPrintInvoice = new JButton("Print Invoice");
+			GridBagConstraints gbc_btnPrintInvoice = new GridBagConstraints();
+			gbc_btnPrintInvoice.gridx = 0;
+			gbc_btnPrintInvoice.gridy = 1;
+			getContentPane().add(btnPrintInvoice, gbc_btnPrintInvoice);
+		}
+=======
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
@@ -82,33 +152,30 @@ public class ViewInvoice {
 		table = new JTable(orderModel);
 		scrollPane.setColumnHeaderView(table);
 
+=======
+
+		DefaultTableModel orderModel = new DefaultTableModel(orderList, columnTitle){
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};;
+		
+		table = new JTable(orderModel);
+		scrollPane.setColumnHeaderView(table);
+		
+>>>>>>> parent of a21184f... nope
 		JButton btnPrintInvoice = new JButton("Print Invoice");
 		GridBagConstraints gbc_btnPrintInvoice = new GridBagConstraints();
 		gbc_btnPrintInvoice.gridx = 0;
 		gbc_btnPrintInvoice.gridy = 1;
 		frame.getContentPane().add(btnPrintInvoice, gbc_btnPrintInvoice);
+<<<<<<< HEAD
 
 		/*
-		 * btnPrintInvoice.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent arg0) { if (selectedRow != null) {
-		 * System.out.println("Open invoice of this row: " + selectedRow);
-		 * connect.manageItems(null, Integer.parseInt(selectedRow), false); //
-		 * getting data from the database Object[][] data2 =
-		 * connect.getInventory(supplier_id); // creating new table with the new
-		 * data from the database inventoryTable = new JTable(data2,
-		 * columnNames); // adding action listener on the new table
-		 * inventoryTable.addMouseListener(new MouseAdapter() {
-		 * 
-		 * @Override public void mouseClicked(MouseEvent mevt) { java.awt.Point
-		 * point = mevt.getPoint(); row = inventoryTable.rowAtPoint(point);
-		 * selectedRow = (String) inventoryTable.getValueAt( row, 0);
-		 * System.out.println(selectedRow);
-		 * 
-		 * } }); scrollPane_1.setViewportView(inventoryTable);
-		 * 
-		 * } else { System.out.println("selctedRow is null"); }
-		 * 
-		 * } }); //gem jcbSupermarkets.addActionListener(new ActionListener() {
+		 * //gem jcbSupermarkets.addActionListener(new ActionListener() {
 		 * 
 		 * @SuppressWarnings("serial")
 		 * 
@@ -236,6 +303,11 @@ public class ViewInvoice {
 		 * } }); scrollPane_2.setViewportView(userTable);
 		 */
 
+>>>>>>> 7822f8513a88c5888b663b35e49f17f7eefa2c6a
+=======
+		
+		
+>>>>>>> parent of a21184f... nope
 	}
 
 }
