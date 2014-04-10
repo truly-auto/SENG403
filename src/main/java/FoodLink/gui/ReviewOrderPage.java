@@ -54,9 +54,9 @@ public class ReviewOrderPage extends JFrame {
 	 * 
 	 * @param grandTotal1
 	 */
-	public ReviewOrderPage(int invoiceNum, String supplierName,
+	public ReviewOrderPage(final int invoiceNum, String supplierName,
 			String dateTime, String status, String grandTotal1,
-			final int selectedRow, final JTable orderItem, int supermarket_id) {
+			final int selectedRow, final JTable orderItem, final int supermarket_id) {
 
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
@@ -163,16 +163,35 @@ public class ReviewOrderPage extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				Object frame = null;
 				int n = JOptionPane.showConfirmDialog((Component) frame,
-						"Are you sure you want to mark this order COMPLETE?",
-						"Complete Order", JOptionPane.YES_NO_OPTION);
+						"Are you sure you want to mark this order as COMPLETE?",
+						"COMPLETE Order", JOptionPane.YES_NO_OPTION);
 
 				if (n == 0) {
-					System.out.println("MARK ORDER COMPLETE ORDER");
-					System.out.println("selectedRow: " + selectedRow);
-					orderItem.setValueAt("Complete", selectedRow, 4);
-					textField_4.setText("Completed");
+					String status = (String) orderItem.getValueAt(selectedRow, 4);
+					System.out.println("I am: " + status);
+					if(status != "Complete"){
+						System.out.println("MARK ORDER AS SHIPPED");
+						System.out.println("selectedRow: " + selectedRow);
+						orderItem.setValueAt("Complete", selectedRow, 4);
+						textField_4.setText("Complete");
+						//refreshes table
+						connect.updateOrderStatus("Complete", invoiceNum);
+						Object[][] orderList = connect.getOrderList(supermarket_id);
+						final String[] columnNameInvoice = { "Invoice Number", "Supplier",
+							"Total Cost($)", "Date/Time Created", "Status" };
+					
+						final DefaultTableModel orderModel = new DefaultTableModel(
+								orderList, columnNameInvoice) {
+							boolean[] columnEditables = new boolean[] { false,
+									false, false, false };
+							
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						};	
+					}
+		
 				}
-
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();

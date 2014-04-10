@@ -93,7 +93,7 @@ public class SupplierSys {
 			public void run() {
 				try {
 					// hard code parameter to switch suppliers here (1-5)
-					SupplierSys window = new SupplierSys(1, true);
+					SupplierSys window = new SupplierSys(2, true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

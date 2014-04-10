@@ -68,7 +68,7 @@ public class ViewInvoice extends JFrame {
 	 * 
 	 * @param grandTotal1
 	 */
-	public ViewInvoice(int invoiceNumber, String supermarketName, String store_id,int supplier_id,String dateTime,
+	public ViewInvoice(int invoiceNumber, String supermarketName, String store_id,final int supplier_id,String dateTime,
 			String status, String grandTotal1, final int selectedRow,
 			final JTable orderItem) {
 
@@ -186,14 +186,33 @@ public class ViewInvoice extends JFrame {
 						"Shipped Order", JOptionPane.YES_NO_OPTION);
 
 				if (n == 0) {
-					System.out.println("MARK ORDER AS SHIPPED");
-					System.out.println("selectedRow: " + selectedRow);
-					orderItem.setValueAt("Shipped", selectedRow, 4);
-					textField_4.setText("Shipped");
+					String status = (String) orderItem.getValueAt(selectedRow, 4);
+					System.out.println("I am: " + status);
+					if(status != "Complete"){
+						System.out.println("MARK ORDER AS SHIPPED");
+						System.out.println("selectedRow: " + selectedRow);
+						orderItem.setValueAt("Shipped", selectedRow, 4);
+						textField_4.setText("Shipped");
+						connect.updateOrderStatus("Shipped", invoiceNum);
+						Object[][] orderList = connect.getOrderListSupplier(supplier_id);
+						final String[] columnNameInvoice = { "Invoice Number", "Supplier",
+							"Total Cost($)", "Date/Time Created", "Status" };
+					
+						final DefaultTableModel orderModel = new DefaultTableModel(
+								orderList, columnNameInvoice) {
+							boolean[] columnEditables = new boolean[] { false,
+									false, false, false };
+							
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						};	
+					}
+		
 				}
-
 			}
 		});
+		
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 10;
