@@ -497,7 +497,7 @@ public class SupplierSys {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+<<<<<<< HEAD
 				try{
 				//if(selectedRow!=null){
 					//get that supermarket list
@@ -508,7 +508,7 @@ public class SupplierSys {
 				//}
 				}
 				catch(Exception e){
-
+=======
 				try {
 					// if(selectedRow!=null){
 					// get that supermarket list
