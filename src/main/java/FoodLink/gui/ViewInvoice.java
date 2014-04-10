@@ -229,6 +229,127 @@ public class ViewInvoice extends JFrame {
 		contentPane.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
 
+		/*
+		 * final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
+		 * 
+		 * final Object[][] order1 = new Object[][]{ {data[0][0], data[0][1], 2,
+		 * data[0][4], 2 * Double.parseDouble((String) data[0][4])},
+		 * {data[1][0], data[1][1], 2, data[1][4], 2 *
+		 * Double.parseDouble((String) data[1][4])} };
+		 * 
+		 * 
+		 * final Object[][] order2 = new Object[][]{ {data[0][0], data[0][1],
+		 * 20, data[0][4], 20 * Double.parseDouble((String) data[0][4])},
+		 * {data[1][0], data[1][1], 12, data[1][4], 12 *
+		 * Double.parseDouble((String) data[1][4])}, {data[3][0], data[3][1], 4,
+		 * data[3][4], 4 * Double.parseDouble((String) data[3][4])} };
+		 * 
+		 * listOrders.add(order1); listOrders.add(order2);
+		 * 
+		 * final String[] title = new String[] {"Item ID", "Item", "quantity",
+		 * "Price($)", "Total($)"}; final JTable jtInvoice = new JTable();
+		 * 
+		 * jtInvoice.getTableHeader().setReorderingAllowed(false); final
+		 * JComboBox jcbSupermarkets = new JComboBox(new String[]
+		 * {"supermarket1","supermarket2"});
+		 * jcbSupermarkets.setSelectedIndex(-1);
+		 * 
+		 * //final JComboBox jcbSupermarkets = new JComboBox(new String[]
+		 * {"supermarket1","supermarket2"});
+		 * 
+		 * jcbSupermarkets.addActionListener(new ActionListener() {
+		 * 
+		 * @SuppressWarnings("serial")
+		 * 
+		 * @Override public void actionPerformed(ActionEvent arg0) { int index =
+		 * jcbSupermarkets.getSelectedIndex(); jtInvoice.setModel(new
+		 * DefaultTableModel(listOrders.get(index),title) { boolean[]
+		 * columnEditables = new boolean[] { false, false, false, false };
+		 * 
+		 * public boolean isCellEditable(int row, int column) { return
+		 * columnEditables[column]; } }); } });
+		 */
+		GradientButton jbPrint = new GradientButton("Save invoice and Open");
+		jbPrint.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (jcbSupermarkets.getSelectedIndex() >= 0) {
+						File file = new File("invoice_"
+								+ jcbSupermarkets.getSelectedItem() + ".xls");
+						TableModel model = jtInvoice.getModel();
+						FileWriter out = new FileWriter(file);
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"MMM. d, yyyy", java.util.Locale.ENGLISH);
+						Double totalPrice = 0.0;
+
+						out.write(supplier[0] + "\t\t\t"
+								+ jcbSupermarkets.getSelectedItem() + "\n");
+						out.write(supplier[1] + "\t\t\t"
+								+ "SUPERMARKET ADDRESS" + "\n");
+						out.write(supplier[2] + "\t\t\t" + "SUPERMARKET PHONE#"
+								+ "\n");
+						out.write(supplier[3]
+								+ "\t\t\t"
+								+ sdf.format(java.util.Calendar.getInstance()
+										.getTime()) + "\n");
+						out.write("\n\n");
+
+						for (int i = 0; i < model.getColumnCount(); i++) {
+							out.write(model.getColumnName(i) + "\t");
+						}
+
+						out.write("\n");
+						for (int i = 0; i < model.getRowCount(); i++) {
+							for (int j = 0; j < model.getColumnCount(); j++) {
+								if (j == 4) {
+									totalPrice += (Double) model.getValueAt(i,
+											j);
+								}
+								out.write(model.getValueAt(i, j).toString()
+										+ "\t");
+							}
+							out.write("\n");
+						}
+
+						out.write("\n");
+						out.write("\t\t\tTOTAL:\t" + totalPrice + "\n");
+						out.close();
+
+						String osname = System.getProperty("os.name")
+								.toLowerCase();
+						Runtime r = Runtime.getRuntime();
+						if (osname.contains("win")) {
+							r.exec("cmd.exe /c start " + file);
+						} else if (osname.contains("mac")
+								|| osname.contains("linux")) {
+							r.exec("open " + file);
+						} else {
+							JOptionPane
+									.showMessageDialog(frame,
+											"Operating System not supported for printing");
+						}
+						/* THE FOLLOWING LINE PRINTS OFF THE TABLE DIRECTLY */
+						// jtInvoice.print(JTable.PrintMode.NORMAL);
+
+					} else {
+						JOptionPane.showMessageDialog(frame,
+								"Please select an invoice to print");
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+		JScrollPane jspInvoice = new JScrollPane(jtInvoice);
+		jpInvoices.add(jcbSupermarkets, BorderLayout.NORTH);
+		jpInvoices.add(jspInvoice, BorderLayout.CENTER);
+		JPanel jpSouth = new JPanel(new FlowLayout());
+		jpSouth.add(jbPrint);
+		jpInvoices.add(jpSouth, BorderLayout.SOUTH);
+
 	}
 
 }
