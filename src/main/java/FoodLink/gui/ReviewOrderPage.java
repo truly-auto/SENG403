@@ -56,7 +56,7 @@ public class ReviewOrderPage extends JFrame {
 	 */
 	public ReviewOrderPage(int invoiceNum, String supplierName,
 			String dateTime, String status, String grandTotal1,
-			final int selectedRow, final JTable orderItem) {
+			final int selectedRow, final JTable orderItem, int supermarket_id) {
 
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));

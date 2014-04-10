@@ -342,7 +342,7 @@ public class database {
 		catch (SQLException e) {
 		     e.fillInStackTrace();
 		     System.out.println("Error executing: " + command);
-		     System.out.println(e);;
+		     System.out.println(e);
 		
 		
 		}
@@ -576,7 +576,6 @@ public class database {
 			 rs.close();
 
 		    	 
-		    	 
 			}
 		catch (SQLException e) {
 		     e.fillInStackTrace();
@@ -617,7 +616,7 @@ public class database {
 			       	String invoice_number = rs.getString("invoice_number");
 			       	currOrder.add(invoice_number);
 			       	System.out.println("Invoice number: " + invoice_number);
-			       	//get supermarket name
+			       	//get supplier name
 			       	String supermarket = rs.getString("supermarket");
 			       	currOrder.add(supermarket);
 			       	System.out.println("Supermarket: " + supermarket);
@@ -946,7 +945,7 @@ public class database {
 		
 		String current_timestamp = "" +  new Timestamp(date.getTime());
 		String command = "INSERT INTO order_history (supplier, supermarket, total_cost, date_time_created, status, store_id, supplier_id) VALUES "
-				+ "(" + "'" + supplierName + "," + supermarketName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id  + ")";
+				+ "(" + "'" + supplierName + "'" + "," +"'" + supermarketName + "'" + "," + grandTotal + "," + "'" +current_timestamp + "'" +"," + "'" +orderStatus + "'" + "," + store_id + "," +  supplier_id + ")";
 		
 
 		try {
@@ -1113,25 +1112,48 @@ public class database {
 		return orderList;
 
 	}
-	public String getStoreName(int id) { 
-		String command = "select name from supermarket where store_id = " + id; 
-		String name = null; 
-		try { 
-			statement.execute(command); 
-			ResultSet rs = statement.getResultSet(); 
-			while(rs.next()) { 
-				name = rs.getString("name"); 
-				//Display values System.out.print(" Supermarket name: " + name); 
-			}
-		} 
-			catch (SQLException e) { 
-				e.fillInStackTrace(); 
-				System.out.println("Error executing: " + command); 
-				System.out.println(e); 
-			} return name; 
-				
-			
+	
+	public void updateOrderStatus(String status, int invoice_number)
+	{
+		String command = "UPDATE order_history SET status = " + "'" + status + "'" + "WHERE invoice_number = " + invoice_number;
 		
+		try {
+		     statement.execute(command);	    
+		     
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);;
+		
+		
+		}
+	}
+	
+	public String getStoreName(int id)
+	{
+		String command = "select name from supermarket where store_id = " + id;
+		String name = null;
+		try {
+		     statement.execute(command);
+		     ResultSet rs = statement.getResultSet();
+		     
+		     while(rs.next())
+		     	{
+			         name = rs.getString("name");
+			         //Display values
+			         System.out.print(" Supermarket name: " + name);
+			     }
+			}
+		catch (SQLException e) {
+		     e.fillInStackTrace();
+		     System.out.println("Error executing: " + command);
+		     System.out.println(e);
+		
+		
+		}
+		return name;
+
 	}
 	
 }
