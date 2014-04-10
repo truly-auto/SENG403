@@ -3,6 +3,10 @@ package FoodLink.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -196,7 +200,7 @@ public class ViewInvoice extends JFrame {
 		reviewOrderTable.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
 
 		// populate the table
-		Object[][] orderItemsList = connect.getOrderListSupplier(invoiceNum);
+		Object[][] orderItemsList = connect.getOrderItems(invoiceNum);
 
 		reviewOrderTable.setModel(new DefaultTableModel(orderItemsList,
 				new String[] { "Name", "Item Type", "Quantity",
@@ -229,52 +233,11 @@ public class ViewInvoice extends JFrame {
 		contentPane.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
 
-		/*
-		 * final ArrayList<Object[][]> listOrders = new ArrayList<Object[][]>();
-		 * 
-		 * final Object[][] order1 = new Object[][]{ {data[0][0], data[0][1], 2,
-		 * data[0][4], 2 * Double.parseDouble((String) data[0][4])},
-		 * {data[1][0], data[1][1], 2, data[1][4], 2 *
-		 * Double.parseDouble((String) data[1][4])} };
-		 * 
-		 * 
-		 * final Object[][] order2 = new Object[][]{ {data[0][0], data[0][1],
-		 * 20, data[0][4], 20 * Double.parseDouble((String) data[0][4])},
-		 * {data[1][0], data[1][1], 12, data[1][4], 12 *
-		 * Double.parseDouble((String) data[1][4])}, {data[3][0], data[3][1], 4,
-		 * data[3][4], 4 * Double.parseDouble((String) data[3][4])} };
-		 * 
-		 * listOrders.add(order1); listOrders.add(order2);
-		 * 
-		 * final String[] title = new String[] {"Item ID", "Item", "quantity",
-		 * "Price($)", "Total($)"}; final JTable jtInvoice = new JTable();
-		 * 
-		 * jtInvoice.getTableHeader().setReorderingAllowed(false); final
-		 * JComboBox jcbSupermarkets = new JComboBox(new String[]
-		 * {"supermarket1","supermarket2"});
-		 * jcbSupermarkets.setSelectedIndex(-1);
-		 * 
-		 * //final JComboBox jcbSupermarkets = new JComboBox(new String[]
-		 * {"supermarket1","supermarket2"});
-		 * 
-		 * jcbSupermarkets.addActionListener(new ActionListener() {
-		 * 
-		 * @SuppressWarnings("serial")
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) { int index =
-		 * jcbSupermarkets.getSelectedIndex(); jtInvoice.setModel(new
-		 * DefaultTableModel(listOrders.get(index),title) { boolean[]
-		 * columnEditables = new boolean[] { false, false, false, false };
-		 * 
-		 * public boolean isCellEditable(int row, int column) { return
-		 * columnEditables[column]; } }); } });
-		 */
 		GradientButton jbPrint = new GradientButton("Save invoice and Open");
 		jbPrint.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (jcbSupermarkets.getSelectedIndex() >= 0) {
 						File file = new File("invoice_"
 								+ jcbSupermarkets.getSelectedItem() + ".xls");
 						TableModel model = jtInvoice.getModel();
@@ -352,4 +315,29 @@ public class ViewInvoice extends JFrame {
 
 	}
 
+	private static final class GradientButton extends JButton {
+		private GradientButton() {
+			this.setText("");
+			setContentAreaFilled(false);
+		}
+
+		private GradientButton(String str) {
+			this.setText(str);
+			;
+			setContentAreaFilled(false);
+
+		}
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			Graphics2D G2D = (Graphics2D) g.create();
+			Color grey = new Color(153, 153, 153);
+			G2D.setPaint(new GradientPaint(new Point(0, 0), Color.white,
+					new Point(0, getHeight()), grey));
+			G2D.fillRect(0, 0, getWidth(), getHeight());
+			G2D.dispose();
+
+			super.paintComponent(g);
+		}
+	}
 }

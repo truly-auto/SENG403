@@ -562,7 +562,7 @@ public class database {
 			       	String invoice_number = rs.getString("invoice_number");
 			       	currOrder.add(invoice_number);
 			       	System.out.println("Invoice number: " + invoice_number);
-			       	//get supplier name
+			       	//get supermarket name
 			       	String supermarket = rs.getString("supermarket");
 			       	currOrder.add(supermarket);
 			       	System.out.println("Supermarket: " + supermarket);
@@ -583,6 +583,7 @@ public class database {
 			     }
 			 rs.close();
 
+		    	 
 		    	 
 			}
 		catch (SQLException e) {
