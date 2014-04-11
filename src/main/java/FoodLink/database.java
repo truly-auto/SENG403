@@ -911,7 +911,7 @@ public class database {
 		return itemsList.toArray(new Integer[itemsList.size()]);
 	}
 	
-	public void addOrderInformation(int invoice_number, String name, String item_type, double quantity, double unit_price, String unit, double total, double grandTotal){
+	public boolean addOrderInformation(int invoice_number, String name, String item_type, double quantity, double unit_price, String unit, double total, double grandTotal){
 		String command = "INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal) VALUES "
 				+ "("+ invoice_number + "," + "'" + name+ "'" + ","+ "'" + item_type + "'" + "," + quantity +","+ unit_price + "," + "'" + unit + "'" + "," + total + "," + grandTotal + ")";
 		
@@ -926,10 +926,11 @@ public class database {
 		     System.exit(0);
 		    }
 		System.out.println("Add item informatio succesful");
+		return true;
 		
 	}
 	
-	public void addToOrderHistory(String supplierName, String supermarketName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
+	public boolean addToOrderHistory(String supplierName, String supermarketName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
 		java.util.Date date= new java.util.Date();
 		
 		//printed time may vary from the table time by a few milliseconds 
@@ -951,6 +952,7 @@ public class database {
 		     System.exit(0);
 		    }
 		System.out.println("Add Succesful");
+		return true;
 		
 	}
 	
@@ -1110,19 +1112,19 @@ public class database {
 
 	}
 	
-	public void updateOrderStatus(String status, int invoice_number)
+	public boolean updateOrderStatus(String status, int invoice_number)
 	{
 		String command = "UPDATE order_history SET status = " + "'" + status + "'" + "WHERE invoice_number = " + invoice_number;
 		
 		try {
 		     statement.execute(command);	    
-		     
+		     return true;
 			}
 		catch (SQLException e) {
 		     e.fillInStackTrace();
 		     System.out.println("Error executing: " + command);
 		     System.out.println(e);;
-		
+		     return false;
 		
 		}
 	}
