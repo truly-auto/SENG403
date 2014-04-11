@@ -116,15 +116,18 @@ public class SupplierSys {
 	}
 
 	/**
-	 * Initialize the contents in the Supplier System.
+	 * Initialize the contents in the Supplier System. Supplier is able to
+	 * add/modify/delete items in their inventory, view the list of invoices to
+	 * process or already processed.
+	 * 
+	 * As a manager there will be an extra 'User' tab where it will list the
+	 * current users in that specific supplier group. Managers will be able to
+	 * add, change permissions, and remove users in the group.
 	 * 
 	 * @param supplier_id
 	 *            , the supplier number
 	 * @param manager
 	 *            , if user is a manager or not
-	 * 
-	 * 
-	 * 
 	 * 
 	 * 
 	 */
@@ -209,13 +212,7 @@ public class SupplierSys {
 		gbc_mainTabbedPane.gridx = 0;
 		gbc_mainTabbedPane.gridy = 1;
 		frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
-		/*
-		 * gbc_mainTabbedPane.gridheight = 2; gbc_mainTabbedPane.gridwidth = 17;
-		 * gbc_mainTabbedPane.insets = new Insets(0, 0, 0, 5);
-		 * gbc_mainTabbedPane.fill = GridBagConstraints.BOTH;
-		 * gbc_mainTabbedPane.gridx = 3; gbc_mainTabbedPane.gridy = 1;
-		 * frame.getContentPane().add(mainTabbedPane, gbc_mainTabbedPane);
-		 */
+
 		JPanel orderTab = new JPanel();
 		mainTabbedPane.addTab("Order", null, orderTab, null);
 		GridBagLayout gbl_orderTab = new GridBagLayout();
