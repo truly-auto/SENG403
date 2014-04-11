@@ -114,7 +114,7 @@ public class databaseTest {
 	//This is to test if the method addOrderInformation is executing properly
 	public void testAddOrderInformation()
 	{
-		boolean flag = data.addOrderInformation(99, "Cream Puffs", "Bakery", 10, 8, "10LBS", 80.0, 80.0);
+		boolean flag = data.addOrderInformation(2, "Cream Puffs", "Bakery", 10, 8, "10LBS", 80.0, 80.0);
 		assertTrue(flag);
 	}
 	
