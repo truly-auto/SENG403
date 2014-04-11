@@ -56,7 +56,8 @@ public class ReviewOrderPage extends JFrame {
 	 */
 	public ReviewOrderPage(final int invoiceNum, String supplierName,
 			String dateTime, String status, String grandTotal1,
-			final int selectedRow, final JTable orderItem, final int supermarket_id) {
+			final int selectedRow, final JTable orderItem,
+			final int supermarket_id) {
 
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
@@ -162,35 +163,40 @@ public class ReviewOrderPage extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				Object frame = null;
-				int n = JOptionPane.showConfirmDialog((Component) frame,
-						"Are you sure you want to mark this order as COMPLETE?",
-						"COMPLETE Order", JOptionPane.YES_NO_OPTION);
+				int n = JOptionPane
+						.showConfirmDialog(
+								(Component) frame,
+								"Are you sure you want to mark this order as COMPLETE?",
+								"COMPLETE Order", JOptionPane.YES_NO_OPTION);
 
 				if (n == 0) {
-					String status = (String) orderItem.getValueAt(selectedRow, 4);
+					String status = (String) orderItem.getValueAt(selectedRow,
+							4);
 					System.out.println("I am: " + status);
-					if(status != "Complete"){
+					if (status != "Complete") {
 						System.out.println("MARK ORDER AS SHIPPED");
 						System.out.println("selectedRow: " + selectedRow);
 						orderItem.setValueAt("Complete", selectedRow, 4);
 						textField_4.setText("Complete");
-						//refreshes table
+						// refreshes table
 						connect.updateOrderStatus("Complete", invoiceNum);
-						Object[][] orderList = connect.getOrderList(supermarket_id);
-						final String[] columnNameInvoice = { "Invoice Number", "Supplier",
-							"Total Cost($)", "Date/Time Created", "Status" };
-					
+						Object[][] orderList = connect
+								.getOrderList(supermarket_id);
+						final String[] columnNameInvoice = { "Invoice Number",
+								"Supplier", "Total Cost($)",
+								"Date/Time Created", "Status" };
+
 						final DefaultTableModel orderModel = new DefaultTableModel(
 								orderList, columnNameInvoice) {
 							boolean[] columnEditables = new boolean[] { false,
 									false, false, false };
-							
+
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];
 							}
-						};	
+						};
 					}
-		
+
 				}
 			}
 		});
