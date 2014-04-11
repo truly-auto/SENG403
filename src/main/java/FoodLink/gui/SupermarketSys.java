@@ -1152,7 +1152,11 @@ public class SupermarketSys {
 		scrollPane.setViewportView(table);
 		
 	}
-
+	/**
+	 * 
+	 * @param users - array of users to be formatted
+	 * @param supermarket_id - supermarket's index id
+	 */
 	protected void setTable(String[] users, int supermarket_id) {
 		
 		//@Production <--Nice tag to search for when swapping this code before running code
