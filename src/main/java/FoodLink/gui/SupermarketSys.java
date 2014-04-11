@@ -1129,7 +1129,12 @@ public class SupermarketSys {
 		// CODES FOR NEW ORDER PAGE
 
 	}
-
+	/**
+	 * 
+	 * @param supermarket_id
+	 * 
+	 * This class builds the inventory of the supermarket whose supermarket_id is passed
+	 */
 	private void setInvetoryTable(int supermarket_id) {
 		
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};
