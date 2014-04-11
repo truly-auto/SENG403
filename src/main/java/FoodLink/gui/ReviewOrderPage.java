@@ -50,12 +50,32 @@ public class ReviewOrderPage extends JFrame {
 	private database connect = new database();
 
 	/**
-	 * Create the frame.
-	 * @param grandTotal1 
-	 * @param supermarket_id 
+	 * Creates the window to view items in the invoice in Supermarket. User is
+	 * able to view order items, confirm the order has been completed.
+	 * 
+	 * @param invoiceNumber
+	 *            , the invoice reference number
+	 * @param supplierName
+	 *            , the string of the supplier that is ordering
+	 * @param dateTime
+	 *            , the time the order was created
+	 * @param status
+	 *            , the status of the order(submitted, shipped, completed)
+	 * @param grandTotal1
+	 *            , the total cost of the order
+	 * @param selectedRow
+	 *            , getting the row of the status
+	 * @param orderItem
+	 *            , the JTable where the invoice information is stored
+	 * @param supermarket_id
+	 *            , the supermarket store number
+	 * 
 	 */
-	public ReviewOrderPage(final int invoiceNum, String supplierName, String dateTime, final String status, String grandTotal1, final int selectedRow, final JTable orderItem, final int supermarket_id) {
-		
+	public ReviewOrderPage(final int invoiceNum, String supplierName,
+			String dateTime, final String status, String grandTotal1,
+			final int selectedRow, final JTable orderItem,
+			final int supermarket_id) {
+
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
 		setTitle("Review Order");
@@ -66,12 +86,17 @@ public class ReviewOrderPage extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 111, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 111, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		JLabel lblNewLabel = new JLabel("Supplier Name:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
@@ -79,7 +104,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
-		
+
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setText(supplierName);
@@ -91,7 +116,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_textField.gridy = 0;
 		contentPane.add(textField, gbc_textField);
 		textField.setColumns(10);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Invoice Number:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
@@ -99,7 +124,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_lblNewLabel_2.gridx = 8;
 		gbc_lblNewLabel_2.gridy = 0;
 		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
-		
+
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
 		textField_1.setText(Integer.toString(invoiceNum));
@@ -110,7 +135,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_textField_1.gridy = 0;
 		contentPane.add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Date and Time Submitted:");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
@@ -118,7 +143,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_lblNewLabel_3.gridx = 0;
 		gbc_lblNewLabel_3.gridy = 1;
 		contentPane.add(lblNewLabel_3, gbc_lblNewLabel_3);
-		
+
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
 		textField_3.setText(dateTime);
@@ -130,7 +155,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_textField_3.gridy = 1;
 		contentPane.add(textField_3, gbc_textField_3);
 		textField_3.setColumns(10);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Status:");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -138,7 +163,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_lblNewLabel_4.gridx = 8;
 		gbc_lblNewLabel_4.gridy = 1;
 		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
-		
+
 		textField_4 = new JTextField();
 		textField_4.setEditable(false);
 		textField_4.setText(status);
@@ -149,7 +174,8 @@ public class ReviewOrderPage extends JFrame {
 		gbc_textField_4.gridy = 1;
 		contentPane.add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
-		
+
+		/* Marking order confirmation */
 		JButton btnNewButton = new JButton("Complete Order");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -158,35 +184,37 @@ public class ReviewOrderPage extends JFrame {
 				int n = JOptionPane.showConfirmDialog((Component) frame,
 						"Are you sure you want to mark this order COMPLETE?",
 						"Complete Order", JOptionPane.YES_NO_OPTION);
-				
+
 				if (n == 0) {
-					String status = (String) orderItem.getValueAt(selectedRow, 4);
+					String status = (String) orderItem.getValueAt(selectedRow,
+							4);
 					System.out.println("I am: " + status);
-					if(status != "Complete"){
-						System.out.println("MARK ORDER AS SHIPPED");
+					if (status != "Complete") {
+						System.out.println("MARK ORDER AS COMPLETED");
 						System.out.println("selectedRow: " + selectedRow);
 						orderItem.setValueAt("Complete", selectedRow, 4);
 						textField_4.setText("Complete");
-						//refreshes table
+						// refreshes table
 						connect.updateOrderStatus("Complete", invoiceNum);
-						Object[][] orderList = connect.getOrderList(supermarket_id);
-						final String[] columnNameInvoice = { "Invoice Number", "Supplier",
-							"Total Cost($)", "Date/Time Created", "Status" };
-					
+						Object[][] orderList = connect
+								.getOrderList(supermarket_id);
+						final String[] columnNameInvoice = { "Invoice Number",
+								"Supplier", "Total Cost($)",
+								"Date/Time Created", "Status" };
+
 						final DefaultTableModel orderModel = new DefaultTableModel(
 								orderList, columnNameInvoice) {
 							boolean[] columnEditables = new boolean[] { false,
 									false, false, false };
-							
+
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];
 							}
-						};	
+						};
 					}
-		
+
 				}
 
-				
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -194,7 +222,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_btnNewButton.gridx = 10;
 		gbc_btnNewButton.gridy = 1;
 		contentPane.add(btnNewButton, gbc_btnNewButton);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 11;
@@ -204,7 +232,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
 		contentPane.add(scrollPane, gbc_scrollPane);
-		
+
 		reviewOrderTable = new JTable();
 		reviewOrderTable.setFillsViewportHeight(true);
 		reviewOrderTable.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
@@ -223,7 +251,7 @@ public class ReviewOrderPage extends JFrame {
 			}
 		});
 		scrollPane.setViewportView(reviewOrderTable);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Grand Total:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
@@ -231,7 +259,7 @@ public class ReviewOrderPage extends JFrame {
 		gbc_lblNewLabel_1.gridx = 9;
 		gbc_lblNewLabel_1.gridy = 14;
 		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
+
 		textField_2 = new JTextField();
 		textField_2.setEditable(false);
 		textField_2.setText(grandTotal1);
@@ -242,7 +270,6 @@ public class ReviewOrderPage extends JFrame {
 		gbc_textField_2.gridy = 14;
 		contentPane.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
-		
 
 	}
 

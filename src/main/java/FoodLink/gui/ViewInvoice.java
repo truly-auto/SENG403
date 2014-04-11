@@ -28,7 +28,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JTextField;
 
-
 import FoodLink.database;
 
 import java.awt.Font;
@@ -58,11 +57,32 @@ public class ViewInvoice extends JFrame {
 	private database connect = new database();
 
 	/**
-	 * Create the frame.
+	 * Creates the window to view items in the invoice in Supplier. User is able
+	 * to view order items, confirm the order has been shipped, print the
+	 * invoice into an excel spreadsheet
 	 * 
+	 * @param invoiceNumber
+	 *            , the invoice reference number
+	 * @param supermarketName
+	 *            , the string of the supermarket that is ordering
+	 * @param store_id
+	 *            , the supermarket store number
+	 * @param supplier_id
+	 *            , the supplier store number
+	 * @param dateTime
+	 *            , the time the order was created
+	 * @param status
+	 *            , the status of the order(submitted, shipped, completed)
 	 * @param grandTotal1
+	 *            , the total cost of the order
+	 * @param selectedRow
+	 *            , getting the row of the status
+	 * @param orderItem
+	 *            , the JTable where the invoice information is stored
+	 * 
 	 */
-	public ViewInvoice(int invoiceNumber, String supermarketName, String store_id,final int supplier_id,String dateTime,
+	public ViewInvoice(int invoiceNumber, String supermarketName,
+			String store_id, final int supplier_id, String dateTime,
 			String status, String grandTotal1, final int selectedRow,
 			final JTable orderItem) {
 
@@ -70,7 +90,7 @@ public class ViewInvoice extends JFrame {
 		marketName = supermarketName;
 		storeId = Integer.parseInt(store_id);
 		total = grandTotal1;
-		
+
 		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		setBackground(new Color(51, 204, 102));
 		setTitle("Review Order");
@@ -170,6 +190,7 @@ public class ViewInvoice extends JFrame {
 		contentPane.add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
 
+		/* Marking order confirmation */
 		JButton btnNewButton = new JButton("Shipped Order");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -180,33 +201,36 @@ public class ViewInvoice extends JFrame {
 						"Shipped Order", JOptionPane.YES_NO_OPTION);
 
 				if (n == 0) {
-					String status = (String) orderItem.getValueAt(selectedRow, 4);
+					String status = (String) orderItem.getValueAt(selectedRow,
+							4);
 					System.out.println("I am: " + status);
-					if(status != "Complete"){
+					if (status != "Complete") {
 						System.out.println("MARK ORDER AS SHIPPED");
 						System.out.println("selectedRow: " + selectedRow);
 						orderItem.setValueAt("Shipped", selectedRow, 4);
 						textField_4.setText("Shipped");
 						connect.updateOrderStatus("Shipped", invoiceNum);
-						Object[][] orderList = connect.getOrderListSupplier(supplier_id);
-						final String[] columnNameInvoice = { "Invoice Number", "Supplier",
-							"Total Cost($)", "Date/Time Created", "Status" };
-					
+						Object[][] orderList = connect
+								.getOrderListSupplier(supplier_id);
+						final String[] columnNameInvoice = { "Invoice Number",
+								"Supplier", "Total Cost($)",
+								"Date/Time Created", "Status" };
+
 						final DefaultTableModel orderModel = new DefaultTableModel(
 								orderList, columnNameInvoice) {
 							boolean[] columnEditables = new boolean[] { false,
 									false, false, false };
-							
+
 							public boolean isCellEditable(int row, int column) {
 								return columnEditables[column];
 							}
-						};	
+						};
 					}
-		
+
 				}
 			}
 		});
-		
+
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 10;
@@ -227,18 +251,16 @@ public class ViewInvoice extends JFrame {
 		reviewOrderTable.setFillsViewportHeight(true);
 		reviewOrderTable.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
 		reviewOrderTable.getTableHeader().setReorderingAllowed(false);
-		
+
 		// populate the table
 		Object[][] orderItemsList = connect.getOrderItems(invoiceNum);
 
-		
-		
 		reviewOrderTable.setModel(new DefaultTableModel(orderItemsList,
 				new String[] { "Name", "Item Type", "Quantity",
 						"Unit Price ($)", "Unit", "Total" }) {
 			Class[] columnTypes = new Class[] { String.class, String.class,
 					String.class, String.class, String.class, String.class };
-			
+
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -264,12 +286,10 @@ public class ViewInvoice extends JFrame {
 		contentPane.add(jtfTotal, gbc_textField_2);
 		jtfTotal.setColumns(10);
 
-		
-		/* Get supplier/supermarket info*/
+		/* Get supplier/supermarket info */
 		final String[] supplierInfo = connect.getSpecSupplier(supplier_id);
 		final String[] supermarketInfo = connect.getSpecSupermarket(storeId);
-		
-		
+
 		GradientButton jbPrint = new GradientButton("Save invoice and Open");
 		GridBagConstraints gbc_jbPrint = new GridBagConstraints();
 		gbc_jbPrint.insets = new Insets(0, 5, 5, 5);
@@ -277,77 +297,73 @@ public class ViewInvoice extends JFrame {
 		gbc_jbPrint.gridx = 2;
 		gbc_jbPrint.gridy = 15;
 		contentPane.add(jbPrint, gbc_jbPrint);
-		
+
 		jbPrint.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				try {
-						File file = new File("invoice_" + invoiceNum + ".xls");
-						TableModel model = reviewOrderTable.getModel();
-						FileWriter out = new FileWriter(file);
-						SimpleDateFormat sdf = new SimpleDateFormat(
-								"MMM. d, yyyy", java.util.Locale.ENGLISH);
-						
-						// Display supplier info and supermarket info
-						out.write(supplierInfo[0] + "\t\t\t\t\t"
-								+ supermarketInfo[0] + "\n");
-						out.write(supplierInfo[1] + "\t\t\t\t\t"
-								+ supermarketInfo[1] + "\n");
-						out.write(supplierInfo[2] + "\t\t\t\t\t" + supermarketInfo[2]
-								+ "\n");
-						out.write(supplierInfo[3]
-								+ "\t\t\t\t\t"
-								+ supermarketInfo[3]
-								+ "\n\t\t\t\t\t"
-								+ sdf.format(java.util.Calendar.getInstance()
-										.getTime()) + "\n");
-						out.write("\n\n");
+					File file = new File("invoice_" + invoiceNum + ".xls");
+					TableModel model = reviewOrderTable.getModel();
+					FileWriter out = new FileWriter(file);
+					SimpleDateFormat sdf = new SimpleDateFormat("MMM. d, yyyy",
+							java.util.Locale.ENGLISH);
 
-						//Display header
-						for (int i = 0; i < model.getColumnCount(); i++) {
-							if(i != 1 && i != 4 )
-								out.write(model.getColumnName(i) + "\t\t");
+					// Display supplier info and supermarket info
+					out.write(supplierInfo[0] + "\t\t\t\t\t"
+							+ supermarketInfo[0] + "\n");
+					out.write(supplierInfo[1] + "\t\t\t\t\t"
+							+ supermarketInfo[1] + "\n");
+					out.write(supplierInfo[2] + "\t\t\t\t\t"
+							+ supermarketInfo[2] + "\n");
+					out.write(supplierInfo[3]
+							+ "\t\t\t\t\t"
+							+ supermarketInfo[3]
+							+ "\n\t\t\t\t\t"
+							+ sdf.format(java.util.Calendar.getInstance()
+									.getTime()) + "\n");
+					out.write("\n\n");
+
+					// Display header
+					for (int i = 0; i < model.getColumnCount(); i++) {
+						if (i != 1 && i != 4)
+							out.write(model.getColumnName(i) + "\t\t");
+					}
+
+					// Display values
+					out.write("\n");
+					for (int i = 0; i < model.getRowCount(); i++) {
+						for (int j = 0; j < model.getColumnCount(); j++) {
+							if (j != 1 && j != 4)
+								out.write((String) model.getValueAt(i, j)
+										+ "\t\t");
 						}
-
-						//Display values
 						out.write("\n");
-						for (int i = 0; i < model.getRowCount(); i++) {
-							for (int j = 0; j < model.getColumnCount(); j++) {
-								if(j != 1 && j != 4 )
-									out.write((String)model.getValueAt(i, j) + "\t\t");
-							}
-							out.write("\n");
-						}
+					}
 
-						out.write("\n");
-						out.write("\t\t\t\t\tTOTAL:\t" + total + "\n");
-						out.close();
+					out.write("\n");
+					out.write("\t\t\t\t\tTOTAL:\t" + total + "\n");
+					out.close();
 
-						String osname = System.getProperty("os.name")
-								.toLowerCase();
-						Runtime r = Runtime.getRuntime();
-						if (osname.contains("win")) {
-							r.exec("cmd.exe /c start " + file);
-						} else if (osname.contains("mac")
-								|| osname.contains("linux")) {
-							r.exec("open " + file);
-						} else {
-							JOptionPane
-									.showMessageDialog((Component)e.getSource(),
-											"Operating System not supported for printing");
-						}
+					String osname = System.getProperty("os.name").toLowerCase();
+					Runtime r = Runtime.getRuntime();
+					if (osname.contains("win")) {
+						r.exec("cmd.exe /c start " + file);
+					} else if (osname.contains("mac")
+							|| osname.contains("linux")) {
+						r.exec("open " + file);
+					} else {
+						JOptionPane.showMessageDialog(
+								(Component) e.getSource(),
+								"Operating System not supported for printing");
+					}
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-		
 
-			
 			}
 		});
-
-
 
 	}
 
