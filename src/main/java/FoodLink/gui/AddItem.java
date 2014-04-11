@@ -73,23 +73,24 @@ public class AddItem extends JDialog {
 				GradientButton okButton = new GradientButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						boolean valid=true;
-						
+						boolean valid=true;	// valid unless otherwise caught by following code
+						// ensure that user has filled in everything
 						if (itemTypeField.getText().equals("") || itemField.getText().equals("") || quantityField.getText().equals("") || priceField.getText().equals("") ||unitField.getText().equals(""))
 						{
 							JOptionPane.showMessageDialog(null, "Please do not leave any fields blank.");
 						}
 						else
-						{	int quantity; double price;
+						{	
+							int quantity; double price;
 							try{
 								quantity=Integer.parseInt(quantityField.getText().trim());
 								price=Double.parseDouble(priceField.getText().trim());
-								if (quantity<0 || price< 0){
+								if (quantity < 0 || price< 0){
 									valid=false;
 								}
 							}
 							catch(NumberFormatException e){
-			
+								
 								valid=false;
 								JOptionPane.showMessageDialog(null, "Please enter valid integers for price and quantity");
 							}
@@ -99,8 +100,8 @@ public class AddItem extends JDialog {
 						
 						if (valid){
 							String r[] = {itemTypeField.getText(), itemField.getText(), quantityField.getText(), priceField.getText(), unitField.getText()};
-							result = r;
-							closeThisDialog();	
+							result = r;	// set AddItem's result, Supermarket will be able to use getResult()
+							closeThisDialog(); // work is done	
 					
 						}
 					}
