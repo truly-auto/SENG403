@@ -118,6 +118,18 @@ public class databaseTest {
 		assertTrue(flag);
 	}
 	
+	@Test
+	public void testGetOrderListSupplier() {
+		
+		Object [] [] expectedData = {{"Unsalted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Salted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Rippled Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"BBQ Spiral Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Garlic Onion Ring Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0"}};
+		
+		Object [] [] actualData = data.getOrderListSupplier(1);
+		
+		
+		assertArrayEquals(expectedData, actualData);
+	}
+	
+	
 	public String[] copyToString(Object[] array) {
 		String[] stringArray = new String[array.length];
 		
