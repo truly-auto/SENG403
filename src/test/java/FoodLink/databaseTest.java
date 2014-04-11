@@ -66,6 +66,33 @@ public class databaseTest {
 		assertEquals("Expected 2 items", 2, inventory.length);
 	}
 	
+	@Test
+	public void testGetStoreName() {
+		//This is not an effective test, needs revision
+		String expectedName = "Jane Tops";
+		
+		String actualName = data.getStoreName(1);
+		
+		assertEquals(expectedName, actualName);
+	}
+	
+	@Test
+	public void testGetOrderItems() {
+		
+		//pre-populate the order_history so i can use the invoice 1
+		
+		Object [] [] expected = {{"Unsalted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"Salted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"Rippled Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"BBQ Spiral Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"Garlic Onion Ring Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}};
+		
+		Object [] [] actual = data.getOrderItems(1);
+		
+		String expectedName = "Jane Tops";
+		
+		String actualName = data.getStoreName(1);
+		
+		//assertEquals(expectedName, actualName);
+	}
+	
+	
 	public String[] copyToString(Object[] array) {
 		String[] stringArray = new String[array.length];
 		
