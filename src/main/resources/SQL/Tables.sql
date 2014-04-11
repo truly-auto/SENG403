@@ -376,3 +376,7 @@ VALUES ('This place Rocks!', 1, 1);
 
 INSERT INTO supplier_comments (comment, store_id, supplier_id)
 VALUES ('Unhappy Comment :(', 2, 1);
+
+--adding some order history data
+INSERT INTO order_history (supplier, supermarket, total_cost, date_time_created, status, store_id, supplier_id)
+VALUES ('Aaron Streit Inc.', 'Jane Tops', 0, '2014-04-10 16:00:00.0', 'Submitted', 1, 3);
