@@ -37,6 +37,9 @@ public class database {
 		
 	}
 	
+	/**
+	 * Add comments about suppliers
+	 */
 	public void addComment(String comment, int store_id, int supplier_id){
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -56,6 +59,9 @@ public class database {
 		}
 	}
 	
+	/**
+	 * Get the supermarket's inventory
+	 */
 	public Object [] [] getInventory(int id){
 		ArrayList<ArrayList<String>> inventory = new ArrayList<ArrayList<String>>();
 		String command = "select * from items where supplier_id = " +id;
@@ -119,7 +125,9 @@ public class database {
 		return inventoryArray;
 	}
 	
-	
+	/**
+	 * Get information about specific suppliers
+	 */
 	public String [] getSpecSupplier(int id){
 		String command = "select * from supplier where supplier_id = " +id;
 		String [] supplier = new String [5]; 
@@ -164,6 +172,11 @@ public class database {
 		return supplier;
 	}
 	
+	/**
+	 * Get information about a specific supermarket
+	 * @param id
+	 * @return
+	 */
 	public String [] getSpecSupermarket(int id){
 		String command = "select * from supermarket where store_id = " +id;
 		String [] supermarket = new String [5]; 
@@ -262,7 +275,11 @@ public class database {
 		
 		return userArray;
 	}
-
+	
+	/**
+	 * get the names of suppliers
+	 * @return
+	 */
 	public String [] getSupplierNames()
 	{
 		String command = "select name from supplier";
@@ -290,6 +307,11 @@ public class database {
 
 	}
 	
+	/**
+	 * get the name of the input supermarket
+	 * @param id
+	 * @return
+	 */
 	public String [] getSupermarketName(int id)
 	{
 		String command = "select name from supermarket where store_id = " + id;
@@ -317,6 +339,11 @@ public class database {
 
 	}
 	
+	/**
+	 * get the items a supplier carries
+	 * @param id
+	 * @return
+	 */
 	public String [] getSupplierItemsList(int id)
 	{
 		String command = "select name from items where supplier_id = " + id;
@@ -347,6 +374,9 @@ public class database {
 	}
 	
 	
+	/**
+	 * get all the information about items a supplier carries minus the quantity
+	 */
 	public Object [][] getItemListForSupplier(int id)
 	{
 		String command = "select item_number, name, item_type, unit_price, unit from items where supplier_id = " + id;
@@ -414,7 +444,11 @@ public class database {
 		
 	}
 	
-
+	/**
+	 * get all information about a suppliers items
+	 * @param id
+	 * @return
+	 */
 	public Object[][] getSupplierInventory(int id)
 	{
 		String command = "select * from items where supplier_id = " + id;
@@ -608,7 +642,12 @@ public class database {
 
 	}
 	
-	
+	/**
+	 * manage the supplier users (add/delete)
+	 * @param user
+	 * @param id
+	 * @param add
+	 */
 	public void manageSupplierUsers(String[] user, int id, boolean add) {
 		String command;
 		
@@ -632,6 +671,12 @@ public class database {
 		
 	}
 	
+	/**
+	 * manage supermarket users (add/delete)
+	 * @param user
+	 * @param id
+	 * @param add
+	 */
 	public void manageSupermarketUsers(String[] user, int id, boolean add) {
 		String command;
 		
@@ -654,6 +699,13 @@ public class database {
 		System.out.println("Add or delete Succesful");
 		
 	}
+	
+	/**
+	 * manage supplier items (add/delete)
+	 * @param item
+	 * @param id
+	 * @param add
+	 */
 	public void manageItems(String[] item, int id, boolean add) {
 		String command;
 		
@@ -677,7 +729,12 @@ public class database {
 		
 	}
 
-
+	
+	/**
+	 * madify supplier items
+	 * @param item
+	 * @param itemNum
+	 */
 	public void modifyItem(String[] item, int itemNum) {
 		System.out.println(item[0]);
 		System.out.println(item[1]);
@@ -698,6 +755,12 @@ public class database {
 		System.out.println("Mod Succesful");
 	}
 
+	/**\
+	 * get a user
+	 * @param username
+	 * @param supplier
+	 * @return
+	 */
 	public Object[] getUser(String username, boolean supplier) {
 		String command = null;
 		if(supplier){
@@ -745,6 +808,11 @@ public class database {
 		return user;
 	}
 	
+	/**
+	 * add items to supermarket inventory
+	 * @param item
+	 * @param id
+	 */
 	public void addSupermarketItem(String[] item, int id) {
 		
 		String command = "INSERT INTO supermarket_inventory (name, inventory_type, supermarket_id, quantity, unit_price, unit, supplier_item_number) VALUES "
@@ -763,6 +831,11 @@ public class database {
 		
 	}
 	
+	/**
+	 * edit supermarket inventory
+	 * @param item
+	 * @param itemNum
+	 */
 	public void modifySupermarketItem(String[] item, int itemNum) {
 		
 		String command = "UPDATE supermarket_inventory SET name = '" + item[0]+"', inventory_type = '"+item[1]+"', quantity = "+ Integer.parseInt(item[2])+", unit_price = "+ Double.parseDouble(item[3])+ " , unit = '" +item[4]+"' "
@@ -778,7 +851,11 @@ public class database {
 		}
 		System.out.println("Mod Succesful");
 	}
-
+	
+	/**
+	 * delete supermarket inventory
+	 * @param id
+	 */
 	public void deleteInvetory(int id) {
 		//delete any auto-orders first
 		String deleteThreshold = "DELETE FROM automatic_orders WHERE supermarket_item = " + id;
@@ -809,7 +886,11 @@ public class database {
 		
 	}
 
-
+	/**
+	 * get the supermarkets inventory
+	 * @param id
+	 * @return
+	 */
 	public Object[][] getSupermarketInventory(int id) {
 
 		String command = "select * from supermarket_inventory where supermarket_id = " + id;
@@ -871,6 +952,11 @@ public class database {
 		return returnArray;
 	}
 	
+	/**
+	 * add an automatic order for an item
+	 * @param order
+	 * @param id
+	 */
 	public void addAutomaticOrder(String[] order, int id) {
 		
 		String command = "INSERT INTO automatic_orders (threshold, quantity, supermarket_item) VALUES "
@@ -888,6 +974,11 @@ public class database {
 		System.out.println("Add Successful");
 	}
 	
+	/**
+	 * get auto order threshold
+	 * @param id
+	 * @return
+	 */
 	public Integer[] getThreshold(int id) {
 		String command = "select * from automatic_orders where supermarket_item = " + id;
 		ArrayList<Integer> itemsList = new ArrayList<Integer>() ;
@@ -911,6 +1002,18 @@ public class database {
 		return itemsList.toArray(new Integer[itemsList.size()]);
 	}
 	
+	/**
+	 * add an invoice/order
+	 * @param invoice_number
+	 * @param name
+	 * @param item_type
+	 * @param quantity
+	 * @param unit_price
+	 * @param unit
+	 * @param total
+	 * @param grandTotal
+	 * @return
+	 */
 	public boolean addOrderInformation(int invoice_number, String name, String item_type, double quantity, double unit_price, String unit, double total, double grandTotal){
 		String command = "INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal) VALUES "
 				+ "("+ invoice_number + "," + "'" + name+ "'" + ","+ "'" + item_type + "'" + "," + quantity +","+ unit_price + "," + "'" + unit + "'" + "," + total + "," + grandTotal + ")";
@@ -930,6 +1033,16 @@ public class database {
 		
 	}
 	
+	/**
+	 * add information about an order
+	 * @param supplierName
+	 * @param supermarketName
+	 * @param grandTotal
+	 * @param orderStatus
+	 * @param store_id
+	 * @param supplier_id
+	 * @return
+	 */
 	public boolean addToOrderHistory(String supplierName, String supermarketName, Double grandTotal, String orderStatus, int store_id, int supplier_id){
 		java.util.Date date= new java.util.Date();
 		
@@ -956,6 +1069,10 @@ public class database {
 		
 	}
 	
+	/**
+	 * get the latest order number
+	 * @return
+	 */
 	public int getLastElementInOrderHistory()
 	{
 		String command = "SELECT MAX(INVOICE_NUMBER) FROM ORDER_HISTORY";
@@ -1112,6 +1229,12 @@ public class database {
 
 	}
 	
+	/**
+	 * update the status of the order
+	 * @param status
+	 * @param invoice_number
+	 * @return
+	 */
 	public boolean updateOrderStatus(String status, int invoice_number)
 	{
 		String command = "UPDATE order_history SET status = " + "'" + status + "'" + "WHERE invoice_number = " + invoice_number;
