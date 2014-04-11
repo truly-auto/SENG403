@@ -33,9 +33,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class AddItem extends JDialog {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JTextField itemTypeField;
 	private JTextField itemField;
@@ -44,25 +42,25 @@ public class AddItem extends JDialog {
 	private String result[];
 	private JTextField unitField;
 
-	
 	/**
-	 * Create the dialog.
+	 * Create the dialog to adding a new item to inventory. User will input the
+	 * name of the item, type of item, quantity, price, shipment by units
 	 */
 	public AddItem() {
 		setTitle("Add an item");
 		setBounds(100, 100, 397, 264);
-		
+
 		BufferedImage img = null;
-		try 
-		{
-		    img = ImageIO.read(new File("src/main/resources/images/foodlinkIcon.png")); // put icon image here
-		} 
-		catch (IOException e) 
-		{
-		    e.printStackTrace();
+		try {
+			img = ImageIO.read(new File(
+					"src/main/resources/images/foodlinkIcon.png")); // put icon
+																	// image
+																	// here
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		this.setIconImage(img);
-		
+
 		getContentPane().setLayout(null);
 		{
 			JPanel buttonPane = new JPanel();
@@ -73,36 +71,46 @@ public class AddItem extends JDialog {
 				GradientButton okButton = new GradientButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						boolean valid=true;	// valid unless otherwise caught by following code
+						boolean valid = true; // valid unless otherwise caught
+												// by following code
 						// ensure that user has filled in everything
-						if (itemTypeField.getText().equals("") || itemField.getText().equals("") || quantityField.getText().equals("") || priceField.getText().equals("") ||unitField.getText().equals(""))
-						{
-							JOptionPane.showMessageDialog(null, "Please do not leave any fields blank.");
-						}
-						else
-						{	
-							int quantity; double price;
-							try{
-								quantity=Integer.parseInt(quantityField.getText().trim());
-								price=Double.parseDouble(priceField.getText().trim());
-								if (quantity < 0 || price< 0){
-									valid=false;
+						if (itemTypeField.getText().equals("")
+								|| itemField.getText().equals("")
+								|| quantityField.getText().equals("")
+								|| priceField.getText().equals("")
+								|| unitField.getText().equals("")) {
+							JOptionPane.showMessageDialog(null,
+									"Please do not leave any fields blank.");
+						} else {
+							int quantity;
+							double price;
+							try {
+								quantity = Integer.parseInt(quantityField
+										.getText().trim());
+								price = Double.parseDouble(priceField.getText()
+										.trim());
+								if (quantity < 0 || price < 0) {
+									valid = false;
 								}
+							} catch (NumberFormatException e) {
+
+								valid = false;
+								JOptionPane
+										.showMessageDialog(null,
+												"Please enter valid integers for price and quantity");
 							}
-							catch(NumberFormatException e){
-								
-								valid=false;
-								JOptionPane.showMessageDialog(null, "Please enter valid integers for price and quantity");
-							}
-							
-							
+
 						}
-						
-						if (valid){
-							String r[] = {itemTypeField.getText(), itemField.getText(), quantityField.getText(), priceField.getText(), unitField.getText()};
-							result = r;	// set AddItem's result, Supermarket will be able to use getResult()
-							closeThisDialog(); // work is done	
-					
+
+						if (valid) {
+							String r[] = { itemTypeField.getText(),
+									itemField.getText(),
+									quantityField.getText(),
+									priceField.getText(), unitField.getText() };
+							result = r; // set AddItem's result, Supermarket
+										// will be able to use getResult()
+							closeThisDialog(); // work is done
+
 						}
 					}
 				});
@@ -121,64 +129,65 @@ public class AddItem extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		
+
 		itemTypeField = new JTextField();
 		itemTypeField.setBounds(159, 18, 168, 20);
 		getContentPane().add(itemTypeField);
 		itemTypeField.setColumns(10);
-		
+
 		itemField = new JTextField();
 		itemField.setBounds(159, 49, 168, 20);
 		getContentPane().add(itemField);
 		itemField.setColumns(10);
-		
+
 		quantityField = new JTextField();
 		quantityField.setBounds(159, 80, 168, 20);
 		getContentPane().add(quantityField);
 		quantityField.setColumns(10);
-		
+
 		priceField = new JTextField();
 		priceField.setBounds(159, 111, 168, 20);
 		getContentPane().add(priceField);
 		priceField.setColumns(10);
-		
+
 		JLabel lblItemType = new JLabel("Item Name");
 		lblItemType.setHorizontalAlignment(SwingConstants.CENTER);
 		lblItemType.setBounds(43, 21, 66, 14);
 		getContentPane().add(lblItemType);
-		
+
 		JLabel lblItem = new JLabel("Item Type");
 		lblItem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblItem.setBounds(43, 52, 66, 14);
 		getContentPane().add(lblItem);
-		
+
 		JLabel lblQuanitty = new JLabel("Quantity");
 		lblQuanitty.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuanitty.setBounds(43, 83, 66, 14);
 		getContentPane().add(lblQuanitty);
-		
+
 		JLabel lblPrice = new JLabel("Price ($)");
 		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPrice.setBounds(43, 114, 66, 14);
 		getContentPane().add(lblPrice);
-		
+
 		JLabel lblErrorMessage = new JLabel("errorPlaceHolder");
 		lblErrorMessage.setVisible(false);
 		lblErrorMessage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblErrorMessage.setForeground(Color.RED);
 		lblErrorMessage.setBounds(56, 168, 271, 14);
 		getContentPane().add(lblErrorMessage);
-		
+
 		JLabel lblUnit = new JLabel("Units");
 		lblUnit.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUnit.setBounds(43, 145, 66, 14);
 		getContentPane().add(lblUnit);
-		
+
 		unitField = new JTextField();
 		unitField.setBounds(158, 142, 169, 20);
 		getContentPane().add(unitField);
 		unitField.setColumns(10);
 	}
+
 	/*
 	 * makes invisible
 	 */
@@ -186,45 +195,43 @@ public class AddItem extends JDialog {
 		this.setVisible(false);
 		this.dispose();
 	}
-	
+
 	protected void hideThisDialog() {
 		this.setVisible(false);
 	}
-	
+
 	public String[] showDialog() {
 		this.setVisible(true);
 		return result;
 	}
-	
-	public String[] getResult()
-	{
+
+	public String[] getResult() {
 		return this.result;
 	}
-	
-	private static final class GradientButton extends JButton{
-        private GradientButton(){
-            this.setText("");
-            setContentAreaFilled(false);
-        }
-        private GradientButton(String str){
-            this.setText(str);;
-            setContentAreaFilled(false);
-            
-        }
 
-        @Override
-        protected void paintComponent(Graphics g){
-            Graphics2D G2D = (Graphics2D)g.create();
-            Color grey = new Color(153, 153, 153);
-            G2D.setPaint(new GradientPaint(
-                    new Point(0, 0), 
-                    Color.white, 
-                    new Point(0, getHeight()), 
-                    grey));
-            G2D.fillRect(0, 0, getWidth(), getHeight());
-            G2D.dispose();
+	private static final class GradientButton extends JButton {
+		private GradientButton() {
+			this.setText("");
+			setContentAreaFilled(false);
+		}
 
-            super.paintComponent(g);
-        }
+		private GradientButton(String str) {
+			this.setText(str);
+			;
+			setContentAreaFilled(false);
+
+		}
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			Graphics2D G2D = (Graphics2D) g.create();
+			Color grey = new Color(153, 153, 153);
+			G2D.setPaint(new GradientPaint(new Point(0, 0), Color.white,
+					new Point(0, getHeight()), grey));
+			G2D.fillRect(0, 0, getWidth(), getHeight());
+			G2D.dispose();
+
+			super.paintComponent(g);
+		}
 	}
 }

@@ -15,23 +15,11 @@ public class LookAndFeel {
 	
 	public LookAndFeel(JFrame f)
 	{
-		/*
-		try {
-		    // Set the Look and Feel of the application to the operating
-		    // system's look and feel.
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (ClassNotFoundException e) {
-		}
-		catch (InstantiationException e) {
-		}
-		catch (IllegalAccessException e) {
-		}
-		catch (UnsupportedLookAndFeelException e) {
-		}
 		
-		*/
 		BufferedImage img = null;
+		/**
+		 *	Set the icon of the windows by using file from resources
+		 */
 		try 
 		{
 		    img = ImageIO.read(new File("src/main/resources/images/foodlinkIcon.png")); // put icon image here

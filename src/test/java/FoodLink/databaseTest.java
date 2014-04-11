@@ -279,4 +279,57 @@ public class databaseTest extends DatabaseTestHelper {
 		
 		return stringArray;
 	}
+	
+
+	@Test
+	public void testGetStoreName() {
+		//This is not an effective test, needs revision
+		String expectedName = "Jane Tops";
+		
+		String actualName = data.getStoreName(1);
+		
+		assertEquals(expectedName, actualName);
+	}
+	
+	@Test
+	public void testGetOrderItems() {
+		
+		Object [] [] expectedData = {{"Unsalted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Salted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Rippled Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"BBQ Spiral Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Garlic Onion Ring Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0"}};
+		
+		Object [] [] actualData = data.getOrderItems(1);
+		
+		
+		assertArrayEquals(expectedData, actualData);
+	}
+	
+	@Test
+	public void testUpdateOrderStatus()
+	{
+		boolean flag = data.updateOrderStatus("Complete", 2);
+		assertTrue(flag);
+	}
+	
+	@Test
+	//Test if the Order Status table is empty or not. 
+	//In this case, the table should always have 2 pre-populated items in them. 
+	public void testGetLastElementInOrderHistory()
+	{
+		int actualData = data.getLastElementInOrderHistory();
+		assertNotEquals(0, actualData);
+	}
+	
+	@Test
+	public void testAddToOrderHistory()
+	{
+		boolean flag = data.addToOrderHistory("Ammmazing Donuts", "Jane Tops", 1234.0, "Shipped", 1, 3);
+		assertTrue(flag);
+	}
+	
+	@Test
+	//This is to test if the method addOrderInformation is executing properly
+	public void testAddOrderInformation()
+	{
+		boolean flag = data.addOrderInformation(99, "Cream Puffs", "Bakery", 10, 8, "10LBS", 80.0, 80.0);
+		assertTrue(flag);
+	}
 }

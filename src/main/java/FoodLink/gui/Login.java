@@ -29,56 +29,64 @@ public class Login extends JFrame {
 	private JPasswordField passwordField_1;
 	private Object[] credentials = null;
 
+	/**
+	 * Creates a login window for user to log in. User must enter a username and
+	 * password. If the field is missing the window will prompt the user for
+	 * data.
+	 * 
+	 * Supermarket and suppliers log in with the same window. System will check
+	 * for the users in both supermarket and supplier and open the corresponding
+	 * UI.
+	 * 
+	 * Forgot password button does not work, just there as placeholder.
+	 */
 	public Login() {
 		// Creating the window
 		this.setMinimumSize(new Dimension(640, 420));
 		this.setLocation(100, 100);
 		this.setResizable(false);
 		LookAndFeel lookAndFeel = new LookAndFeel(this);
-		
+
 		Color green = new Color(182, 215, 168);
 		Color grey = new Color(153, 153, 153);
 		this.setForeground(green);
 		BufferedImage Logo = null;
 		JPanel banner = new JPanel();
-		try 
-		{
-		    Logo = ImageIO.read(new File("src/main/resources/images/Logo17.JPG")); // put icon image here
-		    JLabel LogoPanel = new JLabel(new ImageIcon( Logo ));
+		try {
+			Logo = ImageIO
+					.read(new File("src/main/resources/images/Logo17.JPG")); // put
+																				// icon
+																				// image
+																				// here
+			JLabel LogoPanel = new JLabel(new ImageIcon(Logo));
 			banner.add(LogoPanel);
-		} 
-		catch (IOException e) 
-		{
-		    e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		banner.setBackground(green);		
+
+		banner.setBackground(green);
 		this.getContentPane().add(banner, "North");
-		
-		JPanel buttonsPanel = new JPanel();		
+
+		JPanel buttonsPanel = new JPanel();
 
 		this.getContentPane().setBackground(green);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.getContentPane().setLayout(null);
-		
+		// this.getContentPane().setLayout(null);
 
-		
-		//~~~~~~~~~~~~~DIVISION~~~~~~~~~~~~~~~~~~~~//
+		// ~~~~~~~~~~~~~DIVISION~~~~~~~~~~~~~~~~~~~~//
 		// adding login button when clicked retrieves the text from the user and
 		// password fields
 		GradientButton btnLogin = new GradientButton("Login");
-		btnLogin.setBackground(grey);	
+		btnLogin.setBackground(grey);
 		btnLogin.setBounds(400, 295, 89, 23);
 		this.getContentPane().add(btnLogin);
-		
-		
+
 		// adding forgot button
 		GradientButton btnForgot = new GradientButton("Forgot");
 		btnForgot.setBackground(grey);
 		btnForgot.setBounds(400, 330, 89, 23);
 		this.getContentPane().add(btnForgot);
 
-				
 		// creating username label
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -90,123 +98,38 @@ public class Login extends JFrame {
 		userField.setBounds(220, 288, 122, 23);
 		this.getContentPane().add(userField);
 		userField.setColumns(10);
-		
+
 		// creating the label for invalid usernames
 		final JLabel lblPleaseEnterA = new JLabel(
 				"Please enter a valid username");
 		lblPleaseEnterA.setBounds(195, 313, 175, 14);
 		this.getContentPane().add(lblPleaseEnterA);
 		lblPleaseEnterA.setVisible(false);
-		
 
-		
-		
 		// creating password label
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblPassword.setBounds(140, 340, 89, 14);
-		this.getContentPane().add(lblPassword);		
-		
+		this.getContentPane().add(lblPassword);
+
 		// adding a password field
 		passwordField = new JPasswordField();
 		passwordField.setBounds(220, 338, 122, 23);
 		this.getContentPane().add(passwordField);
 		passwordField.setColumns(10);
-		
-		
+
 		// creating the label for invalid password
 		final JLabel lblInvalidPassword = new JLabel("Invalid password");
 		lblInvalidPassword.setBounds(233, 363, 110, 14);
 		this.getContentPane().add(lblInvalidPassword);
 		lblInvalidPassword.setVisible(false);
-		
-		//MT:Sets the order of focus when you press Tab
+
+		// MT:Sets the order of focus when you press Tab
 		userField.setNextFocusableComponent(passwordField);
 		passwordField.setNextFocusableComponent(btnLogin);
 		btnLogin.setNextFocusableComponent(btnForgot);
 		btnForgot.setNextFocusableComponent(userField);
-		
-		//~~~~~~~~~~~~~~~~~~NO DIVISION~~~~~~~~~~~~~~~~~//
-		/*
-		// adding login button when clicked retrieves the text from the user and
-		// password fields
-		GradientButton btnLogin = new GradientButton("Login");
-		btnLogin.setBackground(grey);	
-		btnLogin.setBounds(400, 270, 89, 23);
-		this.getContentPane().add(btnLogin);
-		//btnLogin.setSize(89, 23);
-		//buttonsPanel.add(btnLogin);
-		
-		// adding forgot button
-		GradientButton btnForgot = new GradientButton("Forgot");
-		btnForgot.setBackground(grey);
-		btnForgot.setBounds(400, 315, 89, 23);
-		this.getContentPane().add(btnForgot);
 
-			
-		
-		// creating username label
-		JLabel lblUsername = new JLabel("Username");
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblUsername.setBounds(140, 260, 89, 14);
-		this.getContentPane().add(lblUsername);
-
-		// creating password label
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(99, 117, 89, 14);
-		this.getContentPane().add(lblPassword);
-
-		// adding username text field
-		userField = new JTextField();
-		userField.setBounds(220, 258, 122, 23);
-		this.getContentPane().add(userField);
-		userField.setColumns(10);
-		
-		// creating the label for invalid usernames
-		final JLabel lblPleaseEnterA = new JLabel(
-				"Please enter a valid username");
-		lblPleaseEnterA.setBounds(195, 285, 175, 14);
-		this.getContentPane().add(lblPleaseEnterA);
-		lblPleaseEnterA.setVisible(false);
-				
-		
-		// creating password label
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(140, 325, 89, 14);
-		this.getContentPane().add(lblPassword);		
-		
-		// adding a password field
-		passwordField = new JTextField();
-		passwordField.setBounds(220, 323, 122, 23);
-		this.getContentPane().add(passwordField);
-		passwordField.setColumns(10);
-		
-		// creating the label for invalid password
-		final JLabel lblInvalidPassword = new JLabel("Invalid password");
-		lblInvalidPassword.setBounds(233, 350, 110, 14);
-		this.getContentPane().add(lblInvalidPassword);
-		lblInvalidPassword.setVisible(false);
-		
-		buttonsPanel.setBackground(green);
-		*/
-		
-		/*
-		 * passwordField_1 = new JPasswordField(); passwordField_1.setBounds(99,
-		 * 136, 122, 23); getContentPane().add(passwordField_1); final
-		 * JPasswordField passwordField = new JPasswordField(10);
-		 */
-		// creating foodlink login
-		/*
-		JLabel lblFoodlink = new JLabel("FoodLink Login");
-		lblFoodlink.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
-		lblFoodlink.setBounds(99, 24, 216, 41);
-		this.getContentPane().add(lblFoodlink);
-*/
-		
-	
-		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean supplier = true;
@@ -244,7 +167,8 @@ public class Login extends JFrame {
 							try {
 
 								SupplierSys window = new SupplierSys(
-										(Integer) credentials[1], Boolean.valueOf((String)credentials[2]));
+										(Integer) credentials[1],
+										Boolean.valueOf((String) credentials[2]));
 
 								window.frame.setVisible(true);
 								close();
@@ -255,9 +179,11 @@ public class Login extends JFrame {
 						// login store user
 						else {
 							try {
-								//SupermarketSys window = new SupermarketSys();
-								SupermarketSys window = new SupermarketSys((Integer) credentials[1], Boolean.valueOf((String) credentials[2]));
-								
+								// SupermarketSys window = new SupermarketSys();
+								SupermarketSys window = new SupermarketSys(
+										(Integer) credentials[1],
+										Boolean.valueOf((String) credentials[2]));
+
 								window.frame.setVisible(true);
 								close();
 							} catch (Exception e1) {
@@ -280,9 +206,9 @@ public class Login extends JFrame {
 			}
 
 		});
-		
+
 		this.getContentPane().add(buttonsPanel);
-		
+
 		pack();
 	}
 
@@ -290,31 +216,30 @@ public class Login extends JFrame {
 		this.dispose();
 
 	}
-	
-	private static final class GradientButton extends JButton{
-        private GradientButton(){
-            this.setText("");
-            setContentAreaFilled(false);
-        }
-        private GradientButton(String str){
-            this.setText(str);;
-            setContentAreaFilled(false);
-            
-        }
 
-        @Override
-        protected void paintComponent(Graphics g){
-            Graphics2D G2D = (Graphics2D)g.create();
-            Color grey = new Color(153, 153, 153);
-            G2D.setPaint(new GradientPaint(
-                    new Point(0, 0), 
-                    Color.white, 
-                    new Point(0, getHeight()), 
-                    grey));
-            G2D.fillRect(0, 0, getWidth(), getHeight());
-            G2D.dispose();
+	private static final class GradientButton extends JButton {
+		private GradientButton() {
+			this.setText("");
+			setContentAreaFilled(false);
+		}
 
-            super.paintComponent(g);
-        }
+		private GradientButton(String str) {
+			this.setText(str);
+			;
+			setContentAreaFilled(false);
+
+		}
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			Graphics2D G2D = (Graphics2D) g.create();
+			Color grey = new Color(153, 153, 153);
+			G2D.setPaint(new GradientPaint(new Point(0, 0), Color.white,
+					new Point(0, getHeight()), grey));
+			G2D.fillRect(0, 0, getWidth(), getHeight());
+			G2D.dispose();
+
+			super.paintComponent(g);
+		}
 	}
 }

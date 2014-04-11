@@ -149,9 +149,9 @@ public class SupermarketSys {
 	 */
 	@SuppressWarnings("serial")
 	private void initialize(final int supermarket_id, final boolean manager) {
-		supermarket = connect.getSupermarketName(supermarket_id);
+		supermarket = connect.getSupermarketName(supermarket_id);	// get supermarket from database by using id
 		frame = new JFrame();
-		LookAndFeel lookAndFeel = new LookAndFeel(frame);
+		LookAndFeel lookAndFeel = new LookAndFeel(frame);			// used for setting look and feel (icon)
 		frame.setTitle("FoodLink");		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Color grey = new Color(153, 153, 153);
@@ -208,8 +208,8 @@ public class SupermarketSys {
 		gbc_label.gridy = 0;
 		frame.getContentPane().add(label, gbc_label);
 
+		// code to handle log out button - GUI related
 		GradientButton btnNewButton1 = new GradientButton("Log Out");
-		
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -250,7 +250,7 @@ public class SupermarketSys {
 
 		final String[] columnNameInvoice = { "Invoice Number", "Supplier",
 				"Total Cost($)", "Date/Time Created", "Status" };
-		
+		// code to handle order review before submission - GUI related
 		final GradientButton reviewOrderButton = new GradientButton("Review Order");
 		reviewOrderButton.setEnabled(false);
 		reviewOrderButton.addMouseListener(new MouseAdapter() {
@@ -300,7 +300,8 @@ public class SupermarketSys {
 		gbc_scrollPane1.gridx = 0;
 		gbc_scrollPane1.gridy = 2;
 		orderTab.add(scrollPane1, gbc_scrollPane1);
-
+		
+		
 		Object[][] orderList = connect.getOrderList(supermarket_id);
 
 		final DefaultTableModel orderModel = new DefaultTableModel(orderList,
@@ -408,9 +409,11 @@ public class SupermarketSys {
 						table_4.setModel(itemsListModel);
 						table_4.getModel().addTableModelListener(
 								new TableModelListener() {
+								
 									/**
-							   * 
-							   */
+									 * Event handling table update
+									 * Client is trying to add orders to his client
+									 */
 									public void tableChanged(TableModelEvent e) {
 										// create order if customer has tried changing
 										// order UI
@@ -419,7 +422,7 @@ public class SupermarketSys {
 										}
 
 										// ensures that only when updates to quantity
-										// warrant a change to order
+										// warrant a change to order 
 										if (e.getColumn() == 3) {
 											if (currentOrder.updateOrder(Integer.parseInt(table_4.getValueAt(e.getFirstRow(), 3).toString()), comboBox.getSelectedIndex(), e.getFirstRow()) == -1) 
 											{
@@ -486,7 +489,7 @@ public class SupermarketSys {
 				scrollPaneGridBagLayout.fill = GridBagConstraints.BOTH;
 				scrollPaneGridBagLayout.gridx = 0;
 				scrollPaneGridBagLayout.gridy = 1;
-
+				// create new order tab dynamically
 				newOrder.add(newOrderTabScrollPane, scrollPaneGridBagLayout);
 
 				itemsListModel = new DefaultTableModel(itemsList, itemsColumnNames);
@@ -890,10 +893,11 @@ public class SupermarketSys {
 			 }
 		};
 		supplierSelector.addActionListener(actionListener);
-		
+		// code to handle adding to inventory event
 		GradientButton addToInventory = new GradientButton("Add Item to Inventory");
 		addToInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// ensure row is selected
 				if (selectedRow!=null){
 					System.out.println("About to auto-order item on this row " + selectedRow);
 					System.out.println("Is this the anser?? " + inventoryTable.getValueAt(row, 1));
@@ -961,7 +965,7 @@ public class SupermarketSys {
 			}
 		});
 		
-		
+		// handle comment event
 		btnComment.addActionListener(new ActionListener() {
 			
 			@Override
@@ -1125,7 +1129,12 @@ public class SupermarketSys {
 		// CODES FOR NEW ORDER PAGE
 
 	}
-
+	/**
+	 * 
+	 * @param supermarket_id
+	 * 
+	 * This class builds the inventory of the supermarket whose supermarket_id is passed
+	 */
 	private void setInvetoryTable(int supermarket_id) {
 		
 		final String[] columnNames = {"Item Number", "Item name", "Type", "Quantity", "Unit Price ($)", "Unit"};

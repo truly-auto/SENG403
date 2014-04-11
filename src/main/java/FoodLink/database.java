@@ -1123,7 +1123,7 @@ public class database {
 		catch (SQLException e) {
 		     e.fillInStackTrace();
 		     System.out.println("Error executing: " + command);
-		     System.out.println(e);;
+		     System.out.println(e);
 		     return false;
 		
 		}

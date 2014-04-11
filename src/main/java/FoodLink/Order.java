@@ -41,6 +41,8 @@ public class Order {
 	 * @param quantity: the quantity read from order form
 	 * @param supplierID: the id of supplier in database
 	 * @param itemIndex: the item index in database
+	 * 
+	 * Obsolete** This is legacy code that was broken by iteration 3, as such, we have commented it out as we reevaluate whether it is needed for future
 	 *
 	 * returns: 0 when no error and -1 if cannot add to order (i.e. out of stock)
 	 */
@@ -96,9 +98,16 @@ public class Order {
 		//System.out.println("cost of order according to order: " + cost);
 		return 0;
 	}
-	
+	/**
+	 * 
+	 * @param supplierID
+	 * @param itemIndex
+	 * @param quantity
+	 * @return whether or not an item is available
+	 */
 	public boolean supplierHasItemAvailable(int supplierID, int itemIndex, int quantity)
 	{
+		// checks to see if database quantity is more than the client requested
 		if (Integer.parseInt(db.getSupplierInventory(supplierID)[itemIndex][3].toString()) >= quantity){
 			return true;
 		}
