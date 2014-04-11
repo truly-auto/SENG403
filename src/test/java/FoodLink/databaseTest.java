@@ -79,19 +79,44 @@ public class databaseTest {
 	@Test
 	public void testGetOrderItems() {
 		
-		//pre-populate the order_history so i can use the invoice 1
+		Object [] [] expectedData = {{"Unsalted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Salted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Rippled Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"BBQ Spiral Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0"}, {"Garlic Onion Ring Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0"}};
 		
-		Object [] [] expected = {{"Unsalted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"Salted Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"Rippled Potato Chips", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"BBQ Spiral Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}, {"Garlic Onion Ring Snacks in a Bag", "Potato Chips and Snack", "0", "8", "20LBS", "0", "0"}};
+		Object [] [] actualData = data.getOrderItems(1);
 		
-		Object [] [] actual = data.getOrderItems(1);
 		
-		String expectedName = "Jane Tops";
-		
-		String actualName = data.getStoreName(1);
-		
-		//assertEquals(expectedName, actualName);
+		assertArrayEquals(expectedData, actualData);
 	}
 	
+	@Test
+	public void testUpdateOrderStatus()
+	{
+		boolean flag = data.updateOrderStatus("Complete", 2);
+		assertTrue(flag);
+	}
+	
+	@Test
+	//Test if the Order Status table is empty or not. 
+	//In this case, the table should always have 2 pre-populated items in them. 
+	public void testGetLastElementInOrderHistory()
+	{
+		int actualData = data.getLastElementInOrderHistory();
+		assertNotEquals(0, actualData);
+	}
+	
+	@Test
+	public void testAddToOrderHistory()
+	{
+		boolean flag = data.addToOrderHistory("Ammmazing Donuts", "Jane Tops", 1234.0, "Shipped", 1, 3);
+		assertTrue(flag);
+	}
+	
+	@Test
+	//This is to test if the method addOrderInformation is executing properly
+	public void testAddOrderInformation()
+	{
+		boolean flag = data.addOrderInformation(99, "Cream Puffs", "Bakery", 10, 8, "10LBS", 80.0, 80.0);
+		assertTrue(flag);
+	}
 	
 	public String[] copyToString(Object[] array) {
 		String[] stringArray = new String[array.length];

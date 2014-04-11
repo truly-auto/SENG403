@@ -379,4 +379,23 @@ VALUES ('Unhappy Comment :(', 2, 1);
 
 --adding some order history data
 INSERT INTO order_history (supplier, supermarket, total_cost, date_time_created, status, store_id, supplier_id)
-VALUES ('Aaron Streit Inc.', 'Jane Tops', 0, '2014-04-10 16:00:00.0', 'Submitted', 1, 3);
+VALUES ('Aaron Streit Inc.', 'Jane Tops', 0, '2014-04-10 16:00:00.0', 'Submitted', 1, 1);
+
+INSERT INTO order_history (supplier, supermarket, total_cost, date_time_created, status, store_id, supplier_id)
+VALUES ('Ammmazing Donuts', 'Jane Tops', 0, '2014-04-10 17:00:00.0', 'Submitted', 1, 3);
+
+--adding some items in the orders list
+INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal)
+VALUES (1, 'Unsalted Potato Chips', 'Potato Chips and Snack', 0, 8, '20LBS', 0, 0);
+
+INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal)
+VALUES (1, 'Salted Potato Chips', 'Potato Chips and Snack', 0, 8, '20LBS', 0, 0);
+
+INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal)
+VALUES (1, 'Rippled Potato Chips', 'Potato Chips and Snack', 0, 8, '20LBS', 0, 0);
+
+INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal)
+VALUES (1, 'BBQ Spiral Snacks in a Bag', 'Potato Chips and Snack', 0, 8, '20LBS', 0, 0);
+
+INSERT INTO order_items_list (invoice_number, name, item_type, quantity, unit_price, unit, total, grandTotal)
+VALUES (1, 'Garlic Onion Ring Snacks in a Bag', 'Potato Chips and Snack', 0, 8, '20LBS', 0, 0);
